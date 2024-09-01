@@ -1,23 +1,35 @@
 "use client";
-import { useState } from "react";
+import { useState ,useEffect } from "react";
 import SideBarBTN from "./sidbar.btn";
+import { checkLoggedIn } from "../firebase/firebase.auth";
 
-export default function SideBar() {
-  const [activeBtn, setActiveBtn] = useState(""); // Manage the active state here
+export default function SideBar({ currentpage }) {
 
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const isLoggedIn = await checkLoggedIn();
+      setLoggedIn(isLoggedIn);
+    };
+
+    checkAuth();
+  }, []);
   return (
-    <div className="relative h-screen bg-red-900">
-      <SideBarBTN
-        btnName={""}
-        active={activeBtn}
-        setActive={setActiveBtn}
-      />
+    <div className="max-h-screen m-1 rounded-md bg-gray-900 pt-44">
+      <hr className="m-3 border-t-red-900" />
+
+      <SideBarBTN btnName={"overview"} path={""} currentpage={currentpage} />
       <SideBarBTN
         btnName={"eventCreation"}
-        active={activeBtn}
-        setActive={setActiveBtn}
+        path={loggedIn ? "template" : "plan"}
+        currentpage={currentpage}
       />
-      <div className="absolute bottom-2 left-5">Login</div>
+      <SideBarBTN
+        btnName={"explore"}
+        path={"explore"}
+        currentpage={currentpage}
+      />
     </div>
   );
 }

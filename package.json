@@ -9,11 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/nextjs": "^5.3.7",
+    "cookie-parser": "^1.4.6",
     "dotenv": "^16.4.5",
     "firebase": "^10.13.1",
+    "inter": "^2.1.0",
+    "js-cookie": "^3.0.5",
     "next": "14.2.7",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-firebase-hooks": "^5.1.1",
+    "styled": "^1.0.0",
+    "styled-components": "^6.1.13"
   },
   "devDependencies": {
     "postcss": "^8",
