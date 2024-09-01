@@ -1,5 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import "./signup.css";
 import { checkLoggedIn, signup } from "../firebase/firebase.auth";
 import { useRouter } from "next/navigation";
 
@@ -30,26 +31,59 @@ export default function SignUp() {
   };
   if (!loggedIn) {
     return (
-      <div>
-        <h1>Sign Up</h1>
-        <form onSubmit={handleSignUp}>
-          <input
-            type="email"
-            value={email}
-            onChange={handleEmail}
-            placeholder="Email"
-          />
-          <input
-            type="password"
-            value={password}
-            onChange={handlePassword}
-            placeholder="Password"
-          />
-          <button type="submit" onSubmit={handleSignUp}>
-            Sign Up
-          </button>
-        </form>
-        {/* {message && <p>{message}</p>} */}
+      <div className="h-screen flex justify-center items-center" id="signup">
+          <form className="form">
+            <p className="title">Register </p>
+            <p className="message">
+              Signup now and get full access to our app.{" "}
+            </p>
+            <div className="flex">
+              <label>
+                <input required placeholder="" type="text" className="input" />
+                <span>Firstname</span>
+              </label>
+
+              <label>
+                <input required placeholder="" type="text" className="input" />
+                <span>Lastname</span>
+              </label>
+            </div>
+
+            <label>
+              <input
+                required
+                placeholder=""
+                onChange={handleEmail}
+                type="email"
+                className="input"
+              />
+              <span>Email</span>
+            </label>
+
+            <label>
+              <input
+                required
+                placeholder=""
+                onChange={handlePassword}
+                type="password"
+                className="input"
+              />
+              <span>Password</span>
+            </label>
+            <label>
+              <input
+                required
+                placeholder=""
+                type="password"
+                className="input"
+              />
+              <span>Confirm password</span>
+            </label>
+            {/* <button className="submit">Submit</button>
+            <p className="signin">
+              Already have an acount ? <a href="#">Signin</a>{" "}
+            </p> */}
+          </form>
       </div>
     );
   } else {

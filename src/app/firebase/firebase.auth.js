@@ -21,8 +21,8 @@ const login = async (email, password) => {
       password
     );
     const token = await userCredential.user.getIdToken();
-
     Cookies.set("authToken", token, { expires: 30 });
+    window.location.href = "/";
 
     console.log("User logged in and token saved");
   } catch (error) {
