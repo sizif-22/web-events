@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FullPage.js Example</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.11/fullpage.min.css">
+  <style>
+    .section { text-align: center; font-size: 2em; }
+  </style>
+</head>
+<body>
+  <div id="fullpage">
+    <div class="section" style="background-color: #f1c40f;">Section 1</div>
+    <div class="section" style="background-color: #e67e22;">Section 2</div>
+    <div class="section" style="background-color: #1abc9c;">Section 3</div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.11/fullpage.min.js"></script>
+  <script>
+    new fullpage('#fullpage', {
+      navigation: true,
+      navigationPosition: 'right',
+      navigationTooltips: ['Section 1', 'Section 2', 'Section 3'],
+      showActiveTooltip: true,
+      scrollOverflow: true
+    });
+  </script>
+</body>
+</html>
