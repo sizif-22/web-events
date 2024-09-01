@@ -1,15 +1,13 @@
-// login/page.js
-
 "use client";
 import React, { useState } from "react";
 import styled from "styled-components";
 import { login } from "../firebase/firebase.auth";
 
 const LogIN = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const handleUsername = (e) => {
-    setUsername(e.target.value);
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
   };
   const handlePassword = (e) => {
     setPassword(e.target.value);
@@ -17,7 +15,7 @@ const LogIN = () => {
 
   const loginFunc = (e) => {
     e.preventDefault();
-    login(username, password);
+    login(email, password);
   };
   return (
     <div className="flex justify-center items-center h-screen">
@@ -65,7 +63,7 @@ const LogIN = () => {
               type="text"
               className="input_field"
               id="email_field"
-              onChange={handleUsername}
+              onChange={handleEmail}
             />
           </div>
           <div className="input_container">
@@ -110,19 +108,18 @@ const LogIN = () => {
           </div>
           <button
             title="Sign In"
-            // type="submit"
             className="sign-in_btn"
             onClick={loginFunc}
           >
             <span>Login</span>
           </button>
 
-          <div className="separator">
+          {/* <div className="separator">
             <hr className="line" />
             <span>Or</span>
             <hr className="line" />
-          </div>
-          <button title="Sign In" type="submit" className="sign-in_ggl">
+          </div> */}
+          {/* <button title="Sign In" type="submit" className="sign-in_ggl">
             <svg
               height="18"
               width="18"
@@ -157,8 +154,8 @@ const LogIN = () => {
               </g>
             </svg>
             <span>Sign In with Google</span>
-          </button>
-          <button title="Sign In" type="submit" className="sign-in_apl">
+          </button> */}
+          {/* <button title="Sign In" type="submit" className="sign-in_apl">
             <svg
               preserveAspectRatio="xMidYMid"
               version="1.1"
@@ -176,7 +173,7 @@ const LogIN = () => {
               </g>
             </svg>
             <span>Sign In with Apple</span>
-          </button>
+          </button> */}
           <p className="note">Terms of use &amp; Conditions</p>
         </form>
       </StyledWrapper>

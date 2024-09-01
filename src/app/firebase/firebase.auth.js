@@ -2,12 +2,14 @@
 
 import {
   getAuth,
+  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  sendEmailVerification,
   onAuthStateChanged,
   signOut,
 } from "firebase/auth";
 import { app } from "./firebase.config";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 const auth = getAuth(app);
 
@@ -20,7 +22,7 @@ const login = async (email, password) => {
     );
     const token = await userCredential.user.getIdToken();
 
-    document.cookie = `authToken=${token}; path=/`;
+    Cookies.set("authToken", token, { expires: 30 });
 
     console.log("User logged in and token saved");
   } catch (error) {
@@ -28,34 +30,17 @@ const login = async (email, password) => {
   }
 };
 
-// const checkLoggedIn = () => {
-//   const token = document.cookie
-//     .split("; ")
-//     .find((row) => row.startsWith("authToken"))
-//     .split("=")[1];
-
-//   if (token) {
-//     onAuthStateChanged(auth, (user) => {
-//       if (user) {
-//         return true;
-//       } else {
-//         return false;
-//       }
-//     });
-//   } else {
-//     return false;
-//   }
-// };
 const checkLoggedIn = async () => {
-  // Get the auth token from cookies
-  const token = Cookies.get('authToken');
-
+  const token = Cookies.get("authToken");
   if (token) {
     return new Promise((resolve) => {
-      // Assuming onAuthStateChanged is an async function or returns a promise
       onAuthStateChanged(auth, (user) => {
         if (user) {
-          resolve(true);
+          if (user.emailVerified) {
+            resolve(true);
+          } else {
+            resolve(false);
+          }
         } else {
           resolve(false);
         }
@@ -68,11 +53,26 @@ const checkLoggedIn = async () => {
 const logout = async () => {
   try {
     await signOut(auth);
-    document.cookie = `authToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+    Cookies.remove("authToken");
     console.log("User logged out and token removed");
   } catch (error) {
     console.error("Error logging out:", error);
   }
 };
 
-export { login, checkLoggedIn, logout };
+const signup = async (email, password) => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    await sendEmailVerification(userCredential.user);
+    const token = await userCredential.user.getIdToken();
+    Cookies.set("authToken", token, { expires: 30 });
+  } catch (error) {
+    console.log("error is :" + error.message);
+  }
+};
+
+export { auth, login, logout, checkLoggedIn, signup };
