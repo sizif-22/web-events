@@ -1,7 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./login.css";
-import { login } from "../firebase/firebase.auth";
+import { login, checkLoggedIn } from "../firebase/firebase.auth";
+import { useRouter } from "next/navigation";
 
 export default function LogIN() {
   const router = useRouter();

@@ -17,13 +17,6 @@ export default function NavBar({ currentPage }) {
 
     checkAuth();
   }, []);
-  // if (loading) {
-  //   return (
-  //     <div className="m-1 h-16">
-  //       <Loading />
-  //     </div>
-  //   );
-  // }
   return (
     <nav className="m-1 rounded-md bg-gray-900 h-16 pr-2 pl-2 items-center flex justify-between">
       <h1>{currentPage}</h1>
@@ -35,7 +28,7 @@ export default function NavBar({ currentPage }) {
       ) : loggedIn ? (
         "test"
       ) : (
-        <LogIN />
+        <LoginButton />
       )}
     </nav>
   );
