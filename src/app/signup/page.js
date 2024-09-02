@@ -32,58 +32,53 @@ export default function SignUp() {
   if (!loggedIn) {
     return (
       <div className="h-screen flex justify-center items-center" id="signup">
-          <form className="form">
-            <p className="title">Register </p>
-            <p className="message">
-              Signup now and get full access to our app.{" "}
-            </p>
-            <div className="flex">
-              <label>
-                <input required placeholder="" type="text" className="input" />
-                <span>Firstname</span>
-              </label>
-
-              <label>
-                <input required placeholder="" type="text" className="input" />
-                <span>Lastname</span>
-              </label>
-            </div>
-
+        <form className="form">
+          <p className="title">Register </p>
+          <p className="message">Signup now and get full access to our app. </p>
+          <div className="flex">
             <label>
-              <input
-                required
-                placeholder=""
-                onChange={handleEmail}
-                type="email"
-                className="input"
-              />
-              <span>Email</span>
+              <input required placeholder="" type="text" className="input" />
+              <span>Firstname</span>
             </label>
 
             <label>
-              <input
-                required
-                placeholder=""
-                onChange={handlePassword}
-                type="password"
-                className="input"
-              />
-              <span>Password</span>
+              <input required placeholder="" type="text" className="input" />
+              <span>Lastname</span>
             </label>
-            <label>
-              <input
-                required
-                placeholder=""
-                type="password"
-                className="input"
-              />
-              <span>Confirm password</span>
-            </label>
-            {/* <button className="submit">Submit</button>
-            <p className="signin">
-              Already have an acount ? <a href="#">Signin</a>{" "}
-            </p> */}
-          </form>
+          </div>
+
+          <label>
+            <input
+              required
+              placeholder=""
+              onChange={handleEmail}
+              type="email"
+              className="input"
+            />
+            <span>Email</span>
+          </label>
+
+          <label>
+            <input
+              required
+              placeholder=""
+              onChange={handlePassword}
+              type="password"
+              className="input"
+            />
+            <span>Password</span>
+          </label>
+          <label>
+            <input required placeholder="" type="password" className="input" />
+            <span>Confirm password</span>
+          </label>
+          <button className="submit" onClick={handleSignUp}>
+            Submit
+          </button>
+          {/* <p className="signin">
+            Already have an acount ? <a href="#">Signin</a>{" "}
+          </p> */}
+        </form>
       </div>
     );
   } else {

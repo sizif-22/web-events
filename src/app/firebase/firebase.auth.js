@@ -86,6 +86,7 @@ const logout = async () => {
 };
 
 const signup = async (email, password) => {
+  console.log("...........................started..........................");
   try {
     const userCredential = await fireAuth.createUserWithEmailAndPassword(
       auth,
