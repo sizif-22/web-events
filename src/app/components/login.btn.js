@@ -4,7 +4,7 @@ import "./login.btn.css";
 
 const LoginButton = () => {
   return (
-    <button className="btn" onClick={() => (window.location.href = "./login")}>
+    <button className="btn thebtn" onClick={() => (window.location.href = "./login")}>
       {" "}
       Login
     </button>

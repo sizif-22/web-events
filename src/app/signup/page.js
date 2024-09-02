@@ -1,8 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import "./signup.css";
 import { checkLoggedIn, signup } from "../firebase/firebase.auth";
 import { useRouter } from "next/navigation";
+import { addUser } from "../firebase/firebase.firestore";
+import "./signup.css";
 
 export default function SignUp() {
   const router = useRouter();
@@ -16,18 +17,14 @@ export default function SignUp() {
 
     checkAuth();
   }, []);
-
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-  };
-  const handlePassword = (e) => {
-    setPassword(e.target.value);
-  };
   const handleSignUp = async (e) => {
     e.preventDefault();
     signup(email, password);
+    addUser(firstName, lastName, email, "");
   };
   if (!loggedIn) {
     return (
@@ -37,12 +34,28 @@ export default function SignUp() {
           <p className="message">Signup now and get full access to our app. </p>
           <div className="flex">
             <label>
-              <input required placeholder="" type="text" className="input" />
+              <input
+                required
+                placeholder=""
+                type="text"
+                className="input"
+                onChange={(e) => {
+                  setFirstName(e.target.value);
+                }}
+              />
               <span>Firstname</span>
             </label>
 
             <label>
-              <input required placeholder="" type="text" className="input" />
+              <input
+                required
+                placeholder=""
+                type="text"
+                className="input"
+                onChange={(e) => {
+                  setLastName(e.target.value);
+                }}
+              />
               <span>Lastname</span>
             </label>
           </div>
@@ -51,7 +64,9 @@ export default function SignUp() {
             <input
               required
               placeholder=""
-              onChange={handleEmail}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
               type="email"
               className="input"
             />
@@ -62,7 +77,9 @@ export default function SignUp() {
             <input
               required
               placeholder=""
-              onChange={handlePassword}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
               type="password"
               className="input"
             />

@@ -3,23 +3,19 @@ import './loading.css';
 
 export default function Loading() {
   return (
-    <div className="loader">
-      <div className="circle">
-        <div className="dot" />
-        <div className="outline" />
+    <div className="spinner center">
+        <div className="spinner-blade" />
+        <div className="spinner-blade" />
+        <div className="spinner-blade" />
+        <div className="spinner-blade" />
+        <div className="spinner-blade" />
+        <div className="spinner-blade" />
+        <div className="spinner-blade" />
+        <div className="spinner-blade" />
+        <div className="spinner-blade" />
+        <div className="spinner-blade" />
+        <div className="spinner-blade" />
+        <div className="spinner-blade" />
       </div>
-      <div className="circle">
-        <div className="dot" />
-        <div className="outline" />
-      </div>
-      <div className="circle">
-        <div className="dot" />
-        <div className="outline" />
-      </div>
-      <div className="circle">
-        <div className="dot" />
-        <div className="outline" />
-      </div>
-    </div>
   );
 }

@@ -2,6 +2,9 @@ import * as fireAuth from "firebase/auth";
 import { app } from "./firebase.config";
 import Cookies from "js-cookie";
 const auth = fireAuth.getAuth(app);
+
+let currentUser = auth.currentUser || null;
+
 const login = async (email, password) => {
   try {
     const userCredential = await fireAuth.signInWithEmailAndPassword(
@@ -87,7 +90,11 @@ const logout = async () => {
 
 const signup = async (email, password) => {
   try {
-    const userCredential = await fireAuth.createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = await fireAuth.createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     await fireAuth.sendEmailVerification(userCredential.user);
     const token = await userCredential.user.getIdToken();
     Cookies.set("authToken", token, { expires: 30 });
@@ -98,4 +105,13 @@ const signup = async (email, password) => {
   }
 };
 
-export { auth, login, logout, checkLoggedIn, signup, checkVerified, verify };
+export {
+  auth,
+  login,
+  logout,
+  checkLoggedIn,
+  signup,
+  checkVerified,
+  verify,
+  currentUser,
+};

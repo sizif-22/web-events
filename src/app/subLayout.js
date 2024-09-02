@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import ExploreBody from "./body/explore.body";
 import Footer from "./components/footer";
 import NavBar from "./components/nav";
-
+import "./firebase/firebase.storage";
 export default function SubLayout({ child }) {
   let path = usePathname();
   let currentPage = "/";

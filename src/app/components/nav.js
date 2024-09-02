@@ -4,6 +4,7 @@ import { checkLoggedIn } from "../firebase/firebase.auth";
 import LoginButton from "./login.btn";
 import Loading from "./loading/loading";
 import LogIN from "../login/page";
+import UsEr from "../body/user";
 export default function NavBar({ currentPage }) {
   const [loggedIn, setLoggedIn] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -26,7 +27,7 @@ export default function NavBar({ currentPage }) {
           <Loading />
         </div>
       ) : loggedIn ? (
-        "test"
+        <UsEr />
       ) : (
         <LoginButton />
       )}

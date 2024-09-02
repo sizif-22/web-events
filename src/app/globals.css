@@ -7,6 +7,9 @@
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 }
+* {
+  outline:none;
+}
 ::-webkit-scrollbar {
   display: none;
 }
@@ -14,7 +17,7 @@
   max-height: calc(100vh - 80px);
 
 } 
+
 body{
   background-color: black;
 }
-
