@@ -24,7 +24,7 @@ export default function SignUp() {
   const handleSignUp = async (e) => {
     e.preventDefault();
     signup(email, password);
-    addUser(firstName, lastName, email, "");
+    addUser(firstName, lastName, email, "https://firebasestorage.googleapis.com/v0/b/m4-tazkarti.appspot.com/o/profileImgs%2Fdownload.jpeg?alt=media&token=b1c122af-6c6d-4714-a985-7b6e1f006b6e");
   };
   if (!loggedIn) {
     return (
