@@ -1,21 +1,10 @@
-//firebase/firebase.auth.js
-
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  sendEmailVerification,
-  onAuthStateChanged,
-  signOut,
-} from "firebase/auth";
+import * as fireAuth from "firebase/auth";
 import { app } from "./firebase.config";
 import Cookies from "js-cookie";
-
-const auth = getAuth(app);
-
+const auth = fireAuth.getAuth(app);
 const login = async (email, password) => {
   try {
-    const userCredential = await signInWithEmailAndPassword(
+    const userCredential = await fireAuth.signInWithEmailAndPassword(
       auth,
       email,
       password
@@ -34,7 +23,45 @@ const checkLoggedIn = async () => {
   const token = Cookies.get("authToken");
   if (token) {
     return new Promise((resolve) => {
-      onAuthStateChanged(auth, (user) => {
+      fireAuth.onAuthStateChanged(auth, (user) => {
+        if (user) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      });
+    });
+  } else {
+    return false;
+  }
+};
+const verify = async () => {
+  return new Promise((resolve, reject) => {
+    fireAuth.onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        if (!user.emailVerified) {
+          try {
+            await fireAuth.sendEmailVerification(user);
+
+            resolve(true);
+          } catch (error) {
+            reject(error);
+          }
+        } else {
+          resolve(false);
+        }
+      } else {
+        resolve(false);
+      }
+    });
+  });
+};
+
+const checkVerified = async () => {
+  const token = Cookies.get("authToken");
+  if (token) {
+    return new Promise((resolve) => {
+      fireAuth.onAuthStateChanged(auth, (user) => {
         if (user) {
           if (user.emailVerified) {
             resolve(true);
@@ -50,29 +77,28 @@ const checkLoggedIn = async () => {
     return false;
   }
 };
+
 const logout = async () => {
   try {
-    await signOut(auth);
+    await fireAuth.signOut(auth);
     Cookies.remove("authToken");
-    console.log("User logged out and token removed");
-  } catch (error) {
-    console.error("Error logging out:", error);
-  }
+  } catch (error) {}
 };
 
 const signup = async (email, password) => {
   try {
-    const userCredential = await createUserWithEmailAndPassword(
+    const userCredential = await fireAuth.createUserWithEmailAndPassword(
       auth,
       email,
       password
     );
-    await sendEmailVerification(userCredential.user);
+    await fireAuth.sendEmailVerification(userCredential.user);
     const token = await userCredential.user.getIdToken();
     Cookies.set("authToken", token, { expires: 30 });
+    window.location.href = "/";
   } catch (error) {
     console.log("error is :" + error.message);
   }
 };
 
-export { auth, login, logout, checkLoggedIn, signup };
+export { auth, login, logout, checkLoggedIn, signup, checkVerified, verify };

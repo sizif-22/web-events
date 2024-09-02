@@ -87,6 +87,6 @@ export default function SignUp() {
       </div>
     );
   } else {
-    router.push("./template");
+    router.push("./");
   }
 }
