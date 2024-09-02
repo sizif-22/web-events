@@ -86,19 +86,15 @@ const logout = async () => {
 };
 
 const signup = async (email, password) => {
-  console.log("...........................started..........................");
   try {
-    const userCredential = await fireAuth.createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+    const userCredential = await fireAuth.createUserWithEmailAndPassword(auth, email, password);
     await fireAuth.sendEmailVerification(userCredential.user);
     const token = await userCredential.user.getIdToken();
     Cookies.set("authToken", token, { expires: 30 });
     window.location.href = "/";
+    console.log("User signed up and token saved");
   } catch (error) {
-    console.log("error is :" + error.message);
+    console.error("Error signing up:", error);
   }
 };
 
