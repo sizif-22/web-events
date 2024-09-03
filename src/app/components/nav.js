@@ -21,12 +21,10 @@ export default function NavBar({ currentPage }) {
   }, []);
 
   return (
-    <nav className="m-1 rounded-md bg-gray-900 h-16 pr-2 pl-2 items-center flex justify-between">
-      <h1>{currentPage}</h1>
+    <nav className="bg-blue-500 h-16 flex items-center justify-between px-4 shadow-md text-white">
+      <h1 className="text-xl font-semibold">{currentPage}</h1>
       {loading ? (
-        <div>
-          <Loading />
-        </div>
+        <Loading />
       ) : loggedIn ? (
         <UsEr />
       ) : (

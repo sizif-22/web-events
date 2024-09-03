@@ -64,7 +64,7 @@ export default function Account() {
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Profile Section */}
-          <div className="col-span-1">
+          <div className="w-full md:col-span-1">
             <div className="bg-white shadow-md rounded-lg p-4 text-center">
               <div className="relative">
                 <Image
@@ -87,7 +87,7 @@ export default function Account() {
           </div>
 
           {/* Account Details Section */}
-          <div className="col-span-2">
+          <div className="w-full md:col-span-2">
             <div className="bg-white shadow-md rounded-lg p-6">
               <h3 className="text-2xl font-semibold mb-4">Account Details</h3>
               <form className="space-y-4">

@@ -1,5 +1,6 @@
 import React from "react";
 import "./theme.card.css";
+
 const TemplateCard = ({ title, imgSrc, onSelect }) => {
   return (
     <div className="template-card">

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^5.3.7",
+    "axios": "^1.7.7",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.4.5",
     "firebase": "^10.13.1",

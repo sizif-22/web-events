@@ -1,10 +1,9 @@
 "use client";
-import { useState ,useEffect } from "react";
+import { useState, useEffect } from "react";
 import SideBarBTN from "./sidbar.btn";
 import { checkLoggedIn } from "../firebase/firebase.auth";
 
 export default function SideBar({ currentpage }) {
-
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -15,10 +14,10 @@ export default function SideBar({ currentpage }) {
 
     checkAuth();
   }, []);
-  return (
-    <div className="max-h-screen m-1 rounded-md bg-gray-900 pt-44">
-      <hr className="m-3 border-t-red-900" />
 
+  return (
+    <div className="max-h-screen m-1 rounded-md bg-white shadow-lg p-4">
+      <hr className="my-4 border-gray-300" />
       <SideBarBTN btnName={"overview"} path={""} currentpage={currentpage} />
       <SideBarBTN
         btnName={"eventCreation"}

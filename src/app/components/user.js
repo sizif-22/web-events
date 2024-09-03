@@ -26,19 +26,17 @@ const UsEr = () => {
   } else {
     return (
       <div
-        className="inline-flex justify-between items-center transition-all hover:bg-gray-800 bg-transparent p-2 rounded-lg m-0 h-14 cursor-pointer"
-        onClick={() => {
-          router.push("/account");
-        }}
+        className="flex items-center space-x-2 cursor-pointer p-2 rounded-lg hover:bg-gray-200 transition-colors duration-300"
+        onClick={() => router.push("/account")}
       >
-        <h3 className="mr-2 text-white">{fname} |</h3>
-        <div className="h-16 w-16 rounded-full overflow-hidden ml-2 p-0 flex justify-center items-center">
+        <h3 className="text-white font-semibold">{fname}</h3>
+        <div className="h-12 w-12 rounded-full overflow-hidden flex justify-center items-center bg-gray-300">
           {imgUrl && (
             <Image
               src={imgUrl}
-              width={60}
-              height={60}
-              className="object-cover p-0"
+              width={48}
+              height={48}
+              className="object-cover"
               alt="User Profile"
             />
           )}

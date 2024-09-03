@@ -5,10 +5,13 @@ export default function Plans() {
   return (
     <>
       <NavBar currentPage={'plan'}/>
-      <div className="grid grid-cols-3 gap-6 justify-items-center pt-8">
-        <Plan title={'plan 1'} describtion={'plan1 desc'} price={'20$'}/>
-        <Plan title={'plan 2'} describtion={'plan2 desc'} price={'50$'}/>
-        <Plan title={'plan 3'} describtion={'plan3 desc'} price={'60$'}/>
+      <div className="plans-page p-6 bg-gray-100 min-h-screen">
+        <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">Choose Your Plan</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <Plan title={'Plan 1'} description={'Basic features and support'} price={'$20'}/>
+          <Plan title={'Plan 2'} description={'Advanced features and priority support'} price={'$50'}/>
+          <Plan title={'Plan 3'} description={'All features plus dedicated support'} price={'$60'}/>
+        </div>
       </div>
     </>
   );

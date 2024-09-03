@@ -1,33 +1,23 @@
-const Plan = ({ title, describtion, price }) => {
+const Plan = ({ title, description, price }) => {
   return (
-    <div className="flex flex-col bg-white rounded-3xl">
-      <div className="px-6 py-8 sm:p-10 sm:pb-6">
-        <div className="grid items-center justify-center w-full grid-cols-1 text-left">
-          <div>
-            <h2 className="text-lg font-medium tracking-tighter text-gray-600 lg:text-3xl">
-              {title}
-            </h2>
-            <p className="mt-2 text-sm text-gray-500">{describtion}</p>
-          </div>
-          <div className="mt-6">
-            <p>
-              <span className="text-5xl font-light tracking-tight text-black">
-                {price}
-              </span>
-              <span className="text-base font-medium text-gray-500"> /mo </span>
-            </p>
-          </div>
+    <div className="plan-card bg-white rounded-2xl shadow-lg p-6 flex flex-col">
+      <div className="flex-1">
+        <h2 className="text-xl font-semibold text-gray-800 mb-2">{title}</h2>
+        <p className="text-gray-600 mb-4">{description}</p>
+        <div className="mb-6">
+          <p className="text-4xl font-bold text-gray-900">
+            {price}
+            <span className="text-sm font-medium text-gray-500"> /mo</span>
+          </p>
         </div>
       </div>
-      <div className="flex px-6 pb-8 sm:px-8">
-        <a
-          aria-describedby="tier-company"
-          className="flex items-center justify-center w-full px-6 py-2.5 text-center text-white duration-200 bg-black border-2 border-black rounded-full nline-flex hover:bg-transparent hover:border-black hover:text-black focus:outline-none focus-visible:outline-black text-sm focus-visible:ring-black"
-          href="./signup"
-        >
-          Get started
-        </a>
-      </div>
+      <a
+        aria-describedby="plan-details"
+        className="flex items-center justify-center px-4 py-2.5 text-center text-white bg-blue-600 rounded-full hover:bg-blue-700 transition-colors duration-300"
+        href="./signup"
+      >
+        Get Started
+      </a>
     </div>
   );
 };

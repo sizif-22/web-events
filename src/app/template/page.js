@@ -14,9 +14,7 @@ export default function Template() {
     if (typeof window !== "undefined") {
       const userState = JSON.parse(sessionStorage.getItem("userState"));
 
-      if (!userState?.isLoggedIn) {
-        setVerified(false);
-      } else if (!userState?.isVerified) {
+      if (!userState?.isLoggedIn || !userState?.isVerified) {
         setVerified(false);
       } else {
         setVerified(true);
@@ -52,9 +50,9 @@ export default function Template() {
   };
 
   return (
-    <div className="templates-page">
-      <h1 className="page-title">Choose a Template</h1>
-      <div className="templates-grid grid-cols-3 h-96">
+    <div className="templates-page p-6 bg-gray-100 min-h-screen">
+      <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">Choose a Template</h1>
+      <div className="templates-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {templates.map((template, index) => (
           <TemplateCard
             key={index}
