@@ -85,6 +85,7 @@ const logout = async () => {
   try {
     await fireAuth.signOut(auth);
     Cookies.remove("authToken");
+    sessionStorage.removeItem("userState");
   } catch (error) {}
 };
 

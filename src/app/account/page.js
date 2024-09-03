@@ -4,6 +4,7 @@ import EventCard from "./event.card";
 import { useState, useEffect } from "react";
 import Loading from "../components/loading/loading";
 import { useRouter } from "next/navigation";
+import { logout } from "../firebase/firebase.auth";
 
 export default function Account() {
   const router = useRouter();
@@ -31,6 +32,10 @@ export default function Account() {
       }
     }
   }, [router]);
+  const handleLogOut = () => {
+    logout();
+    router.push("/");
+  };
 
   const events = [
     {
@@ -115,7 +120,12 @@ export default function Account() {
 
             <div className="bg-white shadow-md rounded-lg p-6 mt-6">
               <h3 className="text-2xl font-semibold mb-4">Settings</h3>
-              <button className="text-red-500 hover:underline">Log out</button>
+              <button
+                className="text-red-500 hover:underline"
+                onClick={handleLogOut}
+              >
+                Log out
+              </button>
             </div>
           </div>
         </div>
