@@ -1,5 +1,4 @@
 "use client";
-import { checkVerified } from "../firebase/firebase.auth";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Loading from "../components/loading/loading";
@@ -12,19 +11,19 @@ export default function Template() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const isVerified = await checkVerified();
-        setVerified(isVerified);
-      } catch (error) {
-        console.error("Error checking verification status:", error);
-        setVerified(false);
-      } finally {
-        setLoading(false);
-      }
-    };
+    if (typeof window !== "undefined") {
+      const userState = JSON.parse(sessionStorage.getItem("userState"));
 
-    checkAuth();
+      if (!userState?.isLoggedIn) {
+        setVerified(false);
+      } else if (!userState?.isVerified) {
+        setVerified(false);
+      } else {
+        setVerified(true);
+      }
+
+      setLoading(false);
+    }
   }, []);
 
   if (loading) {

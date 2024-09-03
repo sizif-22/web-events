@@ -1,12 +1,14 @@
 "use client";
 import "./firebase/usefirestoredata";
 import SideBar from "./components/sidebar";
-import OverviewBody from "./body/overview.body";
+// import OverviewBody from "./body/overview.body";
 import { usePathname } from "next/navigation";
-import ExploreBody from "./body/explore.body";
+// import ExploreBody from "./body/explore.body";
 import Footer from "./components/footer";
 import NavBar from "./components/nav";
 import "./firebase/firebase.storage";
+import Home from "./page";
+import Explore from "./explore/page";
 export default function SubLayout({ child }) {
   let path = usePathname();
   let currentPage = "/";
@@ -25,9 +27,9 @@ export default function SubLayout({ child }) {
               <NavBar currentPage={currentPage} />
               <>
                 {currentPage == "overview" ? (
-                  <OverviewBody />
+                  <Home/>
                 ) : currentPage == "explore" ? (
-                  <ExploreBody />
+                  <Explore/>
                 ) : (
                   ""
                 )}

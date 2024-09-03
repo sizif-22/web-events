@@ -98,7 +98,7 @@ const signup = async (email, password) => {
     await fireAuth.sendEmailVerification(userCredential.user);
     const token = await userCredential.user.getIdToken();
     Cookies.set("authToken", token, { expires: 30 });
-    window.location.href = "/";
+    // window.location.href = "/";
     console.log("User signed up and token saved");
   } catch (error) {
     console.error("Error signing up:", error);

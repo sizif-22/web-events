@@ -6,13 +6,21 @@ const users = firestore.collection(db, "user");
 
 //user Collection ...
 
-const addUser = async (firstName, lastName, email, photoUrl) => {
+const addUser = async ({
+  firstName,
+  lastName,
+  companyName,
+  email,
+  photoUrl,
+}) => {
   try {
     await firestore.addDoc(users, {
       firstName,
       lastName,
+      companyName,
       email,
       photoUrl,
+      accountType:"Organizer",
     });
     console.log("user added");
   } catch (e) {
@@ -31,6 +39,26 @@ const updateUser = async (updates) => {
       console.log("No matching user found");
       return;
     }
+    const userDoc = querySnapshot.docs[0];
+    const userDocRef = firestore.doc(db, "user", userDoc.id);
+    await firestore.updateDoc(userDocRef, updates);
+    console.log("User updated");
+  } catch (e) {
+    console.error(`The error is: ${e}`);
+  }
+};
+const updateUserWithEmail = async (email, updates) => {
+  try {
+    const userQuery = firestore.query(
+      users,
+      firestore.where("email", "==", email)
+    );
+    const querySnapshot = await firestore.getDocs(userQuery);
+    if (querySnapshot.empty) {
+      console.log("No matching user found");
+      return;
+    }
+
     const userDoc = querySnapshot.docs[0];
     const userDocRef = firestore.doc(db, "user", userDoc.id);
     await firestore.updateDoc(userDocRef, updates);
@@ -59,4 +87,4 @@ const getUser = async () => {
   }
 };
 
-export { addUser, updateUser , getUser };
+export { addUser, updateUser, getUser, updateUserWithEmail };

@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-import { getUser } from "../firebase/firebase.firestore";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Loading from "../components/loading/loading";
@@ -12,11 +11,14 @@ const UsEr = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getUser().then((res) => {
-      setFname(res.data().firstName);
-      setImgUrl(res.data().photoUrl);
+    if (typeof window !== "undefined") {
+      const userState = JSON.parse(sessionStorage.getItem("userState"));
+      if (userState) {
+        setFname(userState.firstName);
+        setImgUrl(userState.photoUrl);
+      }
       setLoading(false);
-    });
+    }
   }, []);
 
   if (loading) {
@@ -29,7 +31,7 @@ const UsEr = () => {
           router.push("/account");
         }}
       >
-        <p className="mr-2 text-white">{fname} |</p>
+        <h3 className="mr-2 text-white">{fname} |</h3>
         <div className="h-16 w-16 rounded-full overflow-hidden ml-2 p-0 flex justify-center items-center">
           {imgUrl && (
             <Image
@@ -37,7 +39,7 @@ const UsEr = () => {
               width={60}
               height={60}
               className="object-cover p-0"
-              alt="test"
+              alt="User Profile"
             />
           )}
         </div>
