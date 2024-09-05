@@ -1,9 +1,10 @@
 import React from "react";
-import './loading.css';
+import "./loading.css";
 
 export default function Loading() {
   return (
-    <div className="spinner center">
+    <div className="h-screen flex justify-center items-center">
+      <div className="spinner center">
         <div className="spinner-blade" />
         <div className="spinner-blade" />
         <div className="spinner-blade" />
@@ -17,5 +18,6 @@ export default function Loading() {
         <div className="spinner-blade" />
         <div className="spinner-blade" />
       </div>
+    </div>
   );
 }

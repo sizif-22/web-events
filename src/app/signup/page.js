@@ -10,6 +10,7 @@ import Loading from "../components/loading/loading";
 export default function SignUp() {
   const router = useRouter();
   const [loggedIn, setLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -29,8 +30,12 @@ export default function SignUp() {
   const [file, setFile] = useState(
     "https://firebasestorage.googleapis.com/v0/b/m4-tazkarti.appspot.com/o/profileImgs%2Fdownload.jpeg?alt=media&token=b1c122af-6c6d-4714-a985-7b6e1f006b6e"
   );
+  // useEffect(() => {
+  //   // setLoading(true);
+  // }, [loading]);
   const handleSignUp = async (e) => {
     e.preventDefault();
+    setLoading(true);
     if (password != confirmPassword) {
       alert("password and confirm passoword doesn't match");
       setPassword("");
@@ -53,7 +58,9 @@ export default function SignUp() {
     router.push("./");
   };
   if (!loggedIn) {
-    return (
+    return loading ? (
+      <Loading />
+    ) : (
       <div
         className="h-screen flex justify-center items-center bg-white"
         id="signup "

@@ -28,7 +28,7 @@ export default function Account() {
         setPhotoUrl(userState.photoUrl);
         setCompanyName(userState.companyName);
         setAccountType(userState.accountType);
-        setLoading(false); // Stop loading after setting the user data
+        setLoading(false);
       }
     }
   }, [router]);

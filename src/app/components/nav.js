@@ -55,6 +55,11 @@ export default function NavBar() {
                 <DropDownBtns />
               </div>
               {e.isLoggedIn && <UsEr />}
+              {!e.isVerified && e.isLoggedIn && (
+                <span class="material-symbols-outlined hover:text-white text-red-400 transition-all">
+                  error
+                </span>
+              )}
             </div>
           </nav>
         );

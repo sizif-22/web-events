@@ -16,7 +16,7 @@ const UsEr = () => {
           >
             {e.firstName}
             {/* Fixed firstName */}
-            <div className="h-12 w-12 rounded-full overflow-hidden flex justify-center items-center bg-gray-300">
+            <div className="h-12 w-12 rounded-full overflow-hidden flex justify-center items-center bg-gray-300 max-w-16">
               <Image
                 src={e.photoUrl} // Fixed photoUrl
                 width={48}
