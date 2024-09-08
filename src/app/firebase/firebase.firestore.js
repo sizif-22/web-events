@@ -1,10 +1,11 @@
 import { auth } from "./firebase.auth";
 import { app } from "./firebase.config";
 import * as firestore from "firebase/firestore";
+
 const db = firestore.getFirestore(app);
 const users = firestore.collection(db, "user");
 
-//user Collection ...
+// User Collection ...
 
 const addUser = async ({
   firstName,
@@ -20,11 +21,11 @@ const addUser = async ({
       companyName,
       email,
       photoUrl,
-      accountType:"Organizer",
+      accountType: "Organizer",
     });
-    console.log("user added");
+    console.log("User added");
   } catch (e) {
-    console.error(`the error is : ${e}`);
+    console.error(`The error is: ${e}`);
   }
 };
 
@@ -47,6 +48,7 @@ const updateUser = async (updates) => {
     console.error(`The error is: ${e}`);
   }
 };
+
 const updateUserWithEmail = async (email, updates) => {
   try {
     const userQuery = firestore.query(
@@ -87,4 +89,17 @@ const getUser = async () => {
   }
 };
 
-export { addUser, updateUser, getUser, updateUserWithEmail };
+const getEvents = async (userDoc) => {
+  const user = userDoc.data();
+  const eventIds = user.events || [];
+  const eventsList = await Promise.all(
+    eventIds.map(async (eventId) => {
+      const eventRef = firestore.doc(db, "events", eventId);
+      const eventDoc = await firestore.getDoc(eventRef);
+      return { id: eventDoc.id, ...eventDoc.data() };
+    })
+  );
+  return eventsList;
+};
+
+export { addUser, updateUser, getUser, updateUserWithEmail, getEvents };

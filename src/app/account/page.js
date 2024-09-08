@@ -5,6 +5,9 @@ import { useState, useEffect } from "react";
 import Loading from "../components/loading/loading";
 import { useRouter } from "next/navigation";
 import { logout } from "../firebase/firebase.auth";
+import { getEvents, getUser } from "../firebase/firebase.firestore";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebase/firebase.auth";
 
 export default function Account() {
   const router = useRouter();
@@ -15,46 +18,50 @@ export default function Account() {
   const [companyName, setCompanyName] = useState("");
   const [accountType, setAccountType] = useState("Organizer");
   const [loading, setLoading] = useState(true);
+  const [events, setEvents] = useState([]);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    const fetchUserData = async () => {
       const userState = JSON.parse(sessionStorage.getItem("userState"));
+
       if (!userState?.isLoggedIn) {
         router.push("/");
-      } else {
-        setFirstName(userState.firstName);
-        setLastName(userState.lastName);
-        setEmail(userState.email);
-        setPhotoUrl(userState.photoUrl);
-        setCompanyName(userState.companyName);
-        setAccountType(userState.accountType);
-        setLoading(false);
+        return;
       }
-    }
+
+      onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          try {
+            setFirstName(userState.firstName);
+            setLastName(userState.lastName);
+            setEmail(userState.email);
+            setPhotoUrl(userState.photoUrl);
+            setCompanyName(userState.companyName);
+            setAccountType(userState.accountType);
+
+            const userDoc = await getUser();
+            if (userDoc) {
+              const fetchedEvents = await getEvents(userDoc);
+              setEvents(fetchedEvents);
+            }
+
+            setLoading(false);
+          } catch (error) {
+            console.error("Error fetching user data:", error);
+          }
+        } else {
+          router.push("/");
+        }
+      });
+    };
+
+    fetchUserData();
   }, [router]);
+
   const handleLogOut = () => {
     logout();
     router.push("/");
   };
-
-  const events = [
-    {
-      id: 1,
-      image: "/path-to-event-image-1.jpg",
-      title: "Annual Charity Run",
-      description:
-        "Join us for a fun and energetic charity run to support a good cause.",
-      date: "2024-09-10T10:00:00",
-    },
-    {
-      id: 2,
-      image: "/path-to-event-image-2.jpg",
-      title: "Tech Conference 2024",
-      description:
-        "A conference bringing together tech enthusiasts from all over the world.",
-      date: "2024-10-15T09:00:00",
-    },
-  ];
 
   if (loading) {
     return (
@@ -86,8 +93,7 @@ export default function Account() {
               <h2 className="text-xl font-semibold mt-4">
                 {firstName + " " + lastName}
               </h2>
-              <p className="text-gray-500 mt-2">{accountType} Account</p>{" "}
-              {/* Account Type Display */}
+              <p className="text-gray-500 mt-2">{accountType} Account</p>
             </div>
           </div>
 
@@ -112,9 +118,13 @@ export default function Account() {
             <div className="bg-white shadow-md rounded-lg p-6 mt-6">
               <h3 className="text-2xl font-semibold mb-4">Your Events</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {events.map((event) => (
-                  <EventCard key={event.id} event={event} />
-                ))}
+                {events.length > 0 ? (
+                  events.map((event) => (
+                    <EventCard key={event.id} event={event} />
+                  ))
+                ) : (
+                  <p className="text-gray-500">You have no events yet.</p>
+                )}
               </div>
             </div>
 
