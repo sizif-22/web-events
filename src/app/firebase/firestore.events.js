@@ -19,6 +19,7 @@ const addEvent = async (data) => {
   const userData = await getUser();
   const user = userData.data();
   console.log("user data : ", user);
+
   try {
     firestore.addDoc(collection, data).then((res) => {
       updateUser({ events: [...user.events, res.id] });
