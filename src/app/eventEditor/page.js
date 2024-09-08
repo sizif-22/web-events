@@ -1,9 +1,9 @@
 "use client";
 import Template1 from "../template/template1/main";
-import { useSearchParams } from "next/navigation";
+// import { useSearchParams } from "next/navigation";
 export default function EventCreation() {
-  const searchParams = useSearchParams();
-  const template = searchParams.get("template");
+  // const searchParams = useSearchParams();
+  // const template = searchParams.get("template");
   return (
     <div className="bg-slate-500">
       {/* <h1>Event Creation for {template}</h1> */}
