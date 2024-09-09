@@ -1,51 +1,33 @@
 "use client";
-import { useEffect, useState } from "react";
-import { addEvent } from "@/app/firebase/firestore.events";
-import standards from "./standards.json";
-import { getUser } from "@/app/firebase/firebase.firestore";
-import Loading from "@/app/components/loading/loading";
-import { useRouter } from "next/navigation";
-const Editor = () => {
-  const router = useRouter();
-  const [title, setTitle] = useState(`${standards.title}`);
-  const [description, setDescription] = useState(`${standards.description}`);
-  const [loading, setLoading] = useState(false);
-  const handleClick = async () => {
-    setLoading(true);
-    const userData = await getUser();
-    const user = userData.data();
-    const data = {
-      title,
-      description,
-      organizer: user.email,
-    };
-    addEvent(data);
-    router.push("/account");
-  };
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createEventAsync,
+  handleDescription,
+  handleTitle,
+} from "@/lib/editor.data";
 
-  return loading ? (
-    <Loading />
-  ) : (
+const Editor = () => {
+  const { title, description } = useSelector((state) => state.editor);
+  const dispatch = useDispatch();
+
+  return (
     <div className="bg-white h-screen">
       <label htmlFor="title">Title : </label>
       <input
         name="title"
-        onChange={(e) => {
-          setTitle(e.target.value);
-        }}
+        onChange={(e) => dispatch(handleTitle(e.target.value))}
         value={title}
       />
       <br />
       <label htmlFor="description">Description : </label>
       <input
-        htmlFor="description"
-        onChange={(e) => {
-          setDescription(e.target.value);
-        }}
+        name="description"
+        onChange={(e) => dispatch(handleDescription(e.target.value))}
         value={description}
       />
-      <button onClick={handleClick}>Save</button>
+      <button onClick={() => dispatch(createEventAsync())}>Save</button>
     </div>
   );
 };
+
 export default Editor;
