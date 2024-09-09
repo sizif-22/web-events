@@ -1,7 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Footer from "./components/footer";
-import SetData from "./components/setData.component";
+import SubLayout from "./sublayout";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,14 +15,11 @@ export default function RootLayout({ children }) {
       <head>
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=optional"
         />
       </head>
       <body className={inter.className}>
-        <SetData />
-        {/* <SubLayout child={children}/> */}
-        {children}
-        <Footer />
+        <SubLayout child={children} />
       </body>
     </html>
   );
