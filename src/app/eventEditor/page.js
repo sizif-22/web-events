@@ -1,12 +1,28 @@
 "use client";
+import { useEffect, useState } from "react";
 import Template1 from "../template/template1/main";
-// import { useSearchParams } from "next/navigation";
+import { useSelector } from "react-redux";
+import Loading from "../components/loading/loading";
+import { useRouter } from "next/navigation";
 export default function EventCreation() {
-  // const searchParams = useSearchParams();
-  // const template = searchParams.get("template");
-  return (
+  const router = useRouter();
+  const [load, setLoad] = useState(false);
+  const { loading, allowTochangeRoute } = useSelector((state) => state.editor);
+  useEffect(() => {
+    if (allowTochangeRoute) {
+      router.push("./account");
+    }
+  }, [allowTochangeRoute]);
+
+  useEffect(() => {
+    if (!load) {
+      setLoad(loading);
+    }
+  }, [loading]);
+  return load ? (
+    <Loading />
+  ) : (
     <div className="bg-slate-500">
-      {/* <h1>Event Creation for {template}</h1> */}
       <div className="grid grid-cols-5">
         <div className="col-span-1 h-screen">test</div>
         <div className="col-span-4">

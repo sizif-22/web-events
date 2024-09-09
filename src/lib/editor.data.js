@@ -1,62 +1,28 @@
-// import { createSlice } from "@reduxjs/toolkit";
-// export const editorData = createSlice({
-//   name: "editorData",
-//   initialState: {
-//     title: "test",
-//     description: "test description",
-//     loading: false,
-//   },
-//   reducers: {
-//     createEvent: async (state) => {
-//       console.log("start");
-//       state.loading = true;
-//       const userData = await getUser();
-//       const user = userData.data();
-//       const data = {
-//         title: state.title,
-//         description: state.description,
-//         organizer: user.email,
-//       };
-//       await addEvent(data);
-//     },
-//     handleTitle: (state, action) => {
-//       state.title = action.payload;
-//     },
-//     handleDescription: (state, action) => {
-//       state.description = action.payload;
-//     },
-//   },
-// });
-
-// export const { createEvent, handleTitle, handleDescription } =
-//   editorData.actions;
-// export default editorData.reducer;
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getUser } from "@/app/firebase/firebase.firestore";
 import { addEvent } from "@/app/firebase/firestore.events";
-import { createAsyncThunk } from "@reduxjs/toolkit";
-
-// Define the thunk for creating an event
-export const createEvent = createAsyncThunk(
-  "editorData/createEvent",
-  async (_, { getState }) => {
-    console.log("start");
-    const state = getState().editorData;
-    console.log("==============");
-    const userData = await getUser();
-
-    const user = userData.data();
-    console.log(user);
-    console.log(state);
-    const data = {
-      title: state.title,
-      description: state.description,
-      organizer: user.email,
-    };
-    console.log(data);
-    await addEvent(data);
-    console.log("end");
-    return data;
+let i = 0;
+export const createEventAsync = createAsyncThunk(
+  "editor/createEvent",
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const { editor } = getState();
+      const res = await getUser();
+      const user = res?.data();
+      if (!user) {
+        throw new Error("User data is unavailable.");
+      }
+      const data = {
+        title: editor.title,
+        description: editor.description,
+        organizer: user.email,
+      };
+      await addEvent(data);
+      window.location.href = "/account";
+      return "Event added successfully";
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
   }
 );
 
@@ -66,6 +32,8 @@ export const editorData = createSlice({
     title: "test",
     description: "test description",
     loading: false,
+    allowTochangeRoute: false,
+    error: null,
   },
   reducers: {
     handleTitle: (state, action) => {
@@ -77,14 +45,18 @@ export const editorData = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(createEvent.pending, (state) => {
+      .addCase(createEventAsync.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
-      .addCase(createEvent.fulfilled, (state) => {
+      .addCase(createEventAsync.fulfilled, (state, action) => {
         state.loading = false;
+        // console.log(action.payload);
       })
-      .addCase(createEvent.rejected, (state) => {
+      .addCase(createEventAsync.rejected, (state, action) => {
         state.loading = false;
+        state.error = action.payload;
+        console.log("there is an error =>> ", action.payload);
       });
   },
 });
