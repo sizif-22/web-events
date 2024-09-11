@@ -19,6 +19,7 @@ const addUser = async ({
       firstName,
       lastName,
       companyName,
+      events: [],
       email,
       photoUrl,
       accountType: "Organizer",
