@@ -8,10 +8,11 @@ import HowToCreateEvent from "./HomePage body/howToCreateEvent";
 import Overview from "./HomePage body/overview";
 
 export const userData = createContext();
-
 const Home = () => {
   const [userState, setUserState] = useState({});
   const [loading, setLoading] = useState(true);
+
+  //this functoin has to be removed ...
   const fetchUserData = async () => {
     const isLoggedIn = await checkLoggedIn();
     const isVerified = await checkVerified();
@@ -49,7 +50,7 @@ const Home = () => {
     }
     const intervalId = setInterval(() => {
       fetchUserData();
-    }, 60000);
+    }, 20000);
 
     return () => clearInterval(intervalId);
   }, []);
@@ -74,5 +75,4 @@ const Home = () => {
     </div>
   );
 };
-
 export default Home;

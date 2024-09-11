@@ -3,60 +3,22 @@ import Image from "next/image";
 import EventCard from "./event.card";
 import { useState, useEffect } from "react";
 import Loading from "../components/loading/loading";
-import { useRouter } from "next/navigation";
 import { logout } from "../firebase/firebase.auth";
-import { getEvents, getUser } from "../firebase/firebase.firestore";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../firebase/firebase.auth";
-
+import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 export default function Account() {
   const router = useRouter();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [photoUrl, setPhotoUrl] = useState("");
-  const [companyName, setCompanyName] = useState("");
-  const [accountType, setAccountType] = useState("Organizer");
   const [loading, setLoading] = useState(true);
-  const [events, setEvents] = useState([]);
-
+  const { userState } = useSelector((state) => state.user);
   useEffect(() => {
-    const fetchUserData = async () => {
-      const userState = JSON.parse(sessionStorage.getItem("userState"));
-
-      if (!userState?.isLoggedIn) {
+    if (userState) {
+      if (userState.isLoggedIn == false) {
         router.push("/");
-        return;
+      } else {
+        setLoading(false);
       }
-
-      onAuthStateChanged(auth, async (user) => {
-        if (user) {
-          try {
-            setFirstName(userState.firstName);
-            setLastName(userState.lastName);
-            setEmail(userState.email);
-            setPhotoUrl(userState.photoUrl);
-            setCompanyName(userState.companyName);
-            setAccountType(userState.accountType);
-
-            const userDoc = await getUser();
-            if (userDoc) {
-              const fetchedEvents = await getEvents(userDoc);
-              setEvents(fetchedEvents);
-            }
-
-            setLoading(false);
-          } catch (error) {
-            console.error("Error fetching user data:", error);
-          }
-        } else {
-          router.push("/");
-        }
-      });
-    };
-
-    fetchUserData();
-  }, [router]);
+    }
+  }, [userState]);
 
   const handleLogOut = () => {
     logout();
@@ -80,7 +42,7 @@ export default function Account() {
             <div className="bg-white shadow-md rounded-lg p-4 text-center">
               <div className="relative">
                 <Image
-                  src={photoUrl}
+                  src={userState.photoUrl}
                   alt="Profile Picture"
                   className="rounded-full mx-auto"
                   width={150}
@@ -91,9 +53,11 @@ export default function Account() {
                 </button>
               </div>
               <h2 className="text-xl font-semibold mt-4">
-                {firstName + " " + lastName}
+                {userState.firstName + " " + userState.lastName}
               </h2>
-              <p className="text-gray-500 mt-2">{accountType} Account</p>
+              <p className="text-gray-500 mt-2">
+                {userState.accountType} Account
+              </p>
             </div>
           </div>
 
@@ -103,14 +67,17 @@ export default function Account() {
               <h3 className="text-2xl font-semibold mb-4">Account Details</h3>
               <form className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="border p-2 rounded">{firstName}</div>
-                  <div className="border p-2 rounded">{lastName}</div>
+                  <div className="border p-2 rounded">
+                    {userState.firstName}
+                  </div>
+                  <div className="border p-2 rounded">{userState.lastName}</div>
                 </div>
-                <div className="border p-2 rounded w-full">{email}</div>
-                <div className="border p-2 rounded w-full">{companyName}</div>
-                {/* <button className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600">
-                  Update Account
-                </button> */}
+                <div className="border p-2 rounded w-full">
+                  {userState.email}
+                </div>
+                <div className="border p-2 rounded w-full">
+                  {userState.companyName}
+                </div>
               </form>
             </div>
 
@@ -118,9 +85,8 @@ export default function Account() {
             <div className="bg-white shadow-md rounded-lg p-6 mt-6">
               <h3 className="text-2xl font-semibold mb-4">Your Events</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* every event has to be clickable */}
-                {events.length > 0 ? (
-                  events.map((event) => (
+                {userState.events.length > 0 ? (
+                  userState.events.map((event) => (
                     <EventCard key={event.id} event={event} />
                   ))
                 ) : (
