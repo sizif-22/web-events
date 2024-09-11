@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getUser } from "@/app/firebase/firebase.firestore";
 import { addEvent } from "@/app/firebase/firestore.events";
-let i = 0;
+
 export const createEventAsync = createAsyncThunk(
   "editor/createEvent",
   async (_, { getState, rejectWithValue }) => {
@@ -30,12 +30,16 @@ export const editorData = createSlice({
   name: "editorData",
   initialState: {
     title: "test",
+    valid: false,
     description: "test description",
     loading: false,
     allowTochangeRoute: false,
     error: null,
   },
   reducers: {
+    handleValid: (state, action) => {
+      state.valid = action.payload;
+    },
     handleTitle: (state, action) => {
       state.title = action.payload;
     },
@@ -51,7 +55,7 @@ export const editorData = createSlice({
       })
       .addCase(createEventAsync.fulfilled, (state, action) => {
         state.loading = false;
-        // console.log(action.payload);
+        console.log(action.payload);
       })
       .addCase(createEventAsync.rejected, (state, action) => {
         state.loading = false;
@@ -61,5 +65,6 @@ export const editorData = createSlice({
   },
 });
 
-export const { handleTitle, handleDescription } = editorData.actions;
+export const { handleTitle, handleDescription, handleValid } =
+  editorData.actions;
 export default editorData.reducer;

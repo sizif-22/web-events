@@ -1,14 +1,7 @@
 import standards from "./standards.json";
 import Editor from "./editor";
+import Viewer from "./viewer";
 const Template1 = ({ Edit }) => {
-  // console.log(standards);
-  return Edit ? (
-    <Editor />
-  ) : (
-    <div className="bg-white h-screen">
-      <h1>{standards.title}</h1>
-      <p>{standards.description}</p>
-    </div>
-  );
+  return Edit ? <Editor /> : <Viewer data={standards} />;
 };
 export default Template1;
