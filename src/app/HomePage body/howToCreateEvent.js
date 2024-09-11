@@ -11,10 +11,13 @@ const HowToCreateEvent = () => {
             <Link href={"/plan"} className="text-blue-800">
               here
             </Link>{" "}
-            and start creating your event wibsite
+            and start creating your event/wibsite
           </p>
           <p className=" theRules">
-            then you choose ur theme form <Link href={"/template"} className="text-blue-800">here</Link>
+            then you choose ur theme form{" "}
+            <Link href={"/template"} className="text-blue-800">
+              here
+            </Link>
           </p>
           <p className=" theRules">... the rest of rules</p>
         </div>
