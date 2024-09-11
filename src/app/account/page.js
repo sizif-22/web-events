@@ -108,9 +108,9 @@ export default function Account() {
                 </div>
                 <div className="border p-2 rounded w-full">{email}</div>
                 <div className="border p-2 rounded w-full">{companyName}</div>
-                <button className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600">
+                {/* <button className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600">
                   Update Account
-                </button>
+                </button> */}
               </form>
             </div>
 

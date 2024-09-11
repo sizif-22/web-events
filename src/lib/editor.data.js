@@ -31,6 +31,7 @@ export const editorData = createSlice({
   initialState: {
     title: "test",
     valid: false,
+    showFormEditor: false,
     description: "test description",
     loading: false,
     allowTochangeRoute: false,
@@ -39,6 +40,9 @@ export const editorData = createSlice({
   reducers: {
     handleValid: (state, action) => {
       state.valid = action.payload;
+    },
+    handleShowFormEditor: (state, action) => {
+      state.showFormEditor = action.payload;
     },
     handleTitle: (state, action) => {
       state.title = action.payload;
@@ -65,6 +69,10 @@ export const editorData = createSlice({
   },
 });
 
-export const { handleTitle, handleDescription, handleValid } =
-  editorData.actions;
+export const {
+  handleTitle,
+  handleDescription,
+  handleValid,
+  handleShowFormEditor,
+} = editorData.actions;
 export default editorData.reducer;
