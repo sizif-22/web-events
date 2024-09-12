@@ -103,4 +103,4 @@ const getEvents = async (userDoc) => {
   return eventsList;
 };
 
-export { addUser, updateUser, getUser, updateUserWithEmail, getEvents };
+export { db, addUser, updateUser, getUser, updateUserWithEmail, getEvents };
