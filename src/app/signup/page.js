@@ -30,9 +30,6 @@ export default function SignUp() {
   const [file, setFile] = useState(
     "https://firebasestorage.googleapis.com/v0/b/m4-tazkarti.appspot.com/o/profileImgs%2Fdownload.jpeg?alt=media&token=b1c122af-6c6d-4714-a985-7b6e1f006b6e"
   );
-  // useEffect(() => {
-  //   // setLoading(true);
-  // }, [loading]);
   const handleSignUp = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -55,7 +52,7 @@ export default function SignUp() {
         photoUrl: file,
       });
     }
-    router.push("./");
+    window.location.reload();
   };
   if (!loggedIn) {
     return loading ? (
@@ -170,6 +167,5 @@ export default function SignUp() {
     );
   } else {
     router.push("./");
-    // return <Loading />;
   }
 }

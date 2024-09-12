@@ -7,8 +7,14 @@ import { createEventAsync, handleShowFormEditor } from "@/lib/editor.data";
 import { useDispatch, useSelector } from "react-redux";
 import FormEditor from "./formEditor";
 export default function EventCreation() {
-  const dispatch = useDispatch();
   const router = useRouter();
+  const userState = useSelector((state) => state.user.userState);
+  const { isLoggedIn, isVerified } = userState;
+  if (!isLoggedIn || !isVerified) {
+    router.push("/");
+  }
+
+  const dispatch = useDispatch();
   const valid = useSelector((state) => state.editor.valid);
   const showFormEditor = useSelector((state) => state.editor.showFormEditor);
   const [load, setLoad] = useState(false);
