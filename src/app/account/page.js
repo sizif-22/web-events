@@ -1,38 +1,29 @@
 "use client";
 import Image from "next/image";
 import EventCard from "./event.card";
-import { useState, useEffect } from "react";
-import Loading from "../components/loading/loading";
 import { logout } from "../firebase/firebase.auth";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 export default function Account() {
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
   const { userState } = useSelector((state) => state.user);
-  useEffect(() => {
-    if (userState) {
-      if (userState.isLoggedIn == false) {
-        router.push("/");
-      } else {
-        setLoading(false);
-      }
-    }
-  }, [userState]);
-
+  const { isLoggedIn } = userState;
+  if (!isLoggedIn) {
+    router.push("/");
+  }
+  const {
+    firstName,
+    lastName,
+    email,
+    photoUrl,
+    events,
+    companyName,
+    accountType,
+  } = userState;
   const handleLogOut = () => {
     logout();
     router.push("/");
   };
-
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <Loading />
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <div className="container mx-auto">
@@ -42,7 +33,7 @@ export default function Account() {
             <div className="bg-white shadow-md rounded-lg p-4 text-center">
               <div className="relative">
                 <Image
-                  src={userState.photoUrl}
+                  src={photoUrl}
                   alt="Profile Picture"
                   className="rounded-full mx-auto"
                   width={150}
@@ -53,11 +44,9 @@ export default function Account() {
                 </button>
               </div>
               <h2 className="text-xl font-semibold mt-4">
-                {userState.firstName + " " + userState.lastName}
+                {firstName + " " + lastName}
               </h2>
-              <p className="text-gray-500 mt-2">
-                {userState.accountType} Account
-              </p>
+              <p className="text-gray-500 mt-2">{accountType} Account</p>
             </div>
           </div>
 
@@ -67,17 +56,11 @@ export default function Account() {
               <h3 className="text-2xl font-semibold mb-4">Account Details</h3>
               <form className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="border p-2 rounded">
-                    {userState.firstName}
-                  </div>
-                  <div className="border p-2 rounded">{userState.lastName}</div>
+                  <div className="border p-2 rounded">{firstName}</div>
+                  <div className="border p-2 rounded">{lastName}</div>
                 </div>
-                <div className="border p-2 rounded w-full">
-                  {userState.email}
-                </div>
-                <div className="border p-2 rounded w-full">
-                  {userState.companyName}
-                </div>
+                <div className="border p-2 rounded w-full">{email}</div>
+                <div className="border p-2 rounded w-full">{companyName}</div>
               </form>
             </div>
 
@@ -85,9 +68,9 @@ export default function Account() {
             <div className="bg-white shadow-md rounded-lg p-6 mt-6">
               <h3 className="text-2xl font-semibold mb-4">Your Events</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {userState.events.length > 0 ? (
-                  userState.events.map((event) => (
-                    <EventCard key={event.id} event={event} />
+                {events.length > 0 ? (
+                  events.map((eventId) => (
+                    <EventCard key={eventId} eventId={eventId} />
                   ))
                 ) : (
                   <p className="text-gray-500">You have no events yet.</p>

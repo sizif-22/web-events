@@ -24,12 +24,11 @@ const addEvent = async (data) => {
 
   try {
     // Use the title as the document ID
-    const title = String(data.title).toLowerCase();
+    const title = String(data.title).toLowerCase().split(" ").join("-");
     const docRef = firestore.doc(collectionRef, title);
     await firestore.setDoc(docRef, data);
-
     // Update the user's events with the new document ID
-    updateUser({ events: [...user.events, data.title] });
+    await updateUser({ events: [...user.events, title] });
     console.log("Event added successfully!");
   } catch (e) {
     console.error(`There was an error: ${e}`);

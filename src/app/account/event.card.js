@@ -1,10 +1,21 @@
 "use client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-export default function EventCard({ event }) {
+import { useState, useEffect } from "react";
+import { fetchEvent } from "../firebase/firestore.events";
+const EventCard = ({ eventId }) => {
+  const [event, setEvent] = useState({});
+  useEffect(() => {
+    const fetchingEventData = async () => {
+      const theEvent = await fetchEvent(eventId);
+      setEvent(theEvent);
+    };
+    fetchingEventData();
+  }, []);
   const router = useRouter();
   const handleClick = () => {
-    router.push(`/events/${event.title}`);
+    const link = String(event.title).toLowerCase().split(" ").join("-");
+    router.push(`/events/${link}`);
   };
   return (
     <div
@@ -26,4 +37,5 @@ export default function EventCard({ event }) {
       </p>
     </div>
   );
-}
+};
+export default EventCard;
