@@ -52,7 +52,7 @@ export default function SignUp() {
         photoUrl: file,
       });
     }
-    router.push("./");
+    window.location.reload();
   };
   if (!loggedIn) {
     return loading ? (
