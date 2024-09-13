@@ -14,7 +14,7 @@ const Editor = () => {
 
   const handletitle = async (e) => {
     setTheTitle(e.target.value);
-    const id = String(e.target.value).toLowerCase();
+    const id = String(e.target.value).toLowerCase().split(" ").join("-");
     const exist = await checkIfEventExist(id);
     dispatch(handleValid(!exist));
     dispatch(handleTitle(e.target.value));
