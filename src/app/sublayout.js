@@ -56,7 +56,7 @@ const SubLayout2 = ({ child }) => {
   ) : (
     <>
       {child}
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

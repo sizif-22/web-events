@@ -4,12 +4,20 @@ import EventCard from "./event.card";
 import { logout } from "../firebase/firebase.auth";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+import WarningCard from "../components/warning";
 export default function Account() {
   const router = useRouter();
   const { userState } = useSelector((state) => state.user);
   const { isLoggedIn } = userState;
   if (!isLoggedIn) {
-    router.push("/");
+    return (
+      <div className="h-screen w-screen bg-slate-200">
+        <WarningCard
+          title="Access Restricted"
+          description="You must be logged in with a verified account to access this page."
+        />
+      </div>
+    );
   }
   const {
     firstName,

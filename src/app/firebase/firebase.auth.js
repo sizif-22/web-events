@@ -19,6 +19,7 @@ const login = async (email, password) => {
     console.log("User logged in and token saved");
   } catch (error) {
     console.error("Error logging in:", error);
+    return "error";
   }
 };
 
@@ -103,6 +104,7 @@ const signup = async (email, password) => {
     console.log("User signed up and token saved");
   } catch (error) {
     console.error("Error signing up:", error);
+    return "error";
   }
 };
 

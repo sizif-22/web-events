@@ -3,10 +3,13 @@ import React, { useState, useEffect } from "react";
 import "./login.css";
 import { login, checkLoggedIn } from "../firebase/firebase.auth";
 import { useRouter } from "next/navigation";
+import Alert from "../components/alert/alert";
 
 export default function LogIN() {
   const router = useRouter();
   const [loggedIn, setLoggedIn] = useState(false);
+  const [alert, setAlert] = useState(false);
+  const description = "Invalid Email or Password";
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -25,13 +28,19 @@ export default function LogIN() {
     setPassword(e.target.value);
   };
 
-  const loginFunc = (e) => {
+  const loginFunc = async (e) => {
     e.preventDefault();
-    login(email, password);
+    const process = await login(email, password);
+    console.log(process);
+    if (process == "error") {
+      setAlert(true);
+    }
   };
   if (!loggedIn) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center h-screen flex-col bg-slate-200">
+        {alert && <Alert description={description} />}
+        <br />
         <form className="form_container">
           <div className="logo_container" />
           <div className="title_container">

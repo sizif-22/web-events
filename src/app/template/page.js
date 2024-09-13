@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import TemplateCard from "./template.card";
 import "./theme.card.css";
 import { useSelector } from "react-redux";
+import WarningCard from "../components/warning";
 
 export default function Template() {
   const router = useRouter();
@@ -33,6 +34,13 @@ export default function Template() {
       </div>
     );
   } else {
-    router.push("/");
+    return (
+      <div className="h-screen w-screen bg-slate-200">
+      <WarningCard
+        title="Access Restricted"
+        description="You must be logged in with a verified account to access this page."
+        />
+        </div>
+    );
   }
 }

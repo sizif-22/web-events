@@ -6,11 +6,14 @@ import { addUser } from "../firebase/firebase.firestore";
 import "./signup.css";
 import { uploadProfileImg } from "../firebase/firebase.storage";
 import Loading from "../components/loading/loading";
+import Alert from "../components/alert/alert";
 
 export default function SignUp() {
   const router = useRouter();
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [alert, setAlert] = useState(false);
+  const [description, setDescription] = useState("");
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -32,14 +35,27 @@ export default function SignUp() {
   );
   const handleSignUp = async (e) => {
     e.preventDefault();
+    setAlert(false);
+    setDescription("");
     setLoading(true);
     if (password != confirmPassword) {
-      alert("password and confirm passoword doesn't match");
+      setDescription(`Passwords don't match`);
+      setAlert(true);
+      setLoading(false);
       setPassword("");
       setConfirmPassword("");
+
       return;
     }
-    await signup(email, password);
+    const signUpProcess = await signup(email, password);
+    console.log(signUpProcess);
+    if (signUpProcess == "error") {
+      setLoading(false);
+      setDescription("This Email Is Already Signed Up");
+      setAlert(true);
+      return;
+    }
+
     if (isThereImg) {
       await addUser({ firstName, lastName, companyName, email, photoUrl: "" });
       await uploadProfileImg({ email, dir: "profileImgs", file });
@@ -59,9 +75,11 @@ export default function SignUp() {
       <Loading />
     ) : (
       <div
-        className="h-screen flex justify-center items-center bg-white"
+        className="h-screen flex justify-center flex-col items-center  bg-slate-200"
         id="signup "
       >
+        {alert && <Alert description={description} />}
+        <br />
         <div className="inline shadow-2xl shadow-slate-700 rounded-2xl">
           <form className="form">
             <p className="title">Register </p>
