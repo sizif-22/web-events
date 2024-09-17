@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import Editor from "../template/template1/editor";
+import Editor from "../template/theme1/editor";
 import Loading from "../components/loading/loading";
 import { useRouter } from "next/navigation";
 import { createEventAsync, handleShowFormEditor } from "@/lib/editor.data";
@@ -60,6 +60,7 @@ export default function EventCreation() {
         </div>
 
         <div className="grid grid-cols-5">
+          {/* sidebar */}
           <div className="col-span-1 h-screen relative">
             {!valid && (
               <h1 className=" font-bold text-red-700 bg-white inline-flex absolute top-5 left-2 p-1 rounded-md">
@@ -76,7 +77,28 @@ export default function EventCreation() {
                 this title is already token ...
               </h1>
             )}
+            {/* body */}
             <div className="mt-20 p-3">
+              <label htmlFor="routeName" className="text-white"> Route Name <span className="text-red-600">*</span></label>
+              <br />
+              <input type="text" name="routeName" />
+              <br />
+              <br />
+              <label htmlFor="date"  className="text-white"> Event Date <span className="text-red-600">*</span></label>
+              <br />
+              <input type="date" name="date" />
+              <br />
+              <br />
+              <label htmlFor="time"  className="text-white"> Event Time <span className="text-red-600">*</span></label>
+              <br />
+              <input type="time" name="time" />
+              <br />
+              <br />
+              <label htmlFor="where"  className="text-white"> Event Location <span className="text-red-600">*</span></label>
+              <br />
+              <input type="text" name="where" />
+              <br />
+              <br />
               <button
                 className="bg-slate-400 text-black p-3 pt-1 pb-1 active:scale-105 rounded-md transition-all hover:opacity-80"
                 onClick={() => {
@@ -86,6 +108,7 @@ export default function EventCreation() {
                 showFormEditor
               </button>
             </div>
+
             {valid && (
               <button
                 className="bg-slate-400 text-black p-3 pt-1 pb-1 active:scale-105 rounded-md transition-all hover:opacity-80 absolute bottom-5 right-5"
@@ -95,7 +118,9 @@ export default function EventCreation() {
               </button>
             )}
           </div>
-          <div className="col-span-4">
+          {/* sidebar */}
+
+          <div className="col-span-4 h-screen overflow-y-scroll">
             <Editor />
           </div>
         </div>

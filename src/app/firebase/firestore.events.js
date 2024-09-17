@@ -16,14 +16,12 @@ async function fetchData() {
 }
 
 const addEvent = async (data) => {
-  // data is an object with a variable called 'title'
   const collectionRef = firestore.collection(db, "events");
   const userData = await getUser();
   const user = userData.data();
-  console.log("user data : ", user);
+  // console.log("user data : ", user);
 
   try {
-    // Use the title as the document ID
     const title = String(data.title).toLowerCase().split(" ").join("-");
     const docRef = firestore.doc(collectionRef, title);
     await firestore.setDoc(docRef, data);

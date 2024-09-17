@@ -1,7 +1,6 @@
 "use client";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  createEventAsync,
   handleDescription,
   handleTitle,
   handleValid,

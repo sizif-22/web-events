@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 const FormEditor = () => {
-  const [questions, setQuestions] = useState([]);
+  const [questions, setQuestions] = useState([{ text: "Your Email ?", isOptional: false, options: [] }]);
 
   const addQuestion = () => {
     setQuestions([
