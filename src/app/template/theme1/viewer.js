@@ -1,9 +1,10 @@
 "use client";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect,useState } from "react";
 import Image from "next/image";
 import cube from "./cube.jpg";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
+import dayjs from "dayjs";
 import {
   Mail,
   Phone,
@@ -95,14 +96,15 @@ const Viewer = ({ data }) => {
               <h1 className="special-font text-6xl md:text-7xl font-bold">
                 {title}
               </h1>
-              <p className="text-xl">
+              {/* <p className="text-xl">
                 {new Date(date).toLocaleDateString() +
                   "," +
                   time +
                   " - " +
                   where}
               </p>
-              <div className="text-3xl font-bold">00:00:00</div>
+              <div className="text-3xl font-bold">00:00:00</div> */}
+              <EventCountdown date={date} time={time} where={where} />
             </div>
 
             <div className="flex justify-center flex-col items-center md:items-start">
@@ -289,6 +291,53 @@ const BTN = () => {
       <span>Join Now</span>
       <ArrowRight size={20} />
     </button>
+  );
+};
+
+const EventCountdown = ({ date, time, where }) => {
+  const [countdown, setCountdown] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+
+  useEffect(() => {
+    const targetDate = dayjs(`${date} ${time}`);
+
+    const timer = setInterval(() => {
+      const now = dayjs();
+      const diff = targetDate.diff(now, "second");
+
+      if (diff <= 0) {
+        clearInterval(timer);
+        setCountdown({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+      } else {
+        const days = Math.floor(diff / (3600 * 24));
+        const hours = Math.floor((diff % (3600 * 24)) / 3600);
+        const minutes = Math.floor((diff % 3600) / 60);
+        const seconds = diff % 60;
+
+        setCountdown({ days, hours, minutes, seconds });
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [date, time]);
+
+  const formatNumber = (num) => num.toString().padStart(2, "0");
+
+  return (
+    <div>
+      <p className="text-xl">
+        {dayjs(date).format("D MMMM YYYY")} - {where}
+      </p>
+      <div className="text-3xl font-bold">
+        {countdown.days !== 0 && `${countdown.days} days `}
+        {formatNumber(countdown.hours)}:{formatNumber(countdown.minutes)}:
+        {formatNumber(countdown.seconds)}
+      </div>
+    </div>
   );
 };
 
