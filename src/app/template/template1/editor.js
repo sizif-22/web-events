@@ -4,12 +4,12 @@ import {
   handleDescription,
   handleTitle,
   handleValid,
-} from "@/lib/editor.data";
+} from "@/lib/editor.data.consts";
 import { useState } from "react";
 import { checkIfEventExist } from "@/app/firebase/firestore.events";
 const Editor = () => {
   const [theTitle, setTheTitle] = useState("test");
-  const valid = useSelector((state) => state.editor.valid);
+  const valid = useSelector((state) => state.editorConsts.valid);
 
   const handletitle = async (e) => {
     setTheTitle(e.target.value);

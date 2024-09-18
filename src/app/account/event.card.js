@@ -14,8 +14,7 @@ const EventCard = ({ eventId }) => {
   }, []);
   const router = useRouter();
   const handleClick = () => {
-    const link = String(event.title).toLowerCase().split(" ").join("-");
-    router.push(`/events/${link}`);
+    router.push(`/events/${eventId}`);
   };
   return (
     <div
@@ -31,9 +30,9 @@ const EventCard = ({ eventId }) => {
         objectFit="cover"
       />
       <h3 className="text-xl font-semibold mt-4">{event.title}</h3>
-      <p className="text-gray-600 mt-2">{event.description}</p>
       <p className="text-gray-500 mt-2">
-        {new Date(event.date).toLocaleString()}
+        {new Date(event.date).toLocaleDateString()}
+        
       </p>
     </div>
   );

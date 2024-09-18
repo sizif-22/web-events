@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import Image from "next/image";
 import cube from "./cube.jpg";
 import gsap from "gsap";
@@ -14,31 +14,32 @@ import {
   Instagram,
   Linkedin,
 } from "lucide-react";
-import Loading from "@/app/components/loading/loading";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const primaryColor = "#1162fb";
+const secondaryColor = "#000000";
+const textColor = "#ffffff";
+const text2Color = "#ffffff";
+
 const Viewer = ({ data }) => {
-  const [event, setEvent] = useState({});
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const theData = JSON.parse(data);
-    if (theData != null) {
-      setEvent(theData);
-      setLoading(false);
-    }
-  }, [data]);
-
   const parallax = useRef();
   const bgRef = useRef();
   const descriptionRef = useRef();
   const descContainerRef = useRef();
-
-  const primaryColor = "#1162fb";
-  const secondaryColor = "#000000";
-  const textColor = "#ffffff";
-  const text2Color = "#ffffff";
+  const {
+    title,
+    organization,
+    date,
+    time,
+    where,
+    head1,
+    body1,
+    logo,
+    features,
+  } = data;
+  // features.push(["lol"]);
+  const delay = features.length < 0 ? -1.2 : -1.5;
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -61,15 +62,13 @@ const Viewer = ({ data }) => {
         },
       });
       tl.to(bgRef.current, { y: "+=500" }, 0);
-      tl2.to(descriptionRef.current, { opacity: 1 }, -1.2);
-      tl2.to(descContainerRef.current, { margin: 0 }, -1.2);
+      tl2.to(descriptionRef.current, { opacity: 1 }, delay);
+      tl2.to(descContainerRef.current, { margin: 0 }, delay);
     });
     return () => ctx.revert();
   }, []);
 
-  return loading ? (
-    <Loading />
-  ) : (
+  return (
     <>
       <div className="min-h-screen relative" style={{ color: textColor }}>
         <div className="absolute inset-0 -z-10">
@@ -92,11 +91,17 @@ const Viewer = ({ data }) => {
           {/* body */}
           <div className="md:grid grid-cols-2 min-h-screen justify-items-center flex justify-center flex-col gap-10 md:gap-0 items-center p-8">
             <div className="flex justify-center flex-col gap-5 items-center md:items-start">
-              <p className="text-lg font-semibold">Organizer name</p>
+              <p className="text-lg font-semibold">{organization}</p>
               <h1 className="special-font text-6xl md:text-7xl font-bold">
-                The title
+                {title}
               </h1>
-              <p className="text-xl">where & when</p>
+              <p className="text-xl">
+                {new Date(date).toLocaleDateString() +
+                  "," +
+                  time +
+                  " - " +
+                  where}
+              </p>
               <div className="text-3xl font-bold">00:00:00</div>
             </div>
 
@@ -106,47 +111,48 @@ const Viewer = ({ data }) => {
           </div>
         </div>
       </div>
-      <div
-        className="py-24 z-30"
-        style={{
-          backgroundColor: primaryColor,
-          color: text2Color,
-        }}
-      >
-        <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold mb-8">Featured Content</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((item) => (
-              <div key={item} className="bg-white bg-opacity-10 p-6 rounded-lg">
-                <h3 className="text-2xl font-semibold mb-4">Feature {item}</h3>
+      {features.length > 0 && (
+        <div
+          className="py-24 z-30"
+          style={{
+            backgroundColor: primaryColor,
+            color: text2Color,
+          }}
+        >
+          <div className="container mx-auto px-4">
+            <h2 className="text-4xl font-bold mb-8">Featured Content</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[1, 2, 3].map((item) => (
+                <div
+                  key={item}
+                  className="bg-white bg-opacity-10 p-6 rounded-lg"
+                >
+                  <h3 className="text-2xl font-semibold mb-4">
+                    Feature {item}
+                  </h3>
+                  <p className="mb-4">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua.
+                  </p>
+                </div>
+              ))}
+              <div className="bg-white bg-opacity-10 p-6 rounded-lg">
+                <h3 className="text-2xl font-semibold mb-4">Add Feature Btn</h3>
                 <p className="mb-4">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
                   do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </p>
-                {/* <button
-                  className=" hover:scale-105 transition-all hover:text-primary py-2 px-4 rounded"
-                  style={{
-                    color: text2Color,
-                    border: `1px ${text2Color} solid`,
-                  }}
-                >
-                  Learn More
-                </button> */}
               </div>
-            ))}
-            <div className="bg-white bg-opacity-10 p-6 rounded-lg">
-              <h3 className="text-2xl font-semibold mb-4">Add Feature Btn</h3>
-              <p className="mb-4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </p>
             </div>
           </div>
         </div>
-      </div>
+      )}
       <div
         ref={descriptionRef}
-        className="min-h-screen flex justify-center flex-col items-center md:items-start gap-10 md:gap-0 md:grid grid-cols-2 justify-items-center opacity-0 p-8"
+        className={`min-h-screen flex justify-center flex-col items-center md:items-start gap-10 md:gap-0 md:grid grid-cols-2 justify-items-center ${
+          features.length > 0 && "opacity-0"
+        } p-8`}
         style={{
           backgroundColor: secondaryColor,
           color: textColor,
@@ -163,17 +169,12 @@ const Viewer = ({ data }) => {
         <div
           ref={descContainerRef}
           className="flex w-full h-full justify-start md:justify-center p-5 md:p-0 flex-col gap-5"
-          style={{marginLeft:'-1000px'}}
+          style={{ marginLeft: "-1000px" }}
         >
           <h1 className="special-font text-5xl md:text-6xl font-bold">
-            What is all about us?
+            {head1}
           </h1>
-          <p className="text-lg">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p>
+          <p className="text-lg">{body1}</p>
           <BTN />
         </div>
       </div>

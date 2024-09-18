@@ -22,4 +22,18 @@ const uploadProfileImg = async ({ email, dir, file }) => {
   }
 };
 
-export { uploadProfileImg };
+const uploadEventImage = async ({ dir, file }) => {
+  try {
+    const storageRef = FireStorage.ref(
+      storage,
+      `${dir}/${randomString.generate(10)}`
+    );
+    const uploadTask = await FireStorage.uploadBytes(storageRef, file);
+    const photoUrl = await FireStorage.getDownloadURL(uploadTask.ref);
+    return photoUrl;
+  } catch (err) {
+    console.error("Error uploading profile image:", err);
+  }
+};
+
+export { uploadProfileImg, uploadEventImage };

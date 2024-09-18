@@ -2,20 +2,26 @@
 import { useState, useEffect } from "react";
 import { checkIfEventExist, fetchEvent } from "@/app/firebase/firestore.events";
 import Loading from "@/app/components/loading/loading";
-import Viewer from "@/app/template/template1/viewer";
+import Viewer from "@/app/template/theme1/viewer";
+// import Viewer from "@/app/template/template1/viewer";
+
 const EventPage = ({ params }) => {
   const [exist, setExist] = useState(null);
   const [event, setEvent] = useState(null);
+
   useEffect(() => {
-    checkIfEventExist(params.eventId).then((res) => {
+    const fetching = async () => {
+      const res = await checkIfEventExist(params.eventId);
       if (res) {
-        fetchEvent(params.eventId).then((res) => {
-          setEvent(res);
-        });
+        const data = await fetchEvent(params.eventId);
+        if (data) {
+          setEvent(data);
+        }
+        console.log("event data is : ", event);
       }
       setExist(res);
-      console.log(res);
-    });
+    };
+    fetching();
   }, []);
 
   return exist == null ? (
@@ -24,7 +30,7 @@ const EventPage = ({ params }) => {
     <></>
   ) : (
     <div>
-      <Viewer data={JSON.stringify(event)} />
+      <Viewer data={event} />
     </div>
   );
 };

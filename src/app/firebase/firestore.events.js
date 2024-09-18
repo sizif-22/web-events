@@ -15,18 +15,17 @@ async function fetchData() {
   }
 }
 
-const addEvent = async (data) => {
+const addEvent = async (id, data) => {
   const collectionRef = firestore.collection(db, "events");
   const userData = await getUser();
   const user = userData.data();
   // console.log("user data : ", user);
 
   try {
-    const title = String(data.title).toLowerCase().split(" ").join("-");
-    const docRef = firestore.doc(collectionRef, title);
+    const docRef = firestore.doc(collectionRef, id);
     await firestore.setDoc(docRef, data);
     // Update the user's events with the new document ID
-    await updateUser({ events: [...user.events, title] });
+    await updateUser({ events: [...user.events, id] });
     console.log("Event added successfully!");
   } catch (e) {
     console.error(`There was an error: ${e}`);

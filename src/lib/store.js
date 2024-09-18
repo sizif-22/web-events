@@ -1,12 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
+import editorConsts from "./editor.data.consts";
 import editor from "./editor.data";
-import editor2 from './editor2.data';
 import user from "./user.data";
 
 export default configureStore({
   reducer: {
+    editorConsts,
     editor,
-    editor2,
     user,
   },
 });

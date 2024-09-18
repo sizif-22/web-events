@@ -1,13 +1,15 @@
+"use client";
 import { useState } from "react";
-
+import { useDispatch } from "react-redux";
+import { handleForm } from "@/lib/editor.data";
 const FormEditor = () => {
-  const [questions, setQuestions] = useState([{ text: "Your Email ?", isOptional: false, options: [] }]);
+  const dispatch = useDispatch();
+  const [questions, setQuestions] = useState([
+    { text: "Your Email ?", isOptional: false, options: [] },
+  ]);
 
   const addQuestion = () => {
-    setQuestions([
-      ...questions,
-      { text: "", isOptional: false, options: [] }
-    ]);
+    setQuestions([...questions, { text: "", isOptional: false, options: [] }]);
   };
 
   const handleQuestionChange = (index, text) => {
@@ -36,12 +38,16 @@ const FormEditor = () => {
 
   const saveForm = () => {
     // Here you can dispatch the form data or handle it as per your needs
+    dispatch(handleForm(questions));
     console.log("Form Saved", questions);
   };
 
   return (
     <div>
-      <button onClick={addQuestion} className="bg-blue-500 text-white p-2 rounded-md mb-4">
+      <button
+        onClick={addQuestion}
+        className="bg-blue-500 text-white p-2 rounded-md mb-4"
+      >
         Add Question
       </button>
       {questions.map((question, qIndex) => (
@@ -63,11 +69,8 @@ const FormEditor = () => {
               Optional
             </label>
             <label>
-              <input
-                type="radio"
-                onChange={() => addOption(qIndex)}
-              />{" "}
-              Add Options
+              <input type="radio" onChange={() => addOption(qIndex)} /> Add
+              Options
             </label>
           </div>
           {question.options.length > 0 && (
@@ -78,7 +81,9 @@ const FormEditor = () => {
                     type="text"
                     placeholder="Enter option"
                     value={option}
-                    onChange={(e) => handleOptionChange(qIndex, oIndex, e.target.value)}
+                    onChange={(e) =>
+                      handleOptionChange(qIndex, oIndex, e.target.value)
+                    }
                     className="border p-2 w-full"
                   />
                 </div>
@@ -93,7 +98,10 @@ const FormEditor = () => {
           )}
         </div>
       ))}
-      <button onClick={saveForm} className="bg-red-500 text-white p-2 rounded-md">
+      <button
+        onClick={saveForm}
+        className="bg-red-500 text-white p-2 rounded-md"
+      >
         Save Form
       </button>
     </div>

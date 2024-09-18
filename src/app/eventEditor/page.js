@@ -3,19 +3,78 @@ import { useEffect, useState } from "react";
 import Editor from "../template/theme1/editor";
 import Loading from "../components/loading/loading";
 import { useRouter } from "next/navigation";
-import { createEventAsync, handleShowFormEditor } from "@/lib/editor.data";
+import { uploadEventImage } from "../firebase/firebase.storage";
+import {
+  handleValid,
+  createEventAsync,
+  handleShowFormEditor,
+} from "@/lib/editor.data.consts";
 import WarningCard from "../components/warning";
 import { useDispatch, useSelector } from "react-redux";
 import FormEditor from "./formEditor";
+import { checkIfEventExist } from "../firebase/firestore.events";
+import Alert from "../components/alert/alert";
+import { handleDate, handleTime, handleWhere } from "@/lib/editor.data";
+import { addEvent } from "../firebase/firestore.events";
 export default function EventCreation() {
   const router = useRouter();
   const userState = useSelector((state) => state.user.userState);
-  const { isLoggedIn, isVerified } = userState;
+  const { isLoggedIn, isVerified, email } = userState;
+  const { valid, showFormEditor, loading, allowTochangeRoute } = useSelector(
+    (state) => state.editorConsts
+  );
+  const { title, organization, head1, body1, logo, features, form } =
+    useSelector((state) => state.editor);
   const dispatch = useDispatch();
-  const valid = useSelector((state) => state.editor.valid);
-  const showFormEditor = useSelector((state) => state.editor.showFormEditor);
   const [load, setLoad] = useState(false);
-  const { loading, allowTochangeRoute } = useSelector((state) => state.editor);
+  const [routeName, setRouteName] = useState();
+  const [errormessage1, setErrorMessage1] = useState(
+    "route field can't be Empty"
+  );
+
+  const [date, setDate] = useState();
+  const [time, setTime] = useState();
+  const [where, setWhere] = useState();
+  const [error, setError] = useState(false);
+
+  const hanldeEventCreation = async () => {
+    setError(false);
+    if (!date || !time || !where) {
+      setError(true);
+    }
+
+    const LogoUrl = await uploadEventImage({ dir: "EventImages", file: logo });
+    const eventObject = {
+      title,
+      organizer: email,
+      organization,
+      head1,
+      body1,
+      logo: LogoUrl,
+      features,
+      date,
+      time,
+      where,
+      form,
+    };
+    console.log(eventObject);
+    await addEvent(routeName, eventObject);
+  };
+
+  const handleRoute = async (e) => {
+    setRouteName(e.target.value);
+    const id = String(e.target.value).toLowerCase().split(" ").join("-");
+    if (id) {
+      const exist = await checkIfEventExist(id);
+      if (exist) {
+        setErrorMessage1("this title is already token");
+      }
+      dispatch(handleValid(!exist));
+    } else {
+      setErrorMessage1("route field can't be Empty");
+      dispatch(handleValid(false));
+    }
+  };
   useEffect(() => {
     if (allowTochangeRoute) {
       router.push("./account");
@@ -62,41 +121,72 @@ export default function EventCreation() {
         <div className="grid grid-cols-5">
           {/* sidebar */}
           <div className="col-span-1 h-screen relative">
-            {!valid && (
-              <h1 className=" font-bold text-red-700 bg-white inline-flex absolute top-5 left-2 p-1 rounded-md">
-                {" "}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="24px"
-                  viewBox="0 -960 960 960"
-                  width="24px"
-                  fill="#F00"
-                >
-                  <path d="M480-280q17 0 28.5-11.5T520-320q0-17-11.5-28.5T480-360q-17 0-28.5 11.5T440-320q0 17 11.5 28.5T480-280Zm-40-160h80v-240h-80v240Zm40 360q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
-                </svg>{" "}
-                this title is already token ...
-              </h1>
-            )}
+            <div className="inline-flex h-20 flex-col mt-5 ml-2 gap-5 rounded-md">
+              {!valid && <Alert description={errormessage1} />}
+
+              {error && (
+                <Alert description={"you have to full all the fields"} />
+              )}
+            </div>
+
             {/* body */}
             <div className="mt-20 p-3">
-              <label htmlFor="routeName" className="text-white"> Route Name <span className="text-red-600">*</span></label>
+              <label htmlFor="routeName" className="text-white">
+                {" "}
+                Route Name <span className="text-red-600">*</span>
+              </label>
               <br />
-              <input type="text" name="routeName" />
-              <br />
-              <br />
-              <label htmlFor="date"  className="text-white"> Event Date <span className="text-red-600">*</span></label>
-              <br />
-              <input type="date" name="date" />
-              <br />
-              <br />
-              <label htmlFor="time"  className="text-white"> Event Time <span className="text-red-600">*</span></label>
-              <br />
-              <input type="time" name="time" />
+              <input
+                type="text"
+                name="routeName"
+                placeholder="routeName"
+                onChange={handleRoute}
+              />
               <br />
               <br />
-              <label htmlFor="where"  className="text-white"> Event Location <span className="text-red-600">*</span></label>
+              <label htmlFor="date" className="text-white">
+                {" "}
+                Event Date <span className="text-red-600">*</span>
+              </label>
               <br />
-              <input type="text" name="where" />
+              <input
+                type="date"
+                name="date"
+                onChange={(e) => {
+                  setDate(e.target.value);
+                  dispatch(handleDate(e.target.value));
+                }}
+              />
+              <br />
+              <br />
+              <label htmlFor="time" className="text-white">
+                {" "}
+                Event Time <span className="text-red-600">*</span>
+              </label>
+              <br />
+              <input
+                type="time"
+                name="time"
+                onChange={(e) => {
+                  setTime(e.target.value);
+                  dispatch(handleTime(e.target.value));
+                }}
+              />
+              <br />
+              <br />
+              <label htmlFor="where" className="text-white">
+                {" "}
+                Event Location <span className="text-red-600">*</span>
+              </label>
+              <br />
+              <input
+                type="text"
+                name="where"
+                onChange={(e) => {
+                  setWhere(e.target.value);
+                  dispatch(handleWhere(e.target.value));
+                }}
+              />
               <br />
               <br />
               <button
@@ -112,13 +202,13 @@ export default function EventCreation() {
             {valid && (
               <button
                 className="bg-slate-400 text-black p-3 pt-1 pb-1 active:scale-105 rounded-md transition-all hover:opacity-80 absolute bottom-5 right-5"
-                onClick={() => dispatch(createEventAsync())}
+                onClick={hanldeEventCreation}
               >
                 Save
               </button>
             )}
           </div>
-          {/* sidebar */}
+          {/* /sidebar */}
 
           <div className="col-span-4 h-screen overflow-y-scroll">
             <Editor />

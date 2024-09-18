@@ -1,78 +1,68 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getUser } from "@/app/firebase/firebase.firestore";
-import { addEvent } from "@/app/firebase/firestore.events";
-
-export const createEventAsync = createAsyncThunk(
-  "editor/createEvent",
-  async (_, { getState, rejectWithValue }) => {
-    try {
-      const { editor } = getState();
-      const res = await getUser();
-      const user = res?.data();
-      if (!user) {
-        throw new Error("User data is unavailable.");
-      }
-      const data = {
-        title: editor.title,
-        description: editor.description,
-        organizer: user.email,
-      };
-      await addEvent(data);
-      window.location.href = "/account";
-      return "Event added successfully";
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-);
-
+import { createSlice } from "@reduxjs/toolkit";
 export const editorData = createSlice({
   name: "editorData",
   initialState: {
-    title: "test",
-    valid: false,
-    showFormEditor: false,
-    description: "test description",
-    loading: false,
-    allowTochangeRoute: false,
-    error: null,
+    title: "",
+    organization: "",
+    date: "",
+    time: "",
+    where: "",
+    head1: "What is all about us?",
+    body1: "",
+    logo: "",
+    img1: "",
+    img2: "",
+    features: [],
+    form: [],
   },
   reducers: {
-    handleValid: (state, action) => {
-      state.valid = action.payload;
-    },
-    handleShowFormEditor: (state, action) => {
-      state.showFormEditor = action.payload;
-    },
     handleTitle: (state, action) => {
       state.title = action.payload;
     },
-    handleDescription: (state, action) => {
-      state.description = action.payload;
+    handleOrganization: (state, action) => {
+      state.organization = action.payload;
     },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(createEventAsync.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(createEventAsync.fulfilled, (state, action) => {
-        state.loading = false;
-        console.log(action.payload);
-      })
-      .addCase(createEventAsync.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-        console.log("there is an error =>> ", action.payload);
-      });
+    handleHead1: (state, action) => {
+      state.head1 = action.payload;
+    },
+    handleBody1: (state, action) => {
+      state.body1 = action.payload;
+    },
+    handleLogo: (state, action) => {
+      state.logo = action.payload;
+    },
+    handleImg1: (state, action) => {
+      state.img1 = action.payload;
+    },
+    handleImg2: (state, action) => {
+      state.img2 = action.payload;
+    },
+    handleDate: (state, action) => {
+      state.date = action.payload;
+    },
+    handleTime: (state, action) => {
+      state.time = action.payload;
+    },
+    handleWhere: (state, action) => {
+      state.where = action.payload;
+    },
+    handleForm: (state, action) => {
+      state.form = action.payload;
+    },
   },
 });
 
 export const {
+  handleBody1,
+  handleHead1,
+  handleImg1,
+  handleImg2,
+  handleLogo,
+  handleOrganization,
   handleTitle,
-  handleDescription,
-  handleValid,
-  handleShowFormEditor,
+  handleDate,
+  handleTime,
+  handleWhere,
+  handleForm,
 } = editorData.actions;
 export default editorData.reducer;
