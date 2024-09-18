@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useEffect,useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import cube from "./cube.jpg";
 import gsap from "gsap";
@@ -39,8 +39,8 @@ const Viewer = ({ data }) => {
     logo,
     features,
   } = data;
-  // features.push(["lol"]);
-  const delay = features.length < 0 ? -1.2 : -1.5;
+  features.push(["lol"]);
+  const delay = features.length < 0 ? 10 : 4;
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -59,12 +59,12 @@ const Viewer = ({ data }) => {
           trigger: parallax.current,
           start: "top top",
           end: "bottom bottom",
-          scrub: true,
+          scrub: delay,
         },
       });
       tl.to(bgRef.current, { y: "+=500" }, 0);
-      tl2.to(descriptionRef.current, { opacity: 1 }, delay);
-      tl2.to(descContainerRef.current, { margin: 0 }, delay);
+      tl2.to(descriptionRef.current, { opacity: 1 }, -1.7);
+      tl2.to(descContainerRef.current, { margin: 0 }, -1.7);
     });
     return () => ctx.revert();
   }, []);
@@ -96,14 +96,6 @@ const Viewer = ({ data }) => {
               <h1 className="special-font text-6xl md:text-7xl font-bold">
                 {title}
               </h1>
-              {/* <p className="text-xl">
-                {new Date(date).toLocaleDateString() +
-                  "," +
-                  time +
-                  " - " +
-                  where}
-              </p>
-              <div className="text-3xl font-bold">00:00:00</div> */}
               <EventCountdown date={date} time={time} where={where} />
             </div>
 
@@ -329,9 +321,12 @@ const EventCountdown = ({ date, time, where }) => {
 
   return (
     <div>
-      <p className="text-xl">
-        {dayjs(date).format("D MMMM YYYY")} - {where}
-      </p>
+      <div className="flex flex-col items-center md:flex-row gap-2">
+        <p className="text-xl">{dayjs(date).format("D MMMM YYYY")}</p>
+        <p>-</p>
+        <p>{where}</p>
+      </div>
+      <br/>
       <div className="text-3xl font-bold">
         {countdown.days !== 0 && `${countdown.days} days `}
         {formatNumber(countdown.hours)}:{formatNumber(countdown.minutes)}:
