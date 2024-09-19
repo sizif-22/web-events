@@ -17,7 +17,6 @@ const EventPage = ({ params }) => {
         if (data) {
           setEvent(data);
         }
-        console.log("event data is : ", event);
       }
       setExist(res);
     };

@@ -28,6 +28,7 @@ export default function Account() {
     companyName,
     accountType,
   } = userState;
+  console.log('url : ',photoUrl);
   const handleLogOut = () => {
     logout();
     router.push("/");
