@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { fetchEvent } from "@/app/firebase/firestore.events";
 import Loading from "@/app/components/loading/loading";
-
+import { handleExport } from "@/xlax/xlax";
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [event, setEvent] = useState(null);
@@ -41,12 +41,12 @@ const Dashboard = () => {
 
   // Format the date
   const formatDate = (date) => {
-    return new Date(date).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+    return new Date(date).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
@@ -76,6 +76,9 @@ const Dashboard = () => {
           <button onClick={navigateToEvent} style={styles.navigateButton}>
             Go to Event Page
           </button>
+          <button onClick={handleExport} style={styles.navigateButton}>
+            Export
+          </button>
           {event.description && (
             <div style={styles.descriptionContainer}>
               <h3 style={styles.descriptionTitle}>Description</h3>
@@ -90,97 +93,97 @@ const Dashboard = () => {
 
 const styles = {
   container: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    minHeight: '100vh',
-    padding: '40px 20px',
-    backgroundColor: '#f0f0f0',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    minHeight: "100vh",
+    padding: "40px 20px",
+    backgroundColor: "#f0f0f0",
   },
   card: {
-    backgroundColor: 'white',
-    borderRadius: '8px',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-    padding: '30px',
-    width: '100%',
-    maxWidth: '600px',
+    backgroundColor: "white",
+    borderRadius: "8px",
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+    padding: "30px",
+    width: "100%",
+    maxWidth: "600px",
   },
   title: {
-    fontSize: '28px',
-    fontWeight: 'bold',
-    marginBottom: '30px',
-    textAlign: 'center',
-    color: '#333',
+    fontSize: "28px",
+    fontWeight: "bold",
+    marginBottom: "30px",
+    textAlign: "center",
+    color: "#333",
   },
   content: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '20px',
+    display: "flex",
+    flexDirection: "column",
+    gap: "20px",
   },
   eventTitle: {
-    fontSize: '24px',
-    fontWeight: 'bold',
-    color: '#007bff',
-    marginBottom: '10px',
+    fontSize: "24px",
+    fontWeight: "bold",
+    color: "#007bff",
+    marginBottom: "10px",
   },
   date: {
-    fontSize: '16px',
-    color: '#666',
-    marginBottom: '20px',
+    fontSize: "16px",
+    color: "#666",
+    marginBottom: "20px",
   },
   linkContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '5px',
+    display: "flex",
+    flexDirection: "column",
+    gap: "5px",
   },
   label: {
-    fontSize: '14px',
-    fontWeight: 'bold',
-    color: '#333',
+    fontSize: "14px",
+    fontWeight: "bold",
+    color: "#333",
   },
   inputGroup: {
-    display: 'flex',
-    gap: '10px',
+    display: "flex",
+    gap: "10px",
   },
   input: {
     flex: 1,
-    padding: '10px',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    fontSize: '14px',
+    padding: "10px",
+    border: "1px solid #ccc",
+    borderRadius: "4px",
+    fontSize: "14px",
   },
   copyButton: {
-    padding: '10px',
-    backgroundColor: '#f0f0f0',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    fontSize: '14px',
-    transition: 'background-color 0.3s',
+    padding: "10px",
+    backgroundColor: "#f0f0f0",
+    border: "1px solid #ccc",
+    borderRadius: "4px",
+    cursor: "pointer",
+    fontSize: "14px",
+    transition: "background-color 0.3s",
   },
   navigateButton: {
-    padding: '12px',
-    backgroundColor: '#007bff',
-    color: 'white',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    fontSize: '16px',
-    transition: 'background-color 0.3s',
+    padding: "12px",
+    backgroundColor: "#007bff",
+    color: "white",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+    fontSize: "16px",
+    transition: "background-color 0.3s",
   },
   descriptionContainer: {
-    marginTop: '20px',
+    marginTop: "20px",
   },
   descriptionTitle: {
-    fontSize: '18px',
-    fontWeight: 'bold',
-    marginBottom: '10px',
-    color: '#333',
+    fontSize: "18px",
+    fontWeight: "bold",
+    marginBottom: "10px",
+    color: "#333",
   },
   description: {
-    fontSize: '14px',
-    color: '#666',
-    lineHeight: '1.6',
+    fontSize: "14px",
+    color: "#666",
+    lineHeight: "1.6",
   },
 };
 
