@@ -1,5 +1,4 @@
 "use client";
-import Footer from "./components/footer";
 import store from "@/lib/store";
 import { Provider } from "react-redux";
 import { useState, useEffect } from "react";
@@ -56,7 +55,6 @@ const SubLayout2 = ({ child }) => {
   ) : (
     <>
       {child}
-      {/* <Footer /> */}
     </>
   );
 };

@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { checkIfEventExist, fetchEvent } from "@/app/firebase/firestore.events";
 import Loading from "@/app/components/loading/loading";
-import Viewer from "@/app/template/theme1/viewer";
+import Viewer from "@/app/theme/theme1/viewer";
 // import Viewer from "@/app/template/template1/viewer";
 
 const EventPage = ({ params }) => {
@@ -29,7 +29,7 @@ const EventPage = ({ params }) => {
     <></>
   ) : (
     <div>
-      <Viewer data={event} />
+      <Viewer data={event} eventId={params.eventId} />
     </div>
   );
 };

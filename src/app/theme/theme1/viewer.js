@@ -1,15 +1,14 @@
 "use client";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import Image from "next/image";
 import cube from "./cube.jpg";
 import gsap from "gsap";
-import Form from "@/app/components/form";
+import BTN from "@/app/components/viewerPage.btn";
 import { ScrollTrigger } from "gsap/all";
 import {
   Mail,
   Phone,
   MapPin,
-  ArrowRight,
   Facebook,
   Twitter,
   Instagram,
@@ -24,7 +23,7 @@ const secondaryColor = "#000000";
 const textColor = "#ffffff";
 const text2Color = "#ffffff";
 
-const Viewer = ({ data }) => {
+const Viewer = ({ data, eventId }) => {
   const parallax1 = useRef();
   const parallax2 = useRef();
   const bgRef = useRef();
@@ -114,6 +113,7 @@ const Viewer = ({ data }) => {
                 backgroundColor={primaryColor}
                 color={text2Color}
                 form={form}
+                eventId={eventId}
               />
             </div>
           </div>
@@ -188,6 +188,7 @@ const Viewer = ({ data }) => {
               backgroundColor={primaryColor}
               color={text2Color}
               form={form}
+              eventId={eventId}
             />
           </div>
         </div>
@@ -289,39 +290,5 @@ const Viewer = ({ data }) => {
     </>
   );
 };
-
-const BTN = ({ form, backgroundColor, color }) => {
-  const [showForm, setShowForm] = useState(false);
-
-  const handleFormSubmit = (answers) => {
-    console.log("Form Answers:", answers);
-    setShowForm(false);
-  };
-
-  return (
-    <div className="container mx-auto p-4">
-      {!showForm ? (
-        <button
-          style={{
-            backgroundColor,
-            color,
-          }}
-          onClick={() => setShowForm(true)}
-          className="font-bold py-3 px-6 rounded-full transition-all duration-300 flex items-center space-x-2 w-fit mx-auto hover:shadow-lg"
-        >
-          <span>Join Now</span>
-          <ArrowRight size={20} />
-        </button>
-      ) : (
-        <Form 
-          form={form} 
-          onSubmit={handleFormSubmit} 
-          onClose={() => setShowForm(false)}
-        />
-      )}
-    </div>
-  );
-};
-
 
 export default Viewer;

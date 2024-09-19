@@ -16,6 +16,7 @@ const EventCard = ({ eventId }) => {
   const handleClick = () => {
     router.push(`/events/${eventId}`);
   };
+  console.log(event.dateTime);
   return (
     <div
       className="bg-white shadow-md rounded-lg p-4 transition transform hover:scale-105 hover:shadow-lg"
@@ -24,15 +25,15 @@ const EventCard = ({ eventId }) => {
       <Image
         src={event.image}
         alt={event.title}
-        className="rounded-lg"
         width={600}
         height={300}
         objectFit="cover"
+        className="rounded-lg"
       />
       <h3 className="text-xl font-semibold mt-4">{event.title}</h3>
       <p className="text-gray-500 mt-2">
-        {new Date(event.date).toLocaleDateString()}
-        
+        {typeof event.dateTime != "undefined" &&
+          event.dateTime.toDate().toLocaleString()}
       </p>
     </div>
   );

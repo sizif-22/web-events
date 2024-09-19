@@ -44,9 +44,9 @@ export default function Account() {
                 <Image
                   src={photoUrl}
                   alt="Profile Picture"
-                  className="rounded-full mx-auto"
-                  width={150}
-                  height={150}
+                  width={300}
+                  height={300}
+                  className="rounded-full mx-auto w-40 h-40 object-cover"
                 />
                 <button className="absolute bottom-0 right-4 bg-blue-500 text-white rounded-full p-2 shadow-md">
                   ✏️

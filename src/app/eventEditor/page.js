@@ -1,14 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
-import Editor from "../template/theme1/editor";
+import Editor from "../theme/theme1/editor";
 import Loading from "../components/loading/loading";
 import { useRouter } from "next/navigation";
 import { uploadEventImage } from "../firebase/firebase.storage";
-import {
-  handleValid,
-  createEventAsync,
-  handleShowFormEditor,
-} from "@/lib/editor.data.consts";
+import { handleValid, handleShowFormEditor } from "@/lib/editor.data.consts";
 import WarningCard from "../components/warning";
 import { useDispatch, useSelector } from "react-redux";
 import FormEditor from "./formEditor";
@@ -57,8 +53,8 @@ export default function EventCreation() {
       where,
       form,
     };
-    console.log(eventObject);
     await addEvent(routeName, eventObject);
+    router.push("/account");
   };
 
   const handleRoute = async (e) => {
@@ -111,7 +107,7 @@ export default function EventCreation() {
           }`}
         ></div>
         <div
-          className={`absolute w-1/2 left-1/4 h-screen bg-white z-20 rounded-md p-2  ${
+          className={`absolute w-1/2 left-1/4 h-screen overflow-y-scroll bg-white z-20 rounded-md p-2  ${
             !showFormEditor && "hidden"
           }`}
         >

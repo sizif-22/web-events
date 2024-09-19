@@ -18,9 +18,9 @@ const UsEr = () => {
       <div className="h-12 w-12 rounded-full overflow-hidden flex justify-center items-center bg-gray-300 max-w-16">
         <Image
           src={photoUrl} // Fixed photoUrl
-          width={48}
-          height={48}
-          className="object-cover"
+          width={100}
+          height={100}
+          className="w-16 h-16 object-cover"
           alt="User Profile"
         />
       </div>
