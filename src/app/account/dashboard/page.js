@@ -1,22 +1,28 @@
 "use client";
 import { useState, useEffect } from "react";
-import { fetchEvent } from "@/app/firebase/firestore.events";
+import { fetchEvent, fetchJoinedData } from "@/app/firebase/firestore.events";
 import Loading from "@/app/components/loading/loading";
-import { handleExport } from "@/xlax/xlax";
+import { exportToExcel } from "@/xlax/xlax";
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [event, setEvent] = useState(null);
   const [eventLink, setEventLink] = useState("");
   const [copySuccess, setCopySuccess] = useState(false);
-
+  const [joined, setJoined] = useState([]);
+  const searchParams = new URLSearchParams(window.location.search);
+  const id = searchParams.get("id");
+  if (event) {
+    console.log("form : ", event.form);
+  }
+  console.log("data : ", joined);
   useEffect(() => {
     const fetch = async () => {
-      const searchParams = new URLSearchParams(window.location.search);
-      const id = searchParams.get("id");
       if (id) {
         const res = await fetchEvent(id);
-        if (res) {
+        const res2 = await fetchJoinedData(id);
+        if (res && res2) {
           setEvent(res);
+          setJoined(res2);
           setEventLink(`${window.location.origin}/events/${id}`);
           setLoading(false);
         }
@@ -24,6 +30,10 @@ const Dashboard = () => {
     };
     fetch();
   }, []);
+  const handleClick = () => {
+    exportToExcel(event.form, joined, id);
+    // exportToExcel("eventFile");
+  };
 
   const copyLink = () => {
     navigator.clipboard.writeText(eventLink);
@@ -76,7 +86,7 @@ const Dashboard = () => {
           <button onClick={navigateToEvent} style={styles.navigateButton}>
             Go to Event Page
           </button>
-          <button onClick={handleExport} style={styles.navigateButton}>
+          <button onClick={handleClick} style={styles.navigateButton}>
             Export
           </button>
           {event.description && (
