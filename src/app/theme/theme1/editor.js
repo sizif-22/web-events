@@ -54,7 +54,6 @@ const Editor = () => {
             className="h-20 top-0 left-0 w-full absolute flex items-center justify-between px-8"
             style={{ color: textColor }}
           >
-            {/* <h2 className="text-2xl font-bold">Logo</h2> */}
             <div className="flex items-center gap-2">
               <p>Add Your Logo :</p>
               <Input />
@@ -63,7 +62,6 @@ const Editor = () => {
           {/* body */}
           <div className="md:grid grid-cols-2 min-h-screen justify-items-center flex justify-center flex-col gap-10 md:gap-0 items-center p-8">
             <div className="flex justify-center flex-col gap-3 items-center md:items-start">
-              {/* <p className="text-lg font-semibold">Organizer name</p> */}
               <input
                 type="text"
                 className="text-lg font-semibold bg-transparent"
@@ -72,9 +70,6 @@ const Editor = () => {
                   dispatch(handleOrganization(e.target.value));
                 }}
               />
-              {/* <h1 className="special-font text-6xl md:text-7xl font-bold">
-                The title
-              </h1> */}
               <input
                 type="text"
                 className="special-font w-full text-6xl md:text-6xl m-0 font-bold bg-transparent"
@@ -129,23 +124,12 @@ const Editor = () => {
           color: textColor,
         }}
       >
-        {/* <Image
-          src={cube}
-          alt="second photo"
-          className="w-3/4 object-cover rounded-lg shadow-lg"
-          style={{
-            height: "90%",
-          }}
-        /> */}
         <div
           className="w-3/4 h-auto object-cover rounded-lg shadow-lg"
           style={{ backgroundColor: primaryColor, height: "90%" }}
         ></div>
 
         <div className="flex w-full h-full justify-start md:justify-center p-5 md:p-0 flex-col gap-5">
-          {/* <h1 className="special-font text-5xl md:text-6xl font-bold">
-            What is all about us?
-          </h1> */}
           <input
             type="text"
             className="special-font text-5xl md:text-6xl font-bold bg-transparent"
@@ -154,13 +138,6 @@ const Editor = () => {
               dispatch(handleHead1(e.target.value));
             }}
           />
-          {/* <p className="text-lg">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p> */}
-          {/* <input type="text" className="text-lg bg-transparent" placeholder="Body ..."/> */}
           <textarea
             className="text-lg bg-transparent  min-h-40"
             placeholder="Body ..."
@@ -270,3 +247,4 @@ const Editor = () => {
 };
 
 export default Editor;
+ 

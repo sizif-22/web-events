@@ -12,7 +12,7 @@ import {
   Facebook,
   Twitter,
   Instagram,
-  Linkedin,
+  Linkedin, 
 } from "lucide-react";
 import EventCountdown from "@/app/components/countDown";
 
@@ -40,9 +40,6 @@ const Viewer = ({ data, eventId }) => {
     features,
     form,
   } = data;
-  
-
-  console.log("logo is ::", logo);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -64,7 +61,7 @@ const Viewer = ({ data, eventId }) => {
           scrub: true,
         },
       });
-      tl.to(bgRef.current, { y: "+=500" }, 0);
+      tl.to(bgRef.current, { y: "+=600" }, 0);
       tl2.to(descriptionRef.current, { opacity: 1 }, 0);
       tl2.to(descContainerRef.current, { margin: 0 }, 0);
     });
