@@ -23,6 +23,7 @@ export default function EventCreation() {
     useSelector((state) => state.editor);
   const dispatch = useDispatch();
   const [load, setLoad] = useState(false);
+  const [id, setId] = useState();
   const [logoUrl, setLogoUrl] = useState("");
   const [routeName, setRouteName] = useState();
   const [errormessage1, setErrorMessage1] = useState(
@@ -46,7 +47,7 @@ export default function EventCreation() {
       });
       setLogoUrl(Url);
     }
-
+    setId(String(id).toLowerCase().split(" ").join("-"));
     const eventObject = {
       title,
       organizer: email,
@@ -60,13 +61,13 @@ export default function EventCreation() {
       where,
       form,
     };
-    await addEvent(routeName, eventObject);
+    await addEvent(id, eventObject);
     router.push("/account");
   };
 
   const handleRoute = async (e) => {
     setRouteName(e.target.value);
-    const id = String(e.target.value).toLowerCase().split(" ").join("-");
+    setId(String(e.target.value).toLowerCase().split(" ").join("-"));
     if (id) {
       const exist = await checkIfEventExist(id);
       if (exist) {
