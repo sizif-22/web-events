@@ -1,7 +1,8 @@
 "use client";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { handleForm } from "@/lib/editor.data";
+import { handleShowFormEditor } from "@/lib/editor.data.consts";
 
 const FormEditor = () => {
   const dispatch = useDispatch();
@@ -51,7 +52,7 @@ const FormEditor = () => {
 
   const saveForm = () => {
     dispatch(handleForm(questions));
-    console.log("Form Saved", questions);
+    dispatch(handleShowFormEditor(false));
   };
 
   return (

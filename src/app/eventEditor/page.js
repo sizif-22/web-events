@@ -23,11 +23,11 @@ export default function EventCreation() {
     useSelector((state) => state.editor);
   const dispatch = useDispatch();
   const [load, setLoad] = useState(false);
+  const [logoUrl, setLogoUrl] = useState("");
   const [routeName, setRouteName] = useState();
   const [errormessage1, setErrorMessage1] = useState(
     "route field can't be Empty"
   );
-
   const [date, setDate] = useState();
   const [time, setTime] = useState();
   const [where, setWhere] = useState();
@@ -35,18 +35,25 @@ export default function EventCreation() {
 
   const hanldeEventCreation = async () => {
     setError(false);
+    setLoad(true);
     if (!date || !time || !where) {
       setError(true);
     }
+    if (logo) {
+      const Url = await uploadEventImage({
+        dir: "EventImages",
+        file: logo,
+      });
+      setLogoUrl(Url);
+    }
 
-    const LogoUrl = await uploadEventImage({ dir: "EventImages", file: logo });
     const eventObject = {
       title,
       organizer: email,
       organization,
       head1,
       body1,
-      logo: LogoUrl,
+      logo: logoUrl,
       features,
       date,
       time,

@@ -15,7 +15,7 @@ const HowToCreateEvent = () => {
           </p>
           <p className=" theRules">
             then you choose ur theme form{" "}
-            <Link href={"/template"} className="text-blue-800">
+            <Link href={"/theme"} className="text-blue-800">
               here
             </Link>
           </p>

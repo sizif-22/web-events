@@ -17,7 +17,6 @@ import {
 import EventCountdown from "@/app/components/countDown";
 
 gsap.registerPlugin(ScrollTrigger);
-
 const primaryColor = "#1162fb";
 const secondaryColor = "#000000";
 const textColor = "#ffffff";
@@ -41,8 +40,9 @@ const Viewer = ({ data, eventId }) => {
     features,
     form,
   } = data;
-  features.push(["lol"]);
-  // const delay = features.length < 0 ? 10 : 4;
+  
+
+  console.log("logo is ::", logo);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -89,14 +89,15 @@ const Viewer = ({ data, eventId }) => {
             className="h-20 top-0 left-0 w-full absolute flex items-center justify-between px-8"
             style={{ color: textColor }}
           >
-            {/* <h2 className="text-2xl font-bold">Logo</h2> */}
-            <Image
-              src={logo}
-              alt=""
-              width={100}
-              height={100}
-              className="w-auto h-16 object-cover"
-            />
+            {logo && (
+              <Image
+                src={logo}
+                alt=""
+                width={100}
+                height={100}
+                className="w-auto h-16 object-cover"
+              />
+            )}
           </nav>
           {/* body */}
           <div className="md:grid grid-cols-2 min-h-screen justify-items-center flex justify-center flex-col gap-10 md:gap-0 items-center p-8">

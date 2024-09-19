@@ -5,10 +5,27 @@ import { logout } from "../firebase/firebase.auth";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import WarningCard from "../components/warning";
-export default function Account() {
+import { handleChangeRoute } from "@/lib/editor.data.consts";
+import { useEffect, useState } from "react";
+import Loading from "../components/loading/loading";
+import { getUser } from "../firebase/firebase.firestore";
+const Account = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
   const { userState } = useSelector((state) => state.user);
+  const [events, setEvents] = useState({});
   const { isLoggedIn } = userState;
+  useEffect(() => {
+    const startfunc = async () => {
+      const res = await getUser();
+      const user = res.data();
+      if (user) {
+        setEvents(user.events);
+        setLoading(false);
+      }
+    };
+    startfunc();
+  }, []);
   if (!isLoggedIn) {
     return (
       <div className="h-screen w-screen bg-slate-200">
@@ -19,21 +36,16 @@ export default function Account() {
       </div>
     );
   }
-  const {
-    firstName,
-    lastName,
-    email,
-    photoUrl,
-    events,
-    companyName,
-    accountType,
-  } = userState;
-  console.log('url : ',photoUrl);
+  const { firstName, lastName, email, photoUrl, companyName, accountType } =
+    userState;
+  console.log("url : ", photoUrl);
   const handleLogOut = () => {
     logout();
     router.push("/");
   };
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <div className="min-h-screen bg-gray-100 p-6">
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -101,4 +113,6 @@ export default function Account() {
       </div>
     </div>
   );
-}
+};
+
+export default Account;
