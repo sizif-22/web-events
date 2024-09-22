@@ -74,62 +74,79 @@ const FormEditor = () => {
         >
           <div className="flex justify-between items-center">
             <h2 className="text-lg font-semibold">Question {qIndex + 1}</h2>
-            <button
-              onClick={() => removeQuestion(qIndex)}
-              className="text-red-500 hover:text-red-700"
-            >
-              Remove
-            </button>
+            {qIndex != 0 && (
+              <button
+                onClick={() => removeQuestion(qIndex)}
+                className="text-red-500 hover:text-red-700"
+              >
+                Remove
+              </button>
+            )}
           </div>
-          <input
-            type="text"
-            placeholder="Enter your question"
-            value={question.text}
-            onChange={(e) => handleQuestionChange(qIndex, e.target.value)}
-            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <div className="flex items-center space-x-2">
+          {qIndex != 0 ? (
             <input
-              type="checkbox"
-              id={`optional-${qIndex}`}
-              checked={question.isOptional}
-              onChange={() => toggleOptional(qIndex)}
-              className="rounded text-blue-500 focus:ring-blue-500"
+              type="text"
+              placeholder="Enter your question"
+              value={question.text}
+              onChange={(e) => handleQuestionChange(qIndex, e.target.value)}
+              className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            <label
-              htmlFor={`optional-${qIndex}`}
-              className="text-sm font-medium"
-            >
-              Optional
-            </label>
-          </div>
-          <div className="space-y-2">
-            {question.options.map((option, oIndex) => (
-              <div key={oIndex} className="flex items-center space-x-2">
-                <input
-                  type="text"
-                  placeholder="Enter option"
-                  value={option}
-                  onChange={(e) =>
-                    handleOptionChange(qIndex, oIndex, e.target.value)
-                  }
-                  className="flex-grow p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <button
-                  onClick={() => removeOption(qIndex, oIndex)}
-                  className="text-red-500 hover:text-red-700"
-                >
-                  Remove
-                </button>
-              </div>
-            ))}
-            <button
-              onClick={() => addOption(qIndex)}
-              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition duration-300"
-            >
-              Add Option
-            </button>
-          </div>
+          ) : (
+            <input
+              type="text"
+              placeholder="Enter your question"
+              value={question.text}
+              // onChange={(e) => handleQuestionChange(qIndex, e.target.value)}
+              className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          )}
+
+          {qIndex != 0 && (
+            <div className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                id={`optional-${qIndex}`}
+                checked={question.isOptional}
+                onChange={() => toggleOptional(qIndex)}
+                className="rounded text-blue-500 focus:ring-blue-500"
+              />
+              <label
+                htmlFor={`optional-${qIndex}`}
+                className="text-sm font-medium"
+              >
+                Optional
+              </label>
+            </div>
+          )}
+          {qIndex != 0 && (
+            <div className="space-y-2">
+              {question.options.map((option, oIndex) => (
+                <div key={oIndex} className="flex items-center space-x-2">
+                  <input
+                    type="text"
+                    placeholder="Enter option"
+                    value={option}
+                    onChange={(e) =>
+                      handleOptionChange(qIndex, oIndex, e.target.value)
+                    }
+                    className="flex-grow p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                  <button
+                    onClick={() => removeOption(qIndex, oIndex)}
+                    className="text-red-500 hover:text-red-700"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+              <button
+                onClick={() => addOption(qIndex)}
+                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition duration-300"
+              >
+                Add Option
+              </button>
+            </div>
+          )}
         </div>
       ))}
 

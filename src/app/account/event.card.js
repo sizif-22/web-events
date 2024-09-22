@@ -14,8 +14,7 @@ const EventCard = ({ eventId }) => {
   }, []);
   const router = useRouter();
   const handleClick = () => {
-    // router.push(`/events/${eventId}`);
-    router.push(`/account/dashboard?id=${eventId}`);
+    window.location.href = `/account/dashboard?id=${eventId}`;
   };
   console.log(event.dateTime);
   return (
