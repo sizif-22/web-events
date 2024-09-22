@@ -1,8 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
-import { fetchEvent, fetchJoinedData } from "@/app/firebase/firestore.events";
+import { fetchEvent } from "@/app/firebase/firestore.events";
 import Loading from "@/app/components/loading/loading";
 import { exportToExcel } from "@/xlax/xlax";
+import "./darshboard.css";
+import { db } from "@/app/firebase/firebase.firestore";
+import { doc, collection, onSnapshot } from "firebase/firestore";
+
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [event, setEvent] = useState(null);
@@ -11,28 +15,45 @@ const Dashboard = () => {
   const [joined, setJoined] = useState([]);
   const searchParams = new URLSearchParams(window.location.search);
   const id = searchParams.get("id");
-  if (event) {
-    console.log("form : ", event.form);
-  }
-  console.log("data : ", joined);
+
   useEffect(() => {
     const fetch = async () => {
       if (id) {
         const res = await fetchEvent(id);
-        const res2 = await fetchJoinedData(id);
-        if (res && res2) {
+        if (res) {
           setEvent(res);
-          setJoined(res2);
           setEventLink(`${window.location.origin}/events/${id}`);
           setLoading(false);
         }
       }
     };
     fetch();
-  }, []);
+  }, [id]);
+
+  useEffect(() => {
+    if (id) {
+      const eventDocRef = doc(db, "events", id);
+      const joinedCollectionRef = collection(eventDocRef, "joined");
+
+      const unsubscribe = onSnapshot(
+        joinedCollectionRef,
+        (snapshot) => {
+          const joinedDataArray = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          setJoined(joinedDataArray);
+        },
+        (error) => {
+          console.error("Error fetching joined data: ", error);
+        }
+      );
+      return () => unsubscribe();
+    }
+  }, [id]);
+
   const handleClick = () => {
     exportToExcel(event.form, joined, id);
-    // exportToExcel("eventFile");
   };
 
   const copyLink = () => {
@@ -61,140 +82,45 @@ const Dashboard = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <div style={styles.card}>
-        <h1 style={styles.title}>Event Dashboard</h1>
-        <div style={styles.content}>
-          <h2 style={styles.eventTitle}>{event.title}</h2>
-          <p style={styles.date}>Date: {formatDate(event.date)}</p>
-          <div style={styles.linkContainer}>
-            <label htmlFor="eventLink" style={styles.label}>
+    <div className="div-container">
+      <div className="card">
+        <h1 className="title">Event Dashboard</h1>
+        <div className="content">
+          <h2 className={"eventTitle"}>{event.title}</h2>
+          <p className={"date"}>Date: {formatDate(event.date)}</p>
+          <div className={"linkContainer"}>
+            <label htmlFor="eventLink" className={"label"}>
               Event Link
             </label>
-            <div style={styles.inputGroup}>
+            <div className={"inputGroup"}>
               <input
                 id="eventLink"
                 value={eventLink}
                 readOnly
-                style={styles.input}
+                className={"input"}
               />
-              <button onClick={copyLink} style={styles.copyButton}>
+              <button onClick={copyLink} className={"copyButton"}>
                 {copySuccess ? "Copied!" : "Copy"}
               </button>
             </div>
           </div>
-          <button onClick={navigateToEvent} style={styles.navigateButton}>
+          <button onClick={navigateToEvent} className={"navigateButton"}>
             Go to Event Page
           </button>
-          <button onClick={handleClick} style={styles.navigateButton}>
+          <button onClick={handleClick} className={"navigateButton"}>
             Export
           </button>
           {event.description && (
-            <div style={styles.descriptionContainer}>
-              <h3 style={styles.descriptionTitle}>Description</h3>
-              <p style={styles.description}>{event.description}</p>
+            <div className={"descriptionContainer"}>
+              <h3 className={"descriptionTitle"}>Description</h3>
+              <p className={"description"}>{event.description}</p>
             </div>
           )}
         </div>
       </div>
+      {/* <div className="bg-sky-600 card">{JSON.stringify(joined)}</div> */}
     </div>
   );
-};
-
-const styles = {
-  container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "flex-start",
-    minHeight: "100vh",
-    padding: "40px 20px",
-    backgroundColor: "#f0f0f0",
-  },
-  card: {
-    backgroundColor: "white",
-    borderRadius: "8px",
-    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-    padding: "30px",
-    width: "100%",
-    maxWidth: "600px",
-  },
-  title: {
-    fontSize: "28px",
-    fontWeight: "bold",
-    marginBottom: "30px",
-    textAlign: "center",
-    color: "#333",
-  },
-  content: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "20px",
-  },
-  eventTitle: {
-    fontSize: "24px",
-    fontWeight: "bold",
-    color: "#007bff",
-    marginBottom: "10px",
-  },
-  date: {
-    fontSize: "16px",
-    color: "#666",
-    marginBottom: "20px",
-  },
-  linkContainer: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "5px",
-  },
-  label: {
-    fontSize: "14px",
-    fontWeight: "bold",
-    color: "#333",
-  },
-  inputGroup: {
-    display: "flex",
-    gap: "10px",
-  },
-  input: {
-    flex: 1,
-    padding: "10px",
-    border: "1px solid #ccc",
-    borderRadius: "4px",
-    fontSize: "14px",
-  },
-  copyButton: {
-    padding: "10px",
-    backgroundColor: "#f0f0f0",
-    border: "1px solid #ccc",
-    borderRadius: "4px",
-    cursor: "pointer",
-    fontSize: "14px",
-    transition: "background-color 0.3s",
-  },
-  navigateButton: {
-    padding: "12px",
-    backgroundColor: "#007bff",
-    color: "white",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-    fontSize: "16px",
-    transition: "background-color 0.3s",
-  },
-  descriptionContainer: {
-    marginTop: "20px",
-  },
-  descriptionTitle: {
-    fontSize: "18px",
-    fontWeight: "bold",
-    marginBottom: "10px",
-    color: "#333",
-  },
-  description: {
-    fontSize: "14px",
-    color: "#666",
-    lineHeight: "1.6",
-  },
 };
 
 export default Dashboard;

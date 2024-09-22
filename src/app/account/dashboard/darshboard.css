@@ -1,0 +1,95 @@
+.div-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+    height: 100vh;
+    padding: 40px 20px;
+    background-color: #f0f0f0;
+  }
+  .card {
+    background-color: white;
+    border-radius : 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0 ,0.1);
+    padding: 30px;
+    width: 100%;
+    max-width: 600px;
+  }
+  .title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-align: center;
+    color: #333;
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .eventTitle {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 10px;
+  }
+  .date {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  .linkContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+  }
+  .inputGroup {
+    display: flex;
+    gap: 10px;
+  }
+  .input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  .copyButton {
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+  }
+  .navigateButton {
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  .descriptionContainer {
+    margin-top: 20px;
+  }
+  .descriptionTitle {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  .description {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+  }

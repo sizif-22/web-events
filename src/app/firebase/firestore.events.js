@@ -81,30 +81,11 @@ const addJoinedEvent = async (eventId, joinedData) => {
     throw error;
   }
 };
-
-const fetchJoinedData = async (eventId) => {
-  try {
-    const eventDocRef = firestore.doc(db, "events", eventId);
-    const joinedCollectionRef = firestore.collection(eventDocRef, "joined");
-    const snapshot = await firestore.getDocs(joinedCollectionRef);
-
-    const joinedDataArray = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-
-    return joinedDataArray;
-  } catch (error) {
-    console.error("Error fetching joined data: ", error);
-    throw error;
-  }
-};
-
 export {
+  db,
   fetchData,
   addEvent,
   checkIfEventExist,
   fetchEvent,
   addJoinedEvent,
-  fetchJoinedData,
 };
