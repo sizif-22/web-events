@@ -14,7 +14,7 @@ export const editorData = createSlice({
     img2: "",
     features: [],
     featuresTitle: "Featured Content",
-    form: [],
+    form: [{ text: "Your Email ?", isOptional: false, options: [] }],
   },
   reducers: {
     handleTitle: (state, action) => {
