@@ -6,7 +6,7 @@ const TemplateCard = ({ title, imgSrc }) => {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push(`/eventEditor?template=${encodeURIComponent(title)}`);
+    router.push(`/eventEditor?theme=${encodeURIComponent(title)}`);
   };
 
   return (

@@ -38,6 +38,12 @@ export default function SignUp() {
     setAlert(false);
     setDescription("");
     setLoading(true);
+    if (password.length < 6) {
+      setDescription(`password must be atleast 6 characters long`);
+      setAlert(true);
+      setLoading(false);
+      return;
+    }
     if (password != confirmPassword) {
       setDescription(`Passwords don't match`);
       setAlert(true);

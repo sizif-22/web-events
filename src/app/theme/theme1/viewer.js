@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import cube from "./cube.jpg";
 import gsap from "gsap";
@@ -12,17 +12,18 @@ import {
   Facebook,
   Twitter,
   Instagram,
-  Linkedin, 
+  Linkedin,
 } from "lucide-react";
 import EventCountdown from "@/app/components/countDown";
 
 gsap.registerPlugin(ScrollTrigger);
-const primaryColor = "#1162fb";
-const secondaryColor = "#000000";
-const textColor = "#ffffff";
-const text2Color = "#ffffff";
 
 const Viewer = ({ data, eventId }) => {
+  const [primaryColor , setPrimaryColor] = useState("#1162fb")
+  const [secondaryColor , setSecondaryColor] = useState( "#000000");
+  const [textColor , setTextColor] = useState("#ffffff");
+  const [text2Color , setText2Color] = useState("#ffffff")
+  
   const parallax1 = useRef();
   const parallax2 = useRef();
   const bgRef = useRef();

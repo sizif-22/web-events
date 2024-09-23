@@ -96,7 +96,6 @@ const FormEditor = () => {
               type="text"
               placeholder="Enter your question"
               value={question.text}
-              // onChange={(e) => handleQuestionChange(qIndex, e.target.value)}
               className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           )}
