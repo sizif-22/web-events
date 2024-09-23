@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const editorData = createSlice({
   name: "editorData",
   initialState: {
-    title: "",
+    title: "the title",
     organization: "",
     date: "",
     time: "",
@@ -13,6 +13,7 @@ export const editorData = createSlice({
     img1: "",
     img2: "",
     features: [],
+    featuresTitle: "Featured Content",
     form: [],
   },
   reducers: {
@@ -49,6 +50,20 @@ export const editorData = createSlice({
     handleForm: (state, action) => {
       state.form = action.payload;
     },
+    handleFeatures: (state, action) => {
+      state.features.push(action.payload);
+    },
+    handleFeatureHead: (state, action) => {
+      const { index, value } = action.payload;
+      state.features[index].head = value;
+    },
+    handleFeatureBody: (state, action) => {
+      const { index, value } = action.payload;
+      state.features[index].body = value;
+    },
+    handleFeaturesTitle: (state, action) => {
+      state.featuresTitle = action.payload;
+    },
   },
 });
 
@@ -64,5 +79,9 @@ export const {
   handleTime,
   handleWhere,
   handleForm,
+  handleFeatures,
+  handleFeatureHead,
+  handleFeatureBody,
+  handleFeaturesTitle,
 } = editorData.actions;
 export default editorData.reducer;

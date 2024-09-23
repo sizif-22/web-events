@@ -4,8 +4,12 @@ import {
   handleOrganization,
   handleHead1,
   handleBody1,
+  handleFeatures,
+  handleFeatureHead,
+  handleFeatureBody,
+  handleFeaturesTitle,
 } from "@/lib/editor.data";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Mail,
   Phone,
@@ -19,11 +23,12 @@ import {
 import Input from "@/app/components/file upload/input";
 const Editor = () => {
   const dispatch = useDispatch();
-
+  const { features } = useSelector((state) => state.editor);
   const primaryColor = "#1162fb";
   const secondaryColor = "#000000";
   const textColor = "#ffffff";
   const text2Color = "#ffffff";
+
   const BTN = () => {
     return (
       <button
@@ -96,22 +101,65 @@ const Editor = () => {
         }}
       >
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold mb-8">Featured Content</h2>
+          {/* <h2 className="text-4xl font-bold mb-8">Featured Content</h2> */}
+          <input
+            className="text-4xl font-bold mb-8 bg-transparent"
+            placeholder="Featured Content"
+            onChange={(e) => dispatch(handleFeaturesTitle(e.target.value))}
+          />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((item) => (
-              <div key={item} className="bg-white bg-opacity-10 p-6 rounded-lg">
-                <h3 className="text-2xl font-semibold mb-4">Feature {item}</h3>
-                <p className="mb-4">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </p>
+            {features.map((feature, fIndex) => (
+              <div
+                key={fIndex}
+                className="bg-white bg-opacity-10 p-6 rounded-lg"
+              >
+                {/* <h3 className="text-2xl font-semibold mb-4">{feature.head}</h3> */}
+                <input
+                  className="text-2xl font-semibold mb-4 bg-transparent"
+                  placeholder="head"
+                  onChange={(e) =>
+                    dispatch(
+                      handleFeatureHead({
+                        value: e.target.value,
+                        index: fIndex,
+                      })
+                    )
+                  }
+                />
+                <textarea
+                  className="text-2xl font-semibold mb-4 bg-transparent min-h-20 "
+                  placeholder="body"
+                  onChange={(e) =>
+                    dispatch(
+                      handleFeatureBody({
+                        value: e.target.value,
+                        index: fIndex,
+                      })
+                    )
+                  }
+                ></textarea>
               </div>
             ))}
-            <div className="bg-white bg-opacity-10 p-6 rounded-lg">
+            <div
+              className="bg-white bg-opacity-10 p-6 rounded-lg"
+              onClick={() => dispatch(handleFeatures({ head: "", body: "" }))}
+            >
               <h3 className="text-2xl font-semibold mb-4">Add Feature Btn</h3>
               <p className="mb-4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="50px"
+                  height="50px"
+                  viewBox="0 0 24 24"
+                  className="stroke-zinc-400 fill-none group-hover:fill-zinc-800 group-active:stroke-zinc-200 group-active:fill-zinc-600 group-active:duration-0 duration-300"
+                >
+                  <path
+                    d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
+                    strokeWidth={1.5}
+                  />
+                  <path d="M8 12H16" strokeWidth={1.5} />
+                  <path d="M12 16V8" strokeWidth={1.5} />
+                </svg>
               </p>
             </div>
           </div>
@@ -247,4 +295,3 @@ const Editor = () => {
 };
 
 export default Editor;
- 

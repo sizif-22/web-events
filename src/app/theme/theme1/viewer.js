@@ -19,11 +19,11 @@ import EventCountdown from "@/app/components/countDown";
 gsap.registerPlugin(ScrollTrigger);
 
 const Viewer = ({ data, eventId }) => {
-  const [primaryColor , setPrimaryColor] = useState("#1162fb")
-  const [secondaryColor , setSecondaryColor] = useState( "#000000");
-  const [textColor , setTextColor] = useState("#ffffff");
-  const [text2Color , setText2Color] = useState("#ffffff")
-  
+  const [primaryColor, setPrimaryColor] = useState("#1162fb");
+  const [secondaryColor, setSecondaryColor] = useState("#000000");
+  const [textColor, setTextColor] = useState("#ffffff");
+  const [text2Color, setText2Color] = useState("#ffffff");
+
   const parallax1 = useRef();
   const parallax2 = useRef();
   const bgRef = useRef();
@@ -39,6 +39,7 @@ const Viewer = ({ data, eventId }) => {
     body1,
     logo,
     features,
+    featuresTitle,
     form,
   } = data;
 
@@ -63,7 +64,7 @@ const Viewer = ({ data, eventId }) => {
         },
       });
       tl.to(bgRef.current, { y: "+=600" }, 0);
-      tl2.to(descriptionRef.current, { opacity: 1 }, 0);
+      // tl2.to(descriptionRef.current, { opacity: 1 }, 0);
       tl2.to(descContainerRef.current, { margin: 0 }, 0);
     });
     return () => ctx.revert();
@@ -127,30 +128,19 @@ const Viewer = ({ data, eventId }) => {
           }}
         >
           <div className="container mx-auto px-4">
-            <h2 className="text-4xl font-bold mb-8">Featured Content</h2>
+            <h2 className="text-4xl font-bold mb-8">{featuresTitle}</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[1, 2, 3].map((item) => (
+              {features.map((feature, index) => (
                 <div
-                  key={item}
+                  key={index}
                   className="bg-white bg-opacity-10 p-6 rounded-lg"
                 >
                   <h3 className="text-2xl font-semibold mb-4">
-                    Feature {item}
+                    {feature.head}
                   </h3>
-                  <p className="mb-4">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua.
-                  </p>
+                  <p className="mb-4">{feature.body}</p>
                 </div>
               ))}
-              <div className="bg-white bg-opacity-10 p-6 rounded-lg">
-                <h3 className="text-2xl font-semibold mb-4">Add Feature Btn</h3>
-                <p className="mb-4">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </p>
-              </div>
             </div>
           </div>
         </div>
@@ -158,9 +148,7 @@ const Viewer = ({ data, eventId }) => {
       <div ref={parallax2}>
         <div
           ref={descriptionRef}
-          className={`min-h-screen flex justify-center flex-col items-center md:items-start gap-10 md:gap-0 md:grid grid-cols-2 justify-items-center ${
-            features.length > 0 && "opacity-0"
-          } p-8`}
+          className="min-h-screen flex justify-center flex-col items-center md:items-start gap-10 md:gap-0 md:grid grid-cols-2 justify-items-center p-8"
           style={{
             backgroundColor: secondaryColor,
             color: textColor,

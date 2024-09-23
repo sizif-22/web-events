@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const editorData = createSlice({
   name: "editorData",
   initialState: {
-    valid: false,
+    valid: true,
     showFormEditor: false,
     loading: false,
     allowTochangeRoute: false,
@@ -19,6 +19,5 @@ export const editorData = createSlice({
   },
 });
 
-export const { handleValid, handleShowFormEditor } =
-  editorData.actions;
+export const { handleValid, handleShowFormEditor } = editorData.actions;
 export default editorData.reducer;
