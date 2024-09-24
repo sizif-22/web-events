@@ -72,7 +72,7 @@ const SideBar = ({ theme }) => {
     }
 
     // try {
-      let logoUrl, image1Url, image2Url;
+      let logoUrl ="", image1Url="", image2Url="";
 
       if (logo) {
         logoUrl = await uploadEventImage({ dir: "EventImages", file: logo });
