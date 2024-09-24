@@ -15,9 +15,11 @@ const SideBar = ({ theme }) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [id, setId] = useState("");
-  const [logoUrl, setLogoUrl] = useState("");
-  const [image1Url, setImage1Url] = useState("");
-  const [image2Url, setImage2Url] = useState("");
+
+  const [logoUrl, setLogoUrl] = useState();
+  const [image1Url, setImage1Url] = useState();
+  const [image2Url, setImage2Url] = useState();
+
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [where, setWhere] = useState("");
@@ -42,6 +44,9 @@ const SideBar = ({ theme }) => {
     featuresTitle,
   } = useSelector((state) => state.editor);
   useEffect(() => {
+    console.log("img1 :", img1);
+  }, [img1]);
+  useEffect(() => {
     if (routeName == "") {
       console.log("l2", routeName);
       return;
@@ -59,44 +64,53 @@ const SideBar = ({ theme }) => {
   const handleEventCreation = async () => {
     dispatch(handleLoading(true));
     setError(false);
+
     if (!date || !time || !where) {
       setError(true);
+      dispatch(handleLoading(false));
       return;
     }
 
-    if (logo) {
-      const url = await uploadEventImage({ dir: "EventImages", file: logo });
-      setLogoUrl(url);
-    }
-    if (img1) {
-      const url = await uploadEventImage({ dir: "EventImages", file: img1 });
-      setImage1Url(url);
-    }
-    if (img2) {
-      const url = await uploadEventImage({ dir: "EventImages", file: img2 });
-      setImage2Url(url);
-    }
+    try {
+      let logoUrl, image1Url, image2Url;
 
-    const eventObject = {
-      title,
-      organizer: email,
-      organization,
-      head1,
-      body1,
-      logo: logoUrl,
-      img1: image1Url,
-      img2: image2Url,
-      features,
-      featuresTitle,
-      date,
-      time,
-      where,
-      form,
-      theme,
-    };
+      if (logo) {
+        logoUrl = await uploadEventImage({ dir: "EventImages", file: logo });
+      }
+      if (img1) {
+        image1Url = await uploadEventImage({ dir: "EventImages", file: img1 });
+      }
+      if (img2) {
+        image2Url = await uploadEventImage({ dir: "EventImages", file: img2 });
+      }
 
-    await addEvent(id, eventObject);
-    router.push("/account");
+      const eventObject = {
+        title,
+        organizer: email,
+        organization,
+        head1,
+        body1,
+        logo: logoUrl,
+        img1: image1Url,
+        img2: image2Url,
+        features,
+        featuresTitle,
+        date,
+        time,
+        where,
+        form,
+        theme,
+      };
+
+      console.log(eventObject);
+      await addEvent(id, eventObject);
+      router.push("/account");
+    } catch (error) {
+      console.error("Error creating event:", error);
+      setError(true);
+    } finally {
+      dispatch(handleLoading(false));
+    }
   };
   const handleRoute = async (e) => {
     const value = e.target.value;

@@ -23,12 +23,12 @@ const EventCard = ({ eventId }) => {
       onClick={handleClick}
     >
       <Image
-        src={event.image}
+        src={event.img1}
         alt={event.title}
         width={600}
         height={300}
         objectFit="cover"
-        className="rounded-lg"
+        className="rounded-lg object-cover"
       />
       <h3 className="text-xl font-semibold mt-4">{event.title}</h3>
       <p className="text-gray-500 mt-2">
