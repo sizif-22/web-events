@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-
 export const editorData = createSlice({
   name: "editorData",
   initialState: {
@@ -16,8 +15,12 @@ export const editorData = createSlice({
     handleShowFormEditor: (state, action) => {
       state.showFormEditor = action.payload;
     },
+    handleLoading: (state, action) => {
+      state.loading = action.payload;
+    },
   },
 });
 
-export const { handleValid, handleShowFormEditor } = editorData.actions;
+export const { handleValid, handleShowFormEditor, handleLoading } =
+  editorData.actions;
 export default editorData.reducer;

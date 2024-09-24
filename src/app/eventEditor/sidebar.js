@@ -6,7 +6,11 @@ import Alert from "../components/alert/alert";
 import { uploadEventImage } from "../firebase/firebase.storage";
 import { checkIfEventExist, addEvent } from "../firebase/firestore.events";
 import { handleDate, handleTime, handleWhere } from "@/lib/editor.data";
-import { handleValid, handleShowFormEditor } from "@/lib/editor.data.consts";
+import {
+  handleValid,
+  handleShowFormEditor,
+  handleLoading,
+} from "@/lib/editor.data.consts";
 const SideBar = ({ theme }) => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -53,6 +57,7 @@ const SideBar = ({ theme }) => {
     }
   }, [routeName]);
   const handleEventCreation = async () => {
+    dispatch(handleLoading(true));
     setError(false);
     if (!date || !time || !where) {
       setError(true);

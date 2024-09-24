@@ -15,7 +15,11 @@ export default function EventCreation() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const dispatch = useDispatch();
-
+  const load = useSelector((state) => state.editorConsts.loading);
+  useEffect(() => {
+    setLoading(load);
+  }, [load]);
+  
   const { isLoggedIn, isVerified } = useSelector(
     (state) => state.user.userState
   );
