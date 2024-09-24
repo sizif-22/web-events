@@ -158,7 +158,7 @@ const SideBar = ({ theme }) => {
           className="bg-slate-400 text-black p-2 rounded-md hover:opacity-80 transition-all absolute bottom-5 right-5"
           onClick={handleEventCreation}
         >
-          Save
+          Create
         </button>
       )}
     </div>
