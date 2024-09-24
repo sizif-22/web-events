@@ -108,8 +108,6 @@ const SideBar = ({ theme }) => {
     } catch (error) {
       console.error("Error creating event:", error);
       setError(true);
-    } finally {
-      dispatch(handleLoading(false));
     }
   };
   const handleRoute = async (e) => {
