@@ -6,7 +6,7 @@ import { addUser } from "../firebase/firebase.firestore";
 import "./signup.css";
 import { uploadProfileImg } from "../firebase/firebase.storage";
 import Loading from "../components/loading/loading";
-import Alert from "../components/file upload/alert";
+import Alert from "../components/alert/alert";
 
 export default function SignUp() {
   const router = useRouter();

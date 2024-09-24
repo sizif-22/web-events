@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import "./login.css";
 import { login, checkLoggedIn } from "../firebase/firebase.auth";
 import { useRouter } from "next/navigation";
-import Alert from "../components/file upload/alert";
+import Alert from "../components/alert/alert";
 
 export default function LogIN() {
   const router = useRouter();
