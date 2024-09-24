@@ -12,6 +12,8 @@ const SideBar = ({ theme }) => {
   const router = useRouter();
   const [id, setId] = useState("");
   const [logoUrl, setLogoUrl] = useState("");
+  const [image1Url, setImage1Url] = useState("");
+  const [image2Url, setImage2Url] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [where, setWhere] = useState("");
@@ -29,6 +31,8 @@ const SideBar = ({ theme }) => {
     head1,
     body1,
     logo,
+    img1,
+    img2,
     features,
     form,
     featuresTitle,
@@ -59,6 +63,14 @@ const SideBar = ({ theme }) => {
       const url = await uploadEventImage({ dir: "EventImages", file: logo });
       setLogoUrl(url);
     }
+    if (img1) {
+      const url = await uploadEventImage({ dir: "EventImages", file: img1 });
+      setImage1Url(url);
+    }
+    if (img2) {
+      const url = await uploadEventImage({ dir: "EventImages", file: img2 });
+      setImage2Url(url);
+    }
 
     const eventObject = {
       title,
@@ -67,6 +79,8 @@ const SideBar = ({ theme }) => {
       head1,
       body1,
       logo: logoUrl,
+      img1: image1Url,
+      img2: image2Url,
       features,
       featuresTitle,
       date,

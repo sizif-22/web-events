@@ -12,6 +12,9 @@ export const editorData = createSlice({
     logo: "",
     img1: "",
     img2: "",
+    logoUrl: "",
+    img1Url: "",
+    img2Url: "",
     features: [],
     featuresTitle: "Featured Content",
     form: [{ text: "Your Email ?", isOptional: false, options: [] }],
@@ -64,6 +67,15 @@ export const editorData = createSlice({
     handleFeaturesTitle: (state, action) => {
       state.featuresTitle = action.payload;
     },
+    handleImg1Url: (state, action) => {
+      state.img1Url = action.payload;
+    },
+    handleImg2Url: (state, action) => {
+      state.img2Url = action.payload;
+    },
+    handleLogoUrl: (state, action) => {
+      state.logoUrl = action.payload;
+    },
   },
 });
 
@@ -83,5 +95,8 @@ export const {
   handleFeatureHead,
   handleFeatureBody,
   handleFeaturesTitle,
+  handleImg1Url,
+  handleImg2Url,
+  handleLogoUrl,
 } = editorData.actions;
 export default editorData.reducer;

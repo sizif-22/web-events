@@ -1,8 +1,15 @@
 "use client";
 import React, { useRef, useState } from "react";
-import { handleLogo } from "@/lib/editor.data";
+import {
+  handleLogo,
+  handleImg1,
+  handleImg2,
+  handleImg1Url,
+  handleImg2Url,
+  handleLogoUrl,
+} from "@/lib/editor.data";
 import { useDispatch } from "react-redux";
-const Input = () => {
+const Input = ({ imgPos }) => {
   const dispatch = useDispatch();
   const fileInputRef = useRef(null);
   const [fileName, setFileName] = useState("");
@@ -14,7 +21,17 @@ const Input = () => {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      dispatch(handleLogo(file));
+      const url = URL.createObjectURL(file);
+      if (imgPos == "img1") {
+        dispatch(handleImg1(file));
+        dispatch(handleImg1Url(url));
+      } else if (imgPos == "img2") {
+        dispatch(handleImg2(file));
+        dispatch(handleImg2Url(url));
+      } else if (imgPos == "logo") {
+        dispatch(handleLogo(file));
+        dispatch(handleLogoUrl(url));
+      }
       setFileName(file.name);
     }
   };

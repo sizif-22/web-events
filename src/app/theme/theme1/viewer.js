@@ -1,7 +1,6 @@
 "use client";
 import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
-import cube from "./cube.jpg";
 import gsap from "gsap";
 import BTN from "@/app/components/viewerPage.btn";
 import { ScrollTrigger } from "gsap/all";
@@ -38,6 +37,8 @@ const Viewer = ({ data, eventId }) => {
     head1,
     body1,
     logo,
+    img1,
+    img2,
     features,
     featuresTitle,
     form,
@@ -64,7 +65,6 @@ const Viewer = ({ data, eventId }) => {
         },
       });
       tl.to(bgRef.current, { y: "+=600" }, 0);
-      // tl2.to(descriptionRef.current, { opacity: 1 }, 0);
       tl2.to(descContainerRef.current, { margin: 0 }, 0);
     });
     return () => ctx.revert();
@@ -73,14 +73,23 @@ const Viewer = ({ data, eventId }) => {
   return (
     <>
       <div className="min-h-screen relative" style={{ color: textColor }}>
-        <div className="absolute inset-0 -z-10">
-          <Image
-            ref={bgRef}
-            src={cube}
-            alt="cube"
-            className="w-full h-full object-cover"
-          />
-        </div>
+        <div
+          className="absolute inset-0 -z-10"
+          style={{ backgroundColor: secondaryColor }}
+        ></div>
+        {img1 && (
+          <div className="absolute inset-0 -z-10">
+            <Image
+              ref={bgRef}
+              width={1000}
+              height={1000}
+              src={img1}
+              alt="cube"
+              className="w-full h-full object-cover"
+            />
+          </div>
+        )}
+
         {/* container */}
         <div className="w-full min-h-screen relative">
           {/* Nav */}
@@ -92,8 +101,8 @@ const Viewer = ({ data, eventId }) => {
               <Image
                 src={logo}
                 alt=""
-                width={100}
-                height={100}
+                width={1000}
+                height={1000}
                 className="w-auto h-16 object-cover"
               />
             )}
@@ -155,7 +164,9 @@ const Viewer = ({ data, eventId }) => {
           }}
         >
           <Image
-            src={cube}
+            src={img2}
+            width={1000}
+            height={1000}
             alt="second photo"
             className="w-3/4 h-auto object-cover rounded-lg shadow-lg"
             style={{

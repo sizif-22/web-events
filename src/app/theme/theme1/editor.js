@@ -21,9 +21,12 @@ import {
   Linkedin,
 } from "lucide-react";
 import Input from "@/app/components/file upload/input";
+import Image from "next/image";
 const Editor = () => {
   const dispatch = useDispatch();
-  const { features } = useSelector((state) => state.editor);
+  const { features, img1Url, img2Url, logoUrl } = useSelector(
+    (state) => state.editor
+  );
   const primaryColor = "#1162fb";
   const secondaryColor = "#000000";
   const textColor = "#ffffff";
@@ -48,20 +51,47 @@ const Editor = () => {
   return (
     <>
       <div
-        className="min-h-screen relative"
-        style={{ color: textColor, backgroundColor: secondaryColor }}
+        className="min-h-screen relative bg-transparent"
+        style={{ color: textColor }}
       >
-        <div className="absolute inset-0 -z-10"></div>
+        <div
+          className="absolute w-full h-full"
+          style={{ backgroundColor: secondaryColor }}
+        ></div>
+        <div className="absolute inset-0">
+          {img1Url && (
+            <Image
+              src={img1Url}
+              alt=""
+              width={1000}
+              height={1000}
+              className="w-full h-full object-cover"
+            />
+          )}
+        </div>
+
         {/* container */}
         <div className="w-full min-h-screen relative">
+          <div className="absolute z-10 flex items-center justify-center right-16 top-16">
+            <Input imgPos={"img1"} />
+          </div>
           {/* Nav */}
           <nav
             className="h-20 top-0 left-0 w-full absolute flex items-center justify-between px-8"
             style={{ color: textColor }}
           >
             <div className="flex items-center gap-2">
+              {logoUrl && (
+                <Image
+                  src={logoUrl}
+                  alt=""
+                  width={1000}
+                  height={1000}
+                  className="w-auto h-16 object-cover"
+                />
+              )}
               <p>Add Your Logo :</p>
-              <Input />
+              <Input imgPos={"logo"} />
             </div>
           </nav>
           {/* body */}
@@ -101,7 +131,6 @@ const Editor = () => {
         }}
       >
         <div className="container mx-auto px-4">
-          {/* <h2 className="text-4xl font-bold mb-8">Featured Content</h2> */}
           <input
             className="text-4xl font-bold mb-8 bg-transparent"
             placeholder="Featured Content"
@@ -113,7 +142,6 @@ const Editor = () => {
                 key={fIndex}
                 className="bg-white bg-opacity-10 p-6 rounded-lg"
               >
-                {/* <h3 className="text-2xl font-semibold mb-4">{feature.head}</h3> */}
                 <input
                   className="text-2xl font-semibold mb-4 bg-transparent"
                   placeholder="head"
@@ -146,20 +174,7 @@ const Editor = () => {
             >
               <h3 className="text-2xl font-semibold mb-4">Add Feature Btn</h3>
               <p className="mb-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="50px"
-                  height="50px"
-                  viewBox="0 0 24 24"
-                  className="stroke-zinc-400 fill-none group-hover:fill-zinc-800 group-active:stroke-zinc-200 group-active:fill-zinc-600 group-active:duration-0 duration-300"
-                >
-                  <path
-                    d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
-                    strokeWidth={1.5}
-                  />
-                  <path d="M8 12H16" strokeWidth={1.5} />
-                  <path d="M12 16V8" strokeWidth={1.5} />
-                </svg>
+                <SvgBtn />
               </p>
             </div>
           </div>
@@ -173,9 +188,22 @@ const Editor = () => {
         }}
       >
         <div
-          className="w-3/4 h-auto object-cover rounded-lg shadow-lg"
+          className="w-3/4 h-auto object-cover rounded-lg shadow-lg relative"
           style={{ backgroundColor: primaryColor, height: "90%" }}
-        ></div>
+        >
+          <div className="absolute z-10 flex items-center justify-center w-full h-full">
+            <Input imgPos={"img2"} />
+          </div>
+          {img2Url && (
+            <Image
+              alt={""}
+              src={img2Url}
+              width={1000}
+              height={1000}
+              className=" object-cover w-full h-full rounded-lg"
+            />
+          )}
+        </div>
 
         <div className="flex w-full h-full justify-start md:justify-center p-5 md:p-0 flex-col gap-5">
           <input
@@ -291,6 +319,30 @@ const Editor = () => {
         </div>
       </footer>
     </>
+  );
+};
+
+const SvgBtn = () => {
+  return (
+    <button
+      title="Add New File"
+      className="group cursor-pointer outline-none hover:rotate-90 duration-300"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="50px"
+        height="50px"
+        viewBox="0 0 24 24"
+        className="stroke-zinc-400 fill-none group-hover:fill-zinc-800 group-active:stroke-zinc-200 group-active:fill-zinc-600 group-active:duration-0 duration-300"
+      >
+        <path
+          d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
+          strokeWidth={1.5}
+        />
+        <path d="M8 12H16" strokeWidth={1.5} />
+        <path d="M12 16V8" strokeWidth={1.5} />
+      </svg>
+    </button>
   );
 };
 

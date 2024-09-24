@@ -13,7 +13,6 @@ export default function Template() {
   const templates = [
     { title: "Theme1", imgSrc: "/images/theme1.png" },
     { title: "Theme2", imgSrc: "/images/theme2.png" },
-    // { title: "Theme 3", imgSrc: "/images/theme3.png" },
   ];
 
   if (isLoggedIn && isVerified) {
