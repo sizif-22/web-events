@@ -71,7 +71,7 @@ const SideBar = ({ theme }) => {
       return;
     }
 
-    try {
+    // try {
       let logoUrl, image1Url, image2Url;
 
       if (logo) {
@@ -105,10 +105,10 @@ const SideBar = ({ theme }) => {
       console.log(eventObject);
       await addEvent(id, eventObject);
       router.push("/account");
-    } catch (error) {
-      console.error("Error creating event:", error);
-      setError(true);
-    }
+   // } catch (error) {
+      //console.error("Error creating event:", error);
+      //setError(true);
+   // }
   };
   const handleRoute = async (e) => {
     const value = e.target.value;
