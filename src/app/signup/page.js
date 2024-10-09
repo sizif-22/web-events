@@ -190,6 +190,6 @@ export default function SignUp() {
       </div>
     );
   } else {
-    router.push("./");
+    router.push("/");
   }
 }
