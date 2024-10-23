@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const editorData = createSlice({
   name: "editorData",
   initialState: {
-    title: "the title",
+    title: "Title",
     organization: "",
     date: "",
     time: "",

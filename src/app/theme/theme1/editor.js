@@ -108,7 +108,7 @@ const Editor = () => {
               <input
                 type="text"
                 className="special-font w-full text-6xl md:text-6xl m-0 font-bold bg-transparent"
-                placeholder="The title"
+                placeholder="Title"
                 onChange={(e) => {
                   dispatch(handleTitle(e.target.value));
                 }}
