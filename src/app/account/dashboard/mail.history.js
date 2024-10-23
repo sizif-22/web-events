@@ -11,7 +11,7 @@ import {
 } from "firebase/firestore";
 
 function formatTimestamp({ seconds, nanoseconds }) {
-  const date = new Date(seconds * 1000); // Convert seconds to milliseconds
+  const date = new Date(seconds * 1000);
 
   const day = date.getDate().toString().padStart(2, "0");
   const month = (date.getMonth() + 1).toString().padStart(2, "0");
@@ -26,55 +26,50 @@ function formatTimestamp({ seconds, nanoseconds }) {
 
 export default function MailHistory({ eventId }) {
   const [messages, setMessages] = useState([]);
+  const [messageIds, setMessageIds] = useState([]);
 
   useEffect(() => {
     if (!eventId) return;
 
-    const fetchAndSetupListener = async () => {
-      // Get event document to access messages array
-      const eventRef = doc(db, "events", eventId);
-      const eventDoc = await getDoc(eventRef);
-
-      if (!eventDoc.exists() || !eventDoc.data().messages) {
-        return;
+    // Listen to changes in the event document
+    const eventRef = doc(db, "events", eventId);
+    const eventUnsubscribe = onSnapshot(eventRef, (eventSnapshot) => {
+      if (eventSnapshot.exists()) {
+        const newMessageIds = eventSnapshot.data().messages || [];
+        setMessageIds(newMessageIds);
       }
+    });
 
-      const messageIds = eventDoc.data().messages;
+    // Listen to changes in the messages collection
+    const messagesQuery = query(
+      collection(db, "messages"),
+      orderBy("date", "desc")
+    );
 
-      // Create a query for the messages collection
-      const messagesQuery = query(
-        collection(db, "messages"),
-        orderBy("date", "desc")
-      );
+    const messagesUnsubscribe = onSnapshot(
+      messagesQuery,
+      (snapshot) => {
+        const eventMessages = snapshot.docs
+          .filter((doc) => messageIds.includes(doc.id))
+          .map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
 
-      // Set up realtime listener
-      const unsubscribe = onSnapshot(
-        messagesQuery,
-        (snapshot) => {
-          const eventMessages = snapshot.docs
-            .filter((doc) => messageIds.includes(doc.id))
-            .map((doc) => ({
-              id: doc.id,
-              ...doc.data(),
-            }));
+        setMessages(eventMessages);
+      },
+      (error) => {
+        console.error("Error fetching messages: ", error);
+      }
+    );
 
-          setMessages(eventMessages);
-        },
-        (error) => {
-          console.error("Error fetching messages: ", error);
-        }
-      );
-
-      return unsubscribe;
-    };
-
-    const unsubscribe = fetchAndSetupListener();
+    // Cleanup both listeners
     return () => {
-      if (unsubscribe) {
-        unsubscribe.then((unsub) => unsub && unsub());
-      }
+      eventUnsubscribe();
+      messagesUnsubscribe();
     };
-  }, [eventId]);
+  }, [eventId, messageIds]); // Added messageIds as dependency
+
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <h2 className="text-xl font-semibold mb-4">Message History</h2>

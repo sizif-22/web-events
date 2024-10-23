@@ -1,7 +1,9 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function ScheduleEmail({ eventId }) {
+  const router = useRouter();
   const [emailContent, setEmailContent] = useState("");
   const [scheduledTime, setScheduledTime] = useState("");
 
@@ -29,6 +31,7 @@ export default function ScheduleEmail({ eventId }) {
 
       if (response.ok) {
         alert("Email scheduled successfully!");
+        // window.location.reload();
         setEmailContent("");
         setScheduledTime("");
       } else {
