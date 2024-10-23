@@ -10,16 +10,16 @@ const UsEr = () => {
 
   return (
     <div
-      className="flex items-center gap-1 space-x-2 cursor-pointer p-2 rounded-lg hover:bg-gray-200 transition-colors hover:text-black duration-300"
-      onClick={() => router.push("/account")} // Use router to navigate
+      className="inline-flex items-center justify-center gap-1 cursor-pointer p-2 rounded-lg hover:bg-gray-200 transition-colors hover:text-black duration-300"
+      onClick={() => router.push("/account")}
     >
       {firstName}
       {/* Fixed firstName */}
-      <div className="h-12 w-12 rounded-full overflow-hidden flex justify-center items-center bg-gray-300 max-w-16">
+      <div className="max-h-12 max-w-12 rounded-full overflow-hidden flex justify-center items-center ">
         <Image
           src={photoUrl} // Fixed photoUrl
-          width={100}
-          height={100}
+          width={200}
+          height={200}
           className="w-16 h-16 object-cover"
           alt="User Profile"
         />

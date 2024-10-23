@@ -70,10 +70,10 @@ const SideBar = ({ theme }) => {
       dispatch(handleLoading(false));
       return;
     }
-
-     try {
-      let logoUrl ="", image1Url="", image2Url="";
-
+    try {
+      let logoUrl = "",
+        image1Url = "",
+        image2Url = "";
       if (logo) {
         logoUrl = await uploadEventImage({ dir: "EventImages", file: logo });
       }
