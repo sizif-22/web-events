@@ -67,7 +67,7 @@ const fetchEvent = async (id) => {
 const addJoinedEvent = async (eventId, joinedData) => {
   try {
     const eventDocRef = firestore.doc(db, "events", eventId);
-    const joinedCollectionRef = firestore.collection(eventDocRef, "joined");
+    const joinedCollectionRef = firestore.collection(eventDocRef, "participants");
     const newJoinedDocRef = firestore.doc(joinedCollectionRef);
     const dataWithTimestamp = {
       ...joinedData,
