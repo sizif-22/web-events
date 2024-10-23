@@ -70,12 +70,10 @@ const SideBar = ({ theme }) => {
       dispatch(handleLoading(false));
       return;
     }
-
     try {
       let logoUrl = "",
         image1Url = "",
         image2Url = "";
-
       if (logo) {
         logoUrl = await uploadEventImage({ dir: "EventImages", file: logo });
       }
@@ -110,9 +108,7 @@ const SideBar = ({ theme }) => {
     } catch (error) {
       console.error("Error creating event:", error);
       setError(true);
-    } finally {
-      dispatch(handleLoading(false));
-    }
+   }
   };
   const handleRoute = async (e) => {
     const value = e.target.value;
