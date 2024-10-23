@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { checkLoggedIn, signup } from "../firebase/firebase.auth";
 import { useRouter } from "next/navigation";
-import { addUser } from "../firebase/firebase.firestore";
+import { addUser } from "../firebase/firebase.user";
 import "./signup.css";
 import { uploadProfileImg } from "../firebase/firebase.storage";
 import Loading from "../components/loading/loading";

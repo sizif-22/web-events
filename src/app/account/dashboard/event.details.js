@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { db } from "@/app/firebase/firebase.firestore";
+import { db } from "@/app/firebase/firebase.user";
 import { collection, doc, onSnapshot } from "firebase/firestore";
 import { exportToExcel } from "@/xlax/xlax";
 

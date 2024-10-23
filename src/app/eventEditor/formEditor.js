@@ -7,7 +7,7 @@ import { handleShowFormEditor } from "@/lib/editor.data.consts";
 const FormEditor = () => {
   const dispatch = useDispatch();
   const [questions, setQuestions] = useState([
-    { text: "Your Email ?", isOptional: false, options: [] },
+    { text: "Email ?", isOptional: false, options: [] },
   ]);
 
   const addQuestion = () => {

@@ -8,7 +8,7 @@ import WarningCard from "../components/warning";
 import { handleChangeRoute } from "@/lib/editor.data.consts";
 import { useEffect, useState } from "react";
 import Loading from "../components/loading/loading";
-import { getUser } from "../firebase/firebase.firestore";
+import { getUser } from "../firebase/firebase.user";
 const Account = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);

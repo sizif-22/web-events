@@ -89,6 +89,27 @@ const getUser = async () => {
     return null;
   }
 };
+const fetchAllUsers = async () => {
+  try {
+    const userCollectionRef = firestore.collection(db, "user");
+
+    const querySnapshot = await firestore.getDocs(userCollectionRef);
+    let userArray = [];
+    const usersObject = querySnapshot.docs.reduce((acc, doc) => {
+      acc[doc.id] = {
+        id: doc.id,
+        ...doc.data(),
+      };
+      userArray.push(acc[doc.id]);
+      return acc;
+    }, {});
+
+    return userArray;
+  } catch (error) {
+    console.error("Error fetching all events: ", error);
+    throw error;
+  }
+};
 
 const getEvents = async (userDoc) => {
   const user = userDoc.data();
@@ -103,4 +124,12 @@ const getEvents = async (userDoc) => {
   return eventsList;
 };
 
-export { db, addUser, updateUser, getUser, updateUserWithEmail, getEvents };
+export {
+  db,
+  addUser,
+  updateUser,
+  getUser,
+  updateUserWithEmail,
+  getEvents,
+  fetchAllUsers,
+};

@@ -108,7 +108,7 @@ const SideBar = ({ theme }) => {
     } catch (error) {
       console.error("Error creating event:", error);
       setError(true);
-   }
+    }
   };
   const handleRoute = async (e) => {
     const value = e.target.value;

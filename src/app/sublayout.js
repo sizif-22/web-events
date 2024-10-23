@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { useState, useEffect } from "react";
 import Loading from "./components/loading/loading";
 import { useDispatch, useSelector } from "react-redux";
-import { getUser } from "./firebase/firebase.firestore";
+import { getUser } from "./firebase/firebase.user";
 import { checkLoggedIn, checkVerified } from "./firebase/firebase.auth";
 import { handleUserState } from "@/lib/user.data";
 
@@ -50,12 +50,6 @@ const SubLayout2 = ({ child }) => {
   useEffect(() => {
     fetchUserData();
   }, []);
-  return loading ? (
-    <Loading />
-  ) : (
-    <>
-      {child}
-    </>
-  );
+  return loading ? <Loading /> : <>{child}</>;
 };
 export default SubLayout;

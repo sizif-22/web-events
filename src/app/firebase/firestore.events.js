@@ -1,6 +1,6 @@
 import * as firestore from "firebase/firestore";
 import { app } from "./firebase.config";
-import { getUser, updateUser } from "./firebase.firestore";
+import { getUser, updateUser } from "./firebase.user";
 
 const db = firestore.getFirestore(app);
 //fetch all events
@@ -67,7 +67,10 @@ const fetchEvent = async (id) => {
 const addJoinedEvent = async (eventId, joinedData) => {
   try {
     const eventDocRef = firestore.doc(db, "events", eventId);
-    const joinedCollectionRef = firestore.collection(eventDocRef, "participants");
+    const joinedCollectionRef = firestore.collection(
+      eventDocRef,
+      "participants"
+    );
     const newJoinedDocRef = firestore.doc(joinedCollectionRef);
     const dataWithTimestamp = {
       ...joinedData,
@@ -81,6 +84,27 @@ const addJoinedEvent = async (eventId, joinedData) => {
     throw error;
   }
 };
+const fetchAllEvents = async () => {
+  try {
+    const eventsCollectionRef = firestore.collection(db, "events");
+
+    const querySnapshot = await firestore.getDocs(eventsCollectionRef);
+    let eventsArray = [];
+    const eventsObject = querySnapshot.docs.reduce((acc, doc) => {
+      acc[doc.id] = {
+        id: doc.id,
+        ...doc.data(),
+      };
+      eventsArray.push(acc[doc.id]);
+      return acc;
+    }, {});
+
+    return eventsArray;
+  } catch (error) {
+    console.error("Error fetching all events: ", error);
+    throw error;
+  }
+};
 export {
   db,
   fetchData,
@@ -88,4 +112,5 @@ export {
   checkIfEventExist,
   fetchEvent,
   addJoinedEvent,
+  fetchAllEvents,
 };

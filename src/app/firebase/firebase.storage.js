@@ -1,7 +1,7 @@
 import { app } from "./firebase.config";
 import * as FireStorage from "firebase/storage";
 import * as randomString from "randomstring";
-import { updateUserWithEmail } from "./firebase.firestore";
+import { updateUserWithEmail } from "./firebase.user";
 // we need an updateProfileTmg function...
 
 const storage = FireStorage.getStorage(app);
