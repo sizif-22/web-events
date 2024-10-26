@@ -14,8 +14,10 @@ import {
 import { fetchAllEvents } from "../firebase/firestore.events";
 import { fetchAllUsers } from "../firebase/firebase.user";
 
-function formatTimestamp({ seconds, nanoseconds }) {
-  const date = new Date(seconds * 1000);
+const formatTimestamp = ({ seconds, nanoseconds }) => {
+//   console.log(obj);
+//   const seconds = obj;
+  const date = new Date(seconds * 1000); // Convert seconds to milliseconds
 
   const day = date.getDate().toString().padStart(2, "0");
   const month = (date.getMonth() + 1).toString().padStart(2, "0");
@@ -26,7 +28,7 @@ function formatTimestamp({ seconds, nanoseconds }) {
   const seconds_part = date.getSeconds().toString().padStart(2, "0");
 
   return `${day}/${month}/${year} ${hours}:${minutes}:${seconds_part}`;
-}
+};
 
 const OwnerDashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
