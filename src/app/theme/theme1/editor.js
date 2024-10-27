@@ -22,16 +22,23 @@ import {
 } from "lucide-react";
 import Input from "@/app/components/file upload/input";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 const Editor = () => {
   const dispatch = useDispatch();
-  const { features, img1Url, img2Url, logoUrl } = useSelector(
+  const { features, img1Url, img2Url, logoUrl, colors } = useSelector(
     (state) => state.editor
   );
-  const primaryColor = "#1162fb";
-  const secondaryColor = "#000000";
-  const textColor = "#ffffff";
-  const text2Color = "#ffffff";
+  const [primaryColor, setPrimaryColor] = useState(colors.primary);
+  const [secondaryColor, setSecondaryColor] = useState(colors.secondary);
+  const [textColor, setTextColor] = useState(colors.accent);
+  const [text2Color, setText2Color] = useState(colors.text);
 
+  useEffect(() => {
+    setPrimaryColor(colors.primary);
+    setSecondaryColor(colors.secondary);
+    setTextColor(colors.accent);
+    setText2Color(colors.text);
+  }, [colors]);
   const BTN = () => {
     return (
       <button

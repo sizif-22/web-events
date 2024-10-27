@@ -5,6 +5,9 @@ import { useRouter } from "next/navigation";
 import Alert from "../components/alert/alert";
 import { uploadEventImage } from "../firebase/firebase.storage";
 import { checkIfEventExist, addEvent } from "../firebase/firestore.events";
+import CollapsibleSection from "./collapsibleSection";
+import ColorPicker from "./colorPicker";
+import InputField from "./inputField";
 import {
   handleDate,
   handleTime,
@@ -20,146 +23,10 @@ import {
   handleLoading,
 } from "@/lib/editor.data.consts";
 
-const CollapsibleSection = ({ title, children }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <div className="border-t border-white/20 pt-4">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between text-white text-lg font-semibold pb-2 hover:text-white/80 transition-colors"
-      >
-        <span>{title}</span>
-        <span
-          className={`transform transition-transform duration-200 ${
-            isOpen ? "rotate-0" : "-rotate-90"
-          }`}
-        >
-          ▽
-        </span>
-      </button>
-      <div
-        className={`transition-all duration-200 overflow-hidden ${
-          isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
-        }`}
-      >
-        <div className="space-y-4 pt-4">{children}</div>
-      </div>
-    </div>
-  );
-};
-
-const ColorPicker = ({ label, color, onChange }) => {
-  const [showPicker, setShowPicker] = useState(false);
-  const [currentColor, setCurrentColor] = useState(color);
-
-  const handleColorChange = (newColor) => {
-    setCurrentColor(newColor);
-    onChange(newColor);
-  };
-
-  const handleClickOutside = (e) => {
-    if (!e.target.closest(".color-picker-container")) {
-      setShowPicker(false);
-    }
-  };
-
-  useEffect(() => {
-    if (showPicker) {
-      document.addEventListener("mousedown", handleClickOutside);
-      return () =>
-        document.removeEventListener("mousedown", handleClickOutside);
-    }
-  }, [showPicker]);
-
-  return (
-    <div className="relative color-picker-container">
-      <label className="text-white block mb-2">{label}</label>
-      <div className="flex items-center gap-2">
-        <div
-          className="w-10 h-10 rounded-md cursor-pointer border border-white shadow-sm hover:shadow-md transition-shadow"
-          style={{ backgroundColor: currentColor }}
-          onClick={() => setShowPicker(!showPicker)}
-        />
-        <input
-          type="text"
-          value={currentColor}
-          onChange={(e) => handleColorChange(e.target.value)}
-          className="w-28 p-1 rounded-md text-sm bg-white/10 text-white"
-        />
-      </div>
-
-      {showPicker && (
-        <div className="absolute left-0 mt-2 z-50">
-          <div className="bg-white p-4 rounded-lg shadow-xl border border-gray-200">
-            <div className="relative">
-              <div
-                className="w-48 h-48 rounded-lg cursor-pointer"
-                style={{
-                  background:
-                    "linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 1) 100%), linear-gradient(to right, rgba(128, 128, 128, 1) 0%, rgba(128, 128, 128, 0) 100%)",
-                }}
-                onClick={(e) => {
-                  const rect = e.target.getBoundingClientRect();
-                  const x = (e.clientX - rect.left) / rect.width;
-                  const y = (e.clientY - rect.top) / rect.height;
-                  const color = `rgb(${Math.round(255 * (1 - y))}, ${Math.round(
-                    255 * (1 - y)
-                  )}, ${Math.round(255 * (1 - y))})`;
-                  handleColorChange(color);
-                }}
-              >
-                <div
-                  className="absolute w-4 h-4 rounded-full border-2 border-white shadow-md transform -translate-x-1/2 -translate-y-1/2"
-                  style={{
-                    backgroundColor: currentColor,
-                    top: "50%",
-                    left: "50%",
-                  }}
-                />
-              </div>
-              <div className="mt-2">
-                <input
-                  type="range"
-                  min="0"
-                  max="360"
-                  className="w-full h-4 rounded-lg appearance-none bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-red-500"
-                  onChange={(e) => {
-                    const hue = e.target.value;
-                    handleColorChange(`hsl(${hue}, 100%, 50%)`);
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
-
-const InputField = ({ label, name, type = "text", onChange, required }) => (
-  <div className="mb-4">
-    <label htmlFor={name} className="text-white block mb-2">
-      {label} {required && <span className="text-red-500">*</span>}
-    </label>
-    <input
-      type={type}
-      name={name}
-      onChange={onChange}
-      className="w-full p-2 rounded-md bg-white/10 text-white placeholder-white/50 border border-white/20 focus:border-white/40 focus:outline-none transition-colors"
-      required={required}
-    />
-  </div>
-);
-
 const SideBar = ({ theme }) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [id, setId] = useState("");
-  const [logoUrl, setLogoUrl] = useState();
-  const [image1Url, setImage1Url] = useState();
-  const [image2Url, setImage2Url] = useState();
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [where, setWhere] = useState("");
