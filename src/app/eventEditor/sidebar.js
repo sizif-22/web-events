@@ -22,6 +22,7 @@ import {
   handleShowFormEditor,
   handleLoading,
 } from "@/lib/editor.data.consts";
+import FooterSettings from "./footerSettings";
 
 const SideBar = ({ theme }) => {
   const dispatch = useDispatch();
@@ -188,6 +189,7 @@ const SideBar = ({ theme }) => {
             onChange={(color) => dispatch(handleTextColor(color))}
           />
         </CollapsibleSection>
+        <FooterSettings />
 
         <button
           className="w-full bg-white/10 text-white p-3 rounded-md hover:bg-white/20 transition-colors"

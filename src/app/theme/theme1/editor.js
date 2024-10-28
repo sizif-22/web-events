@@ -234,7 +234,7 @@ const Editor = () => {
       {/* footer */}
       <footer
         className="py-16 z-30"
-        style={{ backgroundColor: primaryColor, color: textColor }}
+        style={{ backgroundColor: primaryColor, color: text2Color }}
       >
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">

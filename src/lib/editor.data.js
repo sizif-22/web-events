@@ -24,6 +24,34 @@ export const editorData = createSlice({
       accent: "#ffffff",
       text: "#ffffff",
     },
+    footer: {
+      companyInfo: {
+        name: "Company Name",
+        slogan: "Providing innovative solutions since 20XX",
+      },
+      socialLinks: {
+        facebook: "",
+        twitter: "",
+        instagram: "",
+        linkedin: "",
+      },
+      contactInfo: {
+        email: "contact@example.com",
+        phone: "+1 (123) 456-7890",
+      },
+      locations: [
+        { city: "New York", country: "NY" },
+        { city: "San Francisco", country: "CA" },
+        { city: "London", country: "UK" },
+      ],
+      quickLinks: [
+        { label: "Home", url: "#" },
+        { label: "About Us", url: "#" },
+        { label: "Services", url: "#" },
+        { label: "Blog", url: "#" },
+        { label: "Contact", url: "#" },
+      ],
+    },
   },
   reducers: {
     // ... existing reducers ...
@@ -83,8 +111,6 @@ export const editorData = createSlice({
     handleLogoUrl: (state, action) => {
       state.logoUrl = action.payload;
     },
-
-    // Add new color reducers
     handlePrimaryColor: (state, action) => {
       state.colors.primary = action.payload;
     },
@@ -97,11 +123,42 @@ export const editorData = createSlice({
     handleTextColor: (state, action) => {
       state.colors.text = action.payload;
     },
+    updateCompanyInfo: (state, action) => {
+      const { field, value } = action.payload;
+      state.footer.companyInfo[field] = value;
+    },
+    updateSocialLink: (state, action) => {
+      const { platform, url } = action.payload;
+      state.footer.socialLinks[platform] = url;
+    },
+    updateContactInfo: (state, action) => {
+      const { field, value } = action.payload;
+      state.footer.contactInfo[field] = value;
+    },
+    addLocation: (state, action) => {
+      state.footer.locations.push(action.payload);
+    },
+    updateLocation: (state, action) => {
+      const { index, field, value } = action.payload;
+      state.footer.locations[index][field] = value;
+    },
+    removeLocation: (state, action) => {
+      state.footer.locations.splice(action.payload, 1);
+    },
+    addQuickLink: (state, action) => {
+      state.footer.quickLinks.push(action.payload);
+    },
+    updateQuickLink: (state, action) => {
+      const { index, field, value } = action.payload;
+      state.footer.quickLinks[index][field] = value;
+    },
+    removeQuickLink: (state, action) => {
+      state.footer.quickLinks.splice(action.payload, 1);
+    },
   },
 });
 
 export const {
-  // ... existing exports ...
   handleBody1,
   handleHead1,
   handleImg1,
@@ -124,6 +181,15 @@ export const {
   handleSecondaryColor,
   handleAccentColor,
   handleTextColor,
+  updateCompanyInfo,
+  updateSocialLink,
+  updateContactInfo,
+  addLocation,
+  updateLocation,
+  removeLocation,
+  addQuickLink,
+  updateQuickLink,
+  removeQuickLink,
 } = editorData.actions;
 
 export default editorData.reducer;
