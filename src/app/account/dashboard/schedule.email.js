@@ -31,7 +31,6 @@ export default function ScheduleEmail({ eventId }) {
 
       if (response.ok) {
         alert("Email scheduled successfully!");
-        // window.location.reload();
         setEmailContent("");
         setScheduledTime("");
       } else {
