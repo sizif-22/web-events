@@ -18,16 +18,6 @@ import EventCountdown from "@/app/components/countDown";
 gsap.registerPlugin(ScrollTrigger);
 
 const Viewer = ({ data, eventId }) => {
-  const [primaryColor, setPrimaryColor] = useState("#1162fb");
-  const [secondaryColor, setSecondaryColor] = useState("#000000");
-  const [textColor, setTextColor] = useState("#ffffff");
-  const [text2Color, setText2Color] = useState("#ffffff");
-
-  const parallax1 = useRef();
-  const parallax2 = useRef();
-  const bgRef = useRef();
-  const descriptionRef = useRef();
-  const descContainerRef = useRef();
   const {
     title,
     organization,
@@ -42,8 +32,20 @@ const Viewer = ({ data, eventId }) => {
     features,
     featuresTitle,
     form,
+    colors,
+    footer,
   } = data;
+  console.log(colors);
+  const primaryColor = colors.primary;
+  const secondaryColor = colors.secondary;
+  const textColor = colors.accent;
+  const text2Color = colors.text;
 
+  const parallax1 = useRef();
+  const parallax2 = useRef();
+  const bgRef = useRef();
+  const descriptionRef = useRef();
+  const descContainerRef = useRef();
   useEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
@@ -69,6 +71,15 @@ const Viewer = ({ data, eventId }) => {
     });
     return () => ctx.revert();
   }, []);
+
+  const SocialIcon = ({ platform, Icon }) => {
+    const url = footer.socialLinks[platform.toLowerCase()];
+    return url ? (
+      <a href={url} target="_blank" rel="noopener noreferrer">
+        <Icon className="cursor-pointer hover:opacity-80" />
+      </a>
+    ) : null;
+  };
 
   return (
     <>
@@ -193,20 +204,22 @@ const Viewer = ({ data, eventId }) => {
       </div>
       {/* footer */}
       <footer
-        className="py-16 z-30"
+        className="py-10 z-30"
         style={{ backgroundColor: primaryColor, color: textColor }}
       >
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {/* Company Info */}
             <div>
-              <h3 className="text-2xl font-bold mb-4">Company Name</h3>
-              <p className="mb-4">Providing innovative solutions since 20XX</p>
+              <h3 className="text-2xl font-bold mb-4">
+                {footer.companyInfo.name}
+              </h3>
+              <p className="mb-4">{footer.companyInfo.slogan}</p>
               <div className="flex space-x-4">
-                <Facebook className="cursor-pointer" />
-                <Twitter className="cursor-pointer" />
-                <Instagram className="cursor-pointer" />
-                <Linkedin className="cursor-pointer" />
+                <SocialIcon platform="Facebook" Icon={Facebook} />
+                <SocialIcon platform="Twitter" Icon={Twitter} />
+                <SocialIcon platform="Instagram" Icon={Instagram} />
+                <SocialIcon platform="LinkedIn" Icon={Linkedin} />
               </div>
             </div>
 
@@ -214,69 +227,61 @@ const Viewer = ({ data, eventId }) => {
             <div>
               <h3 className="text-xl font-bold mb-4">Contact Us</h3>
               <div className="space-y-2">
-                <div className="flex items-center space-x-2">
-                  <Mail size={18} />
-                  <p>contact@example.com</p>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Phone size={18} />
-                  <p>+1 (123) 456-7890</p>
-                </div>
+                {footer.contactInfo.email != "" && (
+                  <div className="flex items-center space-x-2">
+                    <Mail size={18} />
+                    <p>{footer.contactInfo.email}</p>
+                  </div>
+                )}
+                {footer.contactInfo.phone != "" && (
+                  <div className="flex items-center space-x-2">
+                    <Phone size={18} />
+                    <p>{footer.contactInfo.phone}</p>
+                  </div>
+                )}
               </div>
             </div>
 
             {/* Locations */}
-            <div>
-              <h3 className="text-xl font-bold mb-4">Our Locations</h3>
-              <div className="space-y-2">
-                <div className="flex items-center space-x-2">
-                  <MapPin size={18} />
-                  <p>New York, NY</p>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <MapPin size={18} />
-                  <p>San Francisco, CA</p>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <MapPin size={18} />
-                  <p>London, UK</p>
+            {footer.locations.length > 0 && (
+              <div>
+                <h3 className="text-xl font-bold mb-4">Our Locations</h3>
+                <div className="space-y-2">
+                  {footer.locations.map((location, index) => (
+                    <div
+                      key={index}
+                      className="flex w-52 justify-between items-center"
+                    >
+                      <div className="inline-flex items-center space-x-2">
+                        <MapPin size={18} />
+                        <p>
+                          {location.city}, {location.country}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </div>
-
+            )}
             {/* Quick Links */}
-            <div>
-              <h3 className="text-xl font-bold mb-4">Quick Links</h3>
-              <ul className="space-y-2">
-                <li>
-                  <a href="#" className="hover:underline">
-                    Home
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:underline">
-                    About Us
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:underline">
-                    Services
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:underline">
-                    Blog
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:underline">
-                    Contact
-                  </a>
-                </li>
-              </ul>
-            </div>
+            {footer.quickLinks.length > 0 && (
+              <div>
+                <h3 className="text-xl font-bold mb-4">Quick Links</h3>
+                <ul className="space-y-2">
+                  {footer.quickLinks.map((link, index) => (
+                    <li
+                      key={index}
+                      className="flex justify-between items-center w-52"
+                    >
+                      <a href={link.url} className="hover:underline">
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
-
           <div className="mt-8 pt-8 border-t border-gray-700">
             <p className="text-center">
               &copy; {new Date().getFullYear()} Company Name. All rights

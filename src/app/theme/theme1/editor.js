@@ -10,19 +10,12 @@ import {
   handleFeaturesTitle,
 } from "@/lib/editor.data";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Mail,
-  Phone,
-  ArrowRight,
-  MapPin,
-  Facebook,
-  Twitter,
-  Instagram,
-  Linkedin,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Input from "@/app/components/file upload/input";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import Footer from "./components/footer";
+import SvgBtn from "./components/svgBtn";
 const Editor = () => {
   const dispatch = useDispatch();
   const { features, img1Url, img2Url, logoUrl, colors } = useSelector(
@@ -42,7 +35,6 @@ const Editor = () => {
   const BTN = () => {
     return (
       <button
-        onClick={() => console.log("the button is clicked")}
         className="font-bold py-3 px-6 rounded-full transition-all duration-300 flex items-center space-x-2 w-fit"
         style={{
           backgroundColor: primaryColor,
@@ -54,7 +46,6 @@ const Editor = () => {
       </button>
     );
   };
-
   return (
     <>
       <div
@@ -231,126 +222,8 @@ const Editor = () => {
           <BTN />
         </div>
       </div>
-      {/* footer */}
-      <footer
-        className="py-16 z-30"
-        style={{ backgroundColor: primaryColor, color: text2Color }}
-      >
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {/* Company Info */}
-            <div>
-              <h3 className="text-2xl font-bold mb-4">Company Name</h3>
-              <p className="mb-4">Providing innovative solutions since 20XX</p>
-              <div className="flex space-x-4">
-                <Facebook className="cursor-pointer" />
-                <Twitter className="cursor-pointer" />
-                <Instagram className="cursor-pointer" />
-                <Linkedin className="cursor-pointer" />
-              </div>
-            </div>
-
-            {/* Contact Info */}
-            <div>
-              <h3 className="text-xl font-bold mb-4">Contact Us</h3>
-              <div className="space-y-2">
-                <div className="flex items-center space-x-2">
-                  <Mail size={18} />
-                  <p>contact@example.com</p>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Phone size={18} />
-                  <p>+1 (123) 456-7890</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Locations */}
-            <div>
-              <h3 className="text-xl font-bold mb-4">Our Locations</h3>
-              <div className="space-y-2">
-                <div className="flex items-center space-x-2">
-                  <MapPin size={18} />
-                  <p>New York, NY</p>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <MapPin size={18} />
-                  <p>San Francisco, CA</p>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <MapPin size={18} />
-                  <p>London, UK</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Quick Links */}
-            <div>
-              <h3 className="text-xl font-bold mb-4">Quick Links</h3>
-              <ul className="space-y-2">
-                <li>
-                  <a href="#" className="hover:underline">
-                    Home
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:underline">
-                    About Us
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:underline">
-                    Services
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:underline">
-                    Blog
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:underline">
-                    Contact
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="mt-8 pt-8 border-t border-gray-700">
-            <p className="text-center">
-              &copy; {new Date().getFullYear()} Company Name. All rights
-              reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer primaryColor={primaryColor} text2Color={text2Color} />
     </>
   );
 };
-
-const SvgBtn = () => {
-  return (
-    <button
-      title="Add New File"
-      className="group cursor-pointer outline-none hover:rotate-90 duration-300"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="50px"
-        height="50px"
-        viewBox="0 0 24 24"
-        className="stroke-zinc-400 fill-none group-hover:fill-zinc-800 group-active:stroke-zinc-200 group-active:fill-zinc-600 group-active:duration-0 duration-300"
-      >
-        <path
-          d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
-          strokeWidth={1.5}
-        />
-        <path d="M8 12H16" strokeWidth={1.5} />
-        <path d="M12 16V8" strokeWidth={1.5} />
-      </svg>
-    </button>
-  );
-};
-
 export default Editor;

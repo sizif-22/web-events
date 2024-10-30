@@ -7,7 +7,7 @@ export const editorData = createSlice({
     date: "",
     time: "",
     where: "",
-    head1: "What is all about us?",
+    head1: "",
     body1: "",
     logo: "",
     img1: "",
@@ -27,7 +27,7 @@ export const editorData = createSlice({
     footer: {
       companyInfo: {
         name: "Company Name",
-        slogan: "Providing innovative solutions since 20XX",
+        slogan: "",
       },
       socialLinks: {
         facebook: "",
@@ -36,21 +36,11 @@ export const editorData = createSlice({
         linkedin: "",
       },
       contactInfo: {
-        email: "contact@example.com",
-        phone: "+1 (123) 456-7890",
+        email: "",
+        phone: "",
       },
-      locations: [
-        { city: "New York", country: "NY" },
-        { city: "San Francisco", country: "CA" },
-        { city: "London", country: "UK" },
-      ],
-      quickLinks: [
-        { label: "Home", url: "#" },
-        { label: "About Us", url: "#" },
-        { label: "Services", url: "#" },
-        { label: "Blog", url: "#" },
-        { label: "Contact", url: "#" },
-      ],
+      locations: [],
+      quickLinks: [],
     },
   },
   reducers: {
@@ -132,15 +122,11 @@ export const editorData = createSlice({
       state.footer.socialLinks[platform] = url;
     },
     updateContactInfo: (state, action) => {
-      const { field, value } = action.payload;
-      state.footer.contactInfo[field] = value;
+      state.footer.contactInfo.email = action.payload.email;
+      state.footer.contactInfo.phone = action.payload.phone;
     },
     addLocation: (state, action) => {
       state.footer.locations.push(action.payload);
-    },
-    updateLocation: (state, action) => {
-      const { index, field, value } = action.payload;
-      state.footer.locations[index][field] = value;
     },
     removeLocation: (state, action) => {
       state.footer.locations.splice(action.payload, 1);
@@ -150,7 +136,9 @@ export const editorData = createSlice({
     },
     updateQuickLink: (state, action) => {
       const { index, field, value } = action.payload;
-      state.footer.quickLinks[index][field] = value;
+      if (index >= 0 && index < state.footer.quickLinks.length) {
+        state.footer.quickLinks[index][field] = value;
+      }
     },
     removeQuickLink: (state, action) => {
       state.footer.quickLinks.splice(action.payload, 1);
