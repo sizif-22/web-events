@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { addJoinedEvent } from "../firebase/firestore.events";
 const BTN = ({ form, backgroundColor, color, eventId }) => {
   const [showForm, setShowForm] = useState(false);
-
+  console.log(eventId);
   const handleFormSubmit = async (answers) => {
     console.log("Form Answers:", answers);
     await addJoinedEvent(eventId, answers);
@@ -31,6 +31,7 @@ const BTN = ({ form, backgroundColor, color, eventId }) => {
           form={form}
           onSubmit={handleFormSubmit}
           onClose={() => setShowForm(false)}
+          eventId={eventId}
         />
       )}
     </div>

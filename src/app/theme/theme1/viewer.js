@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import BTN from "@/app/components/viewerPage.btn";

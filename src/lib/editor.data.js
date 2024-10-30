@@ -26,7 +26,7 @@ export const editorData = createSlice({
     },
     footer: {
       companyInfo: {
-        name: "Company Name",
+        name: "WebbingStone",
         slogan: "",
       },
       socialLinks: {
