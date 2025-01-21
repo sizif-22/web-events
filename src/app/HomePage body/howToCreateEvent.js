@@ -8,7 +8,7 @@ const HowToCreateEvent = () => {
         <div className="flex flex-col gap-2">
           <p className=" theRules">
             if you don&apos;t have an accout you can choose your plan form{" "}
-            <Link href={"/plan"} className="text-blue-800">
+            <Link href={"/signup"} className="text-blue-800">
               here
             </Link>{" "}
             and start creating your event/wibsite

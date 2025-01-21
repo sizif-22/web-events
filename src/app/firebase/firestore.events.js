@@ -76,7 +76,7 @@ const addJoinedEvent = async (eventId, joinedData) => {
       ...joinedData,
       joinedAt: firestore.serverTimestamp(),
     };
-    await firestore.setDoc(newJoinedDocRef, dataWithTimestamp);
+    // await firestore.setDoc(newJoinedDocRef, dataWithTimestamp);
     console.log("Joined event added successfully!");
     return newJoinedDocRef.id;
   } catch (error) {
