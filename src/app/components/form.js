@@ -16,6 +16,7 @@ import { db } from "../firebase/firestore.events"; // Make sure this path is cor
 const VerificationForm = ({ onSubmit, onClose }) => {
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
+  const [verifing, setVerifing] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -53,9 +54,14 @@ const VerificationForm = ({ onSubmit, onClose }) => {
           {error && <p className="text-red-500 text-sm">{error}</p>}
           <button
             type="submit"
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            onClick={(e) => setVerifing(true)}
+            className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
+              verifing
+                ? "bg-indigo-400 cursor-not-allowed"
+                : "bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            }`}
           >
-            Verify
+            {verifing ? "Verifing..." : "Verify"}
           </button>
         </form>
       </div>
@@ -201,7 +207,7 @@ const Form = ({ form, onSubmit, onClose, eventId }) => {
         throw new Error(data.error || "Verification failed");
       }
 
-      onSubmit(answers); 
+      onSubmit(answers);
     } catch (error) {
       setError(error.message || "Verification failed. Please try again.");
     } finally {
