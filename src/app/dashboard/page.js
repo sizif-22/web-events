@@ -10,13 +10,15 @@ import {
   Eye,
   Search,
   Download,
+  X,
 } from "lucide-react";
 import { fetchAllEvents } from "../firebase/firestore.events";
 import { fetchAllUsers } from "../firebase/firebase.user";
+import { doc } from "firebase/firestore";
 
 const formatTimestamp = ({ seconds, nanoseconds }) => {
-//   console.log(obj);
-//   const seconds = obj;
+  //   console.log(obj);
+  //   const seconds = obj;
   const date = new Date(seconds * 1000); // Convert seconds to milliseconds
 
   const day = date.getDate().toString().padStart(2, "0");
@@ -32,7 +34,7 @@ const formatTimestamp = ({ seconds, nanoseconds }) => {
 
 const OwnerDashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
-  const [searchTerm, setSearchTerm] = useState("");
+
   const [organizers, setOrganizers] = useState([]);
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -45,7 +47,7 @@ const OwnerDashboard = () => {
       setEvents(allEvents);
       setLoading(false);
       console.log(allEvents);
-      console.log(users);
+      // console.log(users);
     };
 
     fetchData();
@@ -60,20 +62,91 @@ const OwnerDashboard = () => {
   };
 
   // Search Component
-  const SearchBar = () => (
-    <div className="relative mb-6">
-      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-        <Search className="text-gray-400" size={20} />
+  const SearchBar = () => {
+    const [organizers, setOrganizers] = useState([]);
+    const [events, setEvents] = useState([]);
+    const [result, setResult] = useState({ orgs: [], events: [] });
+    const [searchTerm, setSearchTerm] = useState("");
+
+    useEffect(() => {
+      const fetchData = async () => {
+        const allEvents = await fetchAllEvents();
+        const users = await fetchAllUsers();
+        setOrganizers(users);
+        setEvents(allEvents);
+      };
+
+      fetchData();
+    }, []);
+    useEffect(() => {
+      let OrgsArr = [];
+      organizers.map(
+        (organizer) =>
+          String(organizer.firstName)
+            .toLocaleLowerCase()
+            .includes(searchTerm.toLowerCase()) &&
+          OrgsArr.push(organizer.firstName)
+      );
+      let EventsArr = [];
+      events.map(
+        (event) =>
+          String(event.id)
+            .toLocaleLowerCase()
+            .includes(searchTerm.toLowerCase()) && EventsArr.push(event.id)
+      );
+      setResult({ orgs: [...OrgsArr], events: [...EventsArr] });
+    }, [searchTerm, organizers, events]);
+
+    return (
+      <div className="relative mb-6">
+        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <Search className="text-gray-400" size={20} />
+        </div>
+        <input
+          type="text"
+          className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          placeholder="Search events, organizers..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <X
+          className={`text-gray-400 absolute top-0 translate-y-1/4  right-3 cursor-pointer hover:scale-110 transition-all ${
+            searchTerm == "" && "hidden"
+          }`}
+          onClick={(e) => setSearchTerm("")}
+        />
+        <div
+          className={`searchResult absolute bg-white p-5 top-12 z-20 py-2 left-0 pl-3 w-full border border-gray-300 rounded-md leading-5 ${
+            searchTerm == "" && "hidden"
+          }`}
+        >
+          {result.orgs.length != 0 && (
+            <h1 className="font-bold mb-2">Organizers</h1>
+          )}
+          {result.orgs.map((element, index) => {
+            return (
+              <div key={index} className="ml-4">
+                {element}
+              </div>
+            );
+          })}
+          {result.events.length != 0 && (
+            <h1 className="font-bold mb-2">Events</h1>
+          )}
+          {result.events.map((element, index) => {
+            return (
+              <div key={index} className="ml-4">
+                {element}
+              </div>
+            );
+          })}
+          {result.events.length == 0 && result.orgs.length == 0 && (
+            <h1 className="font-bold">No Result...</h1>
+          )}
+        </div>
       </div>
-      <input
-        type="text"
-        className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-        placeholder="Search events, organizers..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-    </div>
-  );
+    );
+  };
 
   // Analytics Overview Component
   const AnalyticsOverview = () => (
