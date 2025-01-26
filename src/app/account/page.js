@@ -9,6 +9,7 @@ import { handleChangeRoute } from "@/lib/editor.data.consts";
 import { useEffect, useState } from "react";
 import Loading from "../components/loading/loading";
 import { getUser } from "../firebase/firebase.user";
+import EventParticipants from "./eventParticipants";
 const Account = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -38,7 +39,7 @@ const Account = () => {
   }
   const { firstName, lastName, email, photoUrl, companyName, accountType } =
     userState;
-  console.log("url : ", photoUrl);
+  // console.log("url : ", photoUrl);
   const handleLogOut = () => {
     logout();
     router.push("/");
@@ -64,16 +65,29 @@ const Account = () => {
                   ✏️
                 </button>
               </div>
-              <h2 className="text-xl font-semibold mt-4">
+              <h2 className="text-xl font-semibold mt-6 md:hidden">
                 {firstName + " " + lastName}
               </h2>
               <p className="text-gray-500 mt-2">{accountType} Account</p>
             </div>
+
+            <div className="bg-white shadow-md mt-6 rounded-lg p-6 md:hidden">
+              <h3 className="text-2xl font-semibold mb-4">Account Details</h3>
+              <form className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="border p-2 rounded">{firstName}</div>
+                  <div className="border p-2 rounded">{lastName}</div>
+                </div>
+                <div className="border p-2 rounded w-full">{email}</div>
+                <div className="border p-2 rounded w-full">{companyName}</div>
+              </form>
+            </div>
+            <EventParticipants Events={events}/>
           </div>
 
           {/* Account Details Section */}
           <div className="w-full md:col-span-2">
-            <div className="bg-white shadow-md rounded-lg p-6">
+            <div className="bg-white shadow-md rounded-lg p-6 hidden md:block">
               <h3 className="text-2xl font-semibold mb-4">Account Details</h3>
               <form className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
@@ -90,8 +104,8 @@ const Account = () => {
               <h3 className="text-2xl font-semibold mb-4">Your Events</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {events.length > 0 ? (
-                  events.map((eventId) => (
-                    <EventCard key={eventId} eventId={eventId} />
+                  events.map((eventId , index) => (
+                    <EventCard key={index} eventId={eventId} />
                   ))
                 ) : (
                   <p className="text-gray-500">You have no events yet.</p>

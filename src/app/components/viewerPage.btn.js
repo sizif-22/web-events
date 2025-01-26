@@ -8,7 +8,7 @@ const BTN = ({ form, backgroundColor, color, eventId }) => {
   console.log(eventId);
   const handleFormSubmit = async (answers) => {
     console.log("Form Answers:", answers);
-    await addJoinedEvent(eventId, answers);
+    // await addJoinedEvent(eventId, answers); // dh zena
     setShowForm(false);
   };
 

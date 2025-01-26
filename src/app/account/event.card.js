@@ -16,7 +16,7 @@ const EventCard = ({ eventId }) => {
   const handleClick = () => {
     window.location.href = `/account/dashboard?id=${eventId}`;
   };
-  console.log(event.dateTime);
+  // console.log(event.dateTime);
   return (
     <div
       className="bg-white shadow-md rounded-lg p-4 transition transform hover:scale-105 hover:shadow-lg"

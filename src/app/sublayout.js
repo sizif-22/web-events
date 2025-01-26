@@ -45,7 +45,7 @@ const SubLayout2 = ({ child }) => {
       dispatch(handleUserState(userObject));
     }
     setLoading(false);
-    console.log(userState);
+    // console.log(userState);
   };
   useEffect(() => {
     fetchUserData();

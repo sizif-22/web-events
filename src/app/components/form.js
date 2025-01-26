@@ -201,7 +201,7 @@ const Form = ({ form, onSubmit, onClose, eventId }) => {
         throw new Error(data.error || "Verification failed");
       }
 
-      // onSubmit(answers); // dh zena
+      onSubmit(answers); 
     } catch (error) {
       setError(error.message || "Verification failed. Please try again.");
     } finally {

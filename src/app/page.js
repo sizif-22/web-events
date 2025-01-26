@@ -62,7 +62,7 @@ const Home = () => {
                 <Button
                   variant="outline"
                   onClick={() => {
-                    router.push("/plan");
+                    router.push("/signup");
                   }}
                 >
                   Sign Up

@@ -66,17 +66,20 @@ const fetchEvent = async (id) => {
 
 const addJoinedEvent = async (eventId, joinedData) => {
   try {
+    //first one
     const eventDocRef = firestore.doc(db, "events", eventId);
     const joinedCollectionRef = firestore.collection(
       eventDocRef,
       "participants"
     );
     const newJoinedDocRef = firestore.doc(joinedCollectionRef);
+    //second one
+    // const newJoinedDocRef2 = firestore.doc(db , "events" , eventId , "participants");
     const dataWithTimestamp = {
       ...joinedData,
       joinedAt: firestore.serverTimestamp(),
     };
-    // await firestore.setDoc(newJoinedDocRef, dataWithTimestamp);
+    await firestore.setDoc(newJoinedDocRef, dataWithTimestamp);
     console.log("Joined event added successfully!");
     return newJoinedDocRef.id;
   } catch (error) {
