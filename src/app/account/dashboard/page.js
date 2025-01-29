@@ -6,6 +6,8 @@ import EventDetails from "./event.details";
 import MailHistory from "./mail.history";
 import ScheduleEmail from "./schedule.email";
 import "./darshboard.css";
+import QRScanner from "./QRScanner";
+import LimitSection from "./limitSection";
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
@@ -40,11 +42,15 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <EventDetails event={event} eventLink={eventLink} id={id} />
-        <div className=" flex flex-col justify-between">
-          <MailHistory eventId={id} />
+        <div className=" flex flex-col gap-6">
+          <EventDetails event={event} eventLink={eventLink} id={id} />
+          <QRScanner eventId={id} />
         </div>
-        <div className=" flex flex-col justify-between">
+        <div className=" flex flex-col gap-6">
+          <MailHistory eventId={id} />
+          <LimitSection />
+        </div>
+        <div className=" flex flex-col gap-6">
           <ScheduleEmail eventId={id} />
         </div>
       </div>

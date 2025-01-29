@@ -3,22 +3,12 @@ import { useState, useEffect } from "react";
 import { db } from "@/app/firebase/firebase.user";
 import { collection, doc, onSnapshot } from "firebase/firestore";
 import { exportToExcel } from "@/xlax/xlax";
-import QRScanner from "./QRScanner";
+
 
 export default function EventDetails({ event, eventLink, id }) {
   const [copySuccess, setCopySuccess] = useState(false);
   const [joined, setJoined] = useState([]);
-  const [qrResult, setQrResult] = useState("");
 
-  const [qrscan, setQrscan] = useState("No result");
-  const handleScan = (data) => {
-    if (data) {
-      setQrscan(data);
-    }
-  };
-  const handleError = (err) => {
-    console.error(err);
-  };
 
   useEffect(() => {
     if (id) {
@@ -118,9 +108,6 @@ export default function EventDetails({ event, eventLink, id }) {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <QRScanner eventId={id} />
-      </div>
     </div>
   );
 }
