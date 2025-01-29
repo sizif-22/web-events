@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Html5Qrcode } from "html5-qrcode";
 import { Camera, StopCircle, X, CheckCircle } from "lucide-react";
 import { db } from "@/app/firebase/firebase.user";
-import { updateDoc, doc } from "firebase/firestore";
+import { updateDoc, doc, getDoc } from "firebase/firestore";
 
 const Toast = ({ message, type, onClose }) => (
   <div
@@ -35,14 +35,19 @@ const QRScanner = ({ eventId }) => {
     if (eventId === decodedText.substring(0, eventId.length)) {
       const userId = decodedText.substring(eventId.length + 2);
       const userDoc = doc(db, "events", eventId, "participants", userId);
-      try {
-        await updateDoc(userDoc, { attended: true });
-        setShowSuccess(true);
-        setTimeout(() => {
-          setShowSuccess(false);
-        }, 3000);
-      } catch (error) {
-        setError("Failed to update attendance status");
+      const { attended } = (await getDoc(userDoc)).data();
+      if (attended == false) {
+        try {
+          await updateDoc(userDoc, { attended: true });
+          setShowSuccess(true);
+          setTimeout(() => {
+            setShowSuccess(false);
+          }, 3000);
+        } catch (error) {
+          setError("Failed to update attendance status");
+        }
+      } else {
+        setError("User already attended");
       }
     } else {
       setError("Invalid QR code for this event");
