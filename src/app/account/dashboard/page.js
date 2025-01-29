@@ -41,8 +41,12 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <EventDetails event={event} eventLink={eventLink} id={id} />
-        <MailHistory eventId={id} />
-        <ScheduleEmail eventId={id} />
+        <div className=" flex flex-col justify-between">
+          <MailHistory eventId={id} />
+        </div>
+        <div className=" flex flex-col justify-between">
+          <ScheduleEmail eventId={id} />
+        </div>
       </div>
     </div>
   );

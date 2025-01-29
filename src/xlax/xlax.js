@@ -20,7 +20,7 @@ const exportToExcel = (form, data, fileName) => {
   const workbook = XLSX.utils.book_new();
 
   // Extract field names from the form array
-  const fields = [...form.map((field) => field.text), "joinedAt"];
+  const fields = [...form.map((field) => field.text), "joinedAt", "attended"];
 
   // Prepare the data for export
   const exportData = [fields]; // Add headers as the first row
@@ -29,6 +29,8 @@ const exportToExcel = (form, data, fileName) => {
     const row = fields.map((field, index) => {
       if (field == "joinedAt") {
         return formatTimestamp(item["joinedAt"]);
+      } else if (field == "attended") {
+        return item["attended"];
       } else {
         return item[index];
       }
