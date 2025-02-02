@@ -1,7 +1,7 @@
 import "./alert.css";
-const Alert = ({ description }) => {
+const Alert = ({ description ,className }) => {
   return (
-    <div className="error">
+    <div className={`error ${className}`}>
       <div className="error__icon">
         <svg
           fill="none"
