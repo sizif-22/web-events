@@ -12,6 +12,7 @@ import { addUser } from "../firebase/firebase.user";
 import { uploadProfileImg } from "../firebase/firebase.storage";
 import Loading from "../components/loading/loading";
 import Alert from "../components/alert/alert";
+import { fetchAllUsers } from "../firebase/firebase.user";
 
 const SignUp = () => {
   const router = useRouter();
@@ -21,6 +22,8 @@ const SignUp = () => {
   const [alert, setAlert] = useState(false);
   const [description, setDescription] = useState("");
   const [userId, setUserId] = useState(null);
+  const [usernames, setUsernames] = useState([]);
+  const [fileError, setFileError] = useState("");
   
   const [formData, setFormData] = useState({
     firstName: '',
@@ -39,6 +42,11 @@ const SignUp = () => {
     const checkAuth = async () => {
       const isLoggedIn = await checkLoggedIn();
       setLoggedIn(isLoggedIn);
+      
+      // Fetch all existing usernames
+      const users = await fetchAllUsers();
+      const existingUsernames = users.map(user => user.username);
+      setUsernames(existingUsernames);
     };
 
     checkAuth();
@@ -49,7 +57,14 @@ const SignUp = () => {
     
     if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
     if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
-    if (!formData.username.trim()) newErrors.username = 'Username is required';
+    
+    // Username validation
+    if (!formData.username.trim()) {
+      newErrors.username = 'Username is required';
+    } else if (usernames.includes(formData.username.trim())) {
+      newErrors.username = 'Username already exists';
+    }
+    
     if (!formData.email.trim()) newErrors.email = 'Email is required';
     else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Invalid email format';
     if (!formData.password) newErrors.password = 'Password is required';
@@ -58,6 +73,18 @@ const SignUp = () => {
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
+  };
+
+  const validateFileType = (file) => {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/tiff', 'image/heif', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+      return false;
+    }
+    // Check file size (4MB = 4 * 1024 * 1024 bytes)
+    if (file.size > 4 * 1024 * 1024) {
+      return false;
+    }
+    return true;
   };
 
   const handleChange = (e) => {
@@ -70,7 +97,15 @@ const SignUp = () => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
+    setFileError("");
+    
     if (file) {
+      if (!validateFileType(file)) {
+        setFileError("Your photos couldn't be uploaded. Photos should be less than 4 MB and saved as JPG, PNG, GIF, TIFF, HEIF or WebP files.");
+        e.target.value = ''; // Reset file input
+        return;
+      }
+      
       setFormData(prev => ({
         ...prev,
         profilePicture: file
@@ -104,6 +139,7 @@ const SignUp = () => {
         lastName: formData.lastName,
         companyName: formData.companyName,
         email: formData.email,
+        username: formData.username,
         photoUrl: formData.profilePicture
       });
 
@@ -297,6 +333,9 @@ const SignUp = () => {
                     onChange={handleFileChange}
                     className="hidden"
                   />
+                  {fileError && (
+                    <p className="text-red-500 text-sm text-center">{fileError}</p>
+                  )}
                 </div>
               </div>
             </CardContent>

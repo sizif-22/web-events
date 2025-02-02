@@ -13,7 +13,7 @@ const addUser = async ({
   companyName,
   email,
   photoUrl,
-  
+  username,
 }) => {
   try {
     await firestore.addDoc(users, {
@@ -23,7 +23,8 @@ const addUser = async ({
       events: [],
       email,
       photoUrl,
-      coins:2,
+      username,
+      coins: 2,
       accountType: "Organizer",
     });
     console.log("User added");
