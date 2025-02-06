@@ -138,7 +138,7 @@ const Login = () => {
             </Button>
             
             <div className="flex items-center justify-center space-x-1 text-sm">
-              <span className="text-gray-600">Don<>'</>t have an account?</span>
+              <span className="text-gray-600">Don<>&apos;</>t have an account?</span>
               <Link 
                 href="./signup" 
                 className="text-blue-600 hover:text-blue-800 font-medium"

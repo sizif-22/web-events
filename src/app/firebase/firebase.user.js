@@ -92,6 +92,7 @@ const getUser = async () => {
     return null;
   }
 };
+
 const fetchAllUsers = async () => {
   try {
     const userCollectionRef = firestore.collection(db, "user");

@@ -64,7 +64,7 @@ export default function NavBar() {
 
         {isLoggedIn && <UsEr />}
         {!isVerified && isLoggedIn && (
-          <span class="material-symbols-outlined hover:text-white text-red-400 transition-all error__icon">
+          <span className="material-symbols-outlined hover:text-white text-red-400 transition-all error__icon">
             <svg
               fill="none"
               height="24"

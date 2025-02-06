@@ -61,9 +61,9 @@ const Account = () => {
                   height={300}
                   className="rounded-full mx-auto w-40 h-40 object-cover"
                 />
-                <button className="absolute bottom-0 right-4 bg-blue-500 text-white rounded-full p-2 shadow-md">
+                {/* <button className="absolute bottom-0 right-4 bg-blue-500 text-white rounded-full p-2 shadow-md">
                   ✏️
-                </button>
+                </button> */}
               </div>
               <h2 className="text-xl font-semibold mt-6 md:hidden">
                 {firstName + " " + lastName}
