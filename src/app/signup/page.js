@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
-import { checkLoggedIn, signup } from "../firebase/firebase.auth";
+import { auth, checkLoggedIn, signup } from "../firebase/firebase.auth";
 import { uploadProfileImg } from "../firebase/firebase.storage";
 import Loading from "../components/loading/loading";
 import Alert from "../components/alert/alert";
@@ -30,7 +30,6 @@ const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(false);
   const [description, setDescription] = useState("");
-  const [userId, setUserId] = useState(null);
   const [usernames, setUsernames] = useState([]);
   const [fileError, setFileError] = useState("");
   const dispatch = useDispatch();
@@ -122,7 +121,7 @@ const SignUp = () => {
         setFileError(
           "Your photos couldn't be uploaded. Photos should be less than 4 MB and saved as JPG, PNG, GIF, TIFF, HEIF or WebP files."
         );
-        e.target.value = ""; 
+        e.target.value = "";
         return;
       }
 
@@ -152,7 +151,8 @@ const SignUp = () => {
         setAlert(true);
         return;
       }
-      await firestore.addDoc(firestore.collection(db , "user"), {
+      const  joinedAt = serverTimestamp();
+      await firestore.addDoc(firestore.collection(db, "user"), {
         firstName: formData.firstName,
         lastName: formData.lastName,
         companyName: formData.companyName,
@@ -160,6 +160,7 @@ const SignUp = () => {
         username: formData.username,
         photoUrl: formData.profilePicture,
         events: [],
+        joinedAt,
         accountType: "Organizer",
       });
       console.log("User added");
@@ -173,6 +174,7 @@ const SignUp = () => {
         username: formData.username,
         photoUrl: formData.profilePicture,
         events: [],
+        joinedAt,
         accountType: "Organizer",
       };
       dispatch(handleUserState(userObject));

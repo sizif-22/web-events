@@ -36,7 +36,9 @@ const SideBar = ({ theme }) => {
     "Route field can't be empty"
   );
 
-  const { email } = useSelector((state) => state.user.userState);
+  const { email, firstName, lastName } = useSelector(
+    (state) => state.user.userState
+  );
   const { valid, showFormEditor } = useSelector((state) => state.editorConsts);
   const {
     title,
@@ -94,7 +96,10 @@ const SideBar = ({ theme }) => {
 
       const eventObject = {
         title,
-        organizer: email,
+        organizer: {
+          name: `${firstName} ${lastName}`,
+          email,
+        },
         organization,
         head1,
         body1,
@@ -105,7 +110,7 @@ const SideBar = ({ theme }) => {
         featuresTitle,
         date,
         time,
-        where,
+        location:where,
         form,
         theme,
         colors,
