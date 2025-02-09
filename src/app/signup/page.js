@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Camera, Upload } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -14,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
-import { auth, checkLoggedIn, signup } from "../firebase/firebase.auth";
+import { checkLoggedIn, signup } from "../firebase/firebase.auth";
 import { uploadProfileImg } from "../firebase/firebase.storage";
 import Loading from "../components/loading/loading";
 import Alert from "../components/alert/alert";
@@ -22,6 +21,7 @@ import { db, fetchAllUsers } from "../firebase/firebase.user";
 import { useDispatch } from "react-redux";
 import { handleUserState } from "@/lib/user.data";
 import * as firestore from "firebase/firestore";
+import ImageCard from "./imgCard";
 
 const SignUp = () => {
   const router = useRouter();
@@ -151,7 +151,7 @@ const SignUp = () => {
         setAlert(true);
         return;
       }
-      const  joinedAt = serverTimestamp();
+      const joinedAt = firestore.serverTimestamp();
       await firestore.addDoc(firestore.collection(db, "user"), {
         firstName: formData.firstName,
         lastName: formData.lastName,
@@ -160,6 +160,12 @@ const SignUp = () => {
         username: formData.username,
         photoUrl: formData.profilePicture,
         events: [],
+        plan: {
+          startDate: joinedAt,
+          endDate: null,
+          credit: 2,
+          maxCapacity: 100,
+        },
         joinedAt,
         accountType: "Organizer",
       });
@@ -174,6 +180,12 @@ const SignUp = () => {
         username: formData.username,
         photoUrl: formData.profilePicture,
         events: [],
+        plan: {
+          startDate: joinedAt,
+          endDate: null,
+          credit: 2,
+          maxCapacity: 100,
+        },
         joinedAt,
         accountType: "Organizer",
       };
@@ -365,58 +377,14 @@ const SignUp = () => {
             </CardFooter>
           </form>
         ) : (
-          <div>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="flex flex-col items-center justify-center space-y-4">
-                  <div className="relative w-32 h-32 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
-                    {formData.profilePicture && isThereImg ? (
-                      <img
-                        src={URL.createObjectURL(formData.profilePicture)}
-                        alt="Profile preview"
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <Camera className="w-12 h-12 text-gray-400" />
-                    )}
-                  </div>
-                  <Label
-                    htmlFor="profilePicture"
-                    className="cursor-pointer inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
-                  >
-                    <Upload className="w-4 h-4 mr-2" />
-                    Upload Photo
-                  </Label>
-                  <Input
-                    id="profilePicture"
-                    name="profilePicture"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                    className="hidden"
-                  />
-                  {fileError && (
-                    <p className="text-red-500 text-sm text-center">
-                      {fileError}
-                    </p>
-                  )}
-                </div>
-              </div>
-            </CardContent>
-
-            <CardFooter className="flex justify-between">
-              <Button onClick={handleProfilePicture} className="flex-1 mr-2">
-                Complete
-              </Button>
-              <Button
-                variant="outline"
-                onClick={handleSkip}
-                className="flex-1 ml-2"
-              >
-                Skip
-              </Button>
-            </CardFooter>
-          </div>
+          <ImageCard
+            formData={formData}
+            handleProfilePicture={handleProfilePicture}
+            handleSkip={handleSkip}
+            handleFileChange={handleFileChange}
+            fileError={fileError}
+            isThereImg={isThereImg}
+          />
         )}
       </Card>
     </div>

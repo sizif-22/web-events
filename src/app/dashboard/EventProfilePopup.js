@@ -77,10 +77,10 @@ const EventProfilePopup = ({ event, isOpen, onClose, onEdit, onDelete }) => {
               <MapPin className="h-4 w-4" />
               {event.location || "Location TBD"}
             </div>
-            <div className="flex items-center gap-2 text-sm text-gray-600">
+            {/* <div className="flex items-center gap-2 text-sm text-gray-600">
               <DollarSign className="h-4 w-4" />
               {event.price ? `$${event.price}` : "Free"}
-            </div>
+            </div> */}
           </div>
 
           <div className="mb-6">
@@ -90,10 +90,10 @@ const EventProfilePopup = ({ event, isOpen, onClose, onEdit, onDelete }) => {
                 <span className="text-sm font-medium">Capacity</span>
               </div>
               <span className="text-sm text-gray-600">
-                {attendees}/{capacity} seats filled
+                {attendees}/{event.maxCapacity} seats filled
               </span>
             </div>
-            <Progress value={(attendees / capacity) * 100} />
+            <Progress value={(attendees / event.maxCapacity) * 100} />
           </div>
 
           <Tabs defaultValue="details" className="w-full">
@@ -106,8 +106,8 @@ const EventProfilePopup = ({ event, isOpen, onClose, onEdit, onDelete }) => {
             <TabsContent value="details" className="mt-4">
               <div className="space-y-4">
                 <div>
-                  <h3 className="font-medium mb-2">Description</h3>
-                  <p className="text-sm text-gray-600">{event.description}</p>
+                  {/* <h3 className="font-medium mb-2">Description</h3> */}
+                  {/* <p className="text-sm text-gray-600">{event.description}</p> */}
                 </div>
                 {event.categories?.length > 0 && (
                   <div>

@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Search, X, User, Calendar, ChevronRight } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import OrganizerProfilePopup from './OrganizerProfilePopup';
-import EventProfilePopup from './EventProfilePopup';
+import { useState, useEffect, useRef } from "react";
+import { Search, X, User, Calendar, ChevronRight } from "lucide-react";
+import OrganizerProfilePopup from "./OrganizerProfilePopup";
+import EventProfilePopup from "./EventProfilePopup";
 
 const SearchBar = ({ organizers, events, onEventEdit, onEventDelete }) => {
   const [result, setResult] = useState({ orgs: [], events: [] });
@@ -21,33 +20,35 @@ const SearchBar = ({ organizers, events, onEventEdit, onEventDelete }) => {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   useEffect(() => {
     const term = searchTerm.toLowerCase().trim();
-    
-    if (term === '') {
+
+    if (term === "") {
       setResult({ orgs: [], events: [] });
       return;
     }
 
-    const filteredOrgs = organizers.filter(organizer => 
-      organizer.firstName?.toLowerCase().includes(term) ||
-      organizer.lastName?.toLowerCase().includes(term) ||
-      organizer.email?.toLowerCase().includes(term)
+    const filteredOrgs = organizers.filter(
+      (organizer) =>
+        organizer.firstName?.toLowerCase().includes(term) ||
+        organizer.lastName?.toLowerCase().includes(term) ||
+        organizer.email?.toLowerCase().includes(term)
     );
 
-    const filteredEvents = events.filter(event =>
-      event.id?.toLowerCase().includes(term) ||
-      event.title?.toLowerCase().includes(term) ||
-      event.description?.toLowerCase().includes(term)
+    const filteredEvents = events.filter(
+      (event) =>
+        event.id?.toLowerCase().includes(term) ||
+        event.title?.toLowerCase().includes(term) ||
+        event.description?.toLowerCase().includes(term)
     );
 
     setResult({
       orgs: filteredOrgs.slice(0, 5),
-      events: filteredEvents.slice(0, 5)
+      events: filteredEvents.slice(0, 5),
     });
   }, [searchTerm, organizers, events]);
 
@@ -117,74 +118,88 @@ const SearchBar = ({ organizers, events, onEventEdit, onEventDelete }) => {
               onClick={handleClear}
               className="absolute inset-y-0 right-0 pr-3 flex items-center"
             >
-              <X className="text-gray-400 hover:text-gray-600 transition-colors" size={20} />
+              <X
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+                size={20}
+              />
             </button>
           )}
         </div>
 
-        {isActive && (searchTerm || result.orgs.length > 0 || result.events.length > 0) && (
-          <div className="absolute w-full mt-2 bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden z-50 max-h-[70vh] overflow-y-auto">
-            {(result.orgs.length === 0 && result.events.length === 0) ? (
-              <div className="p-4 text-gray-500 text-center">
-                No results found for &#34;{searchTerm}&#34;
-              </div>
-            ) : (
-              <>
-                {result.orgs.length > 0 && (
-                  <div className="border-b border-gray-100 last:border-0">
-                    <div className="px-4 py-2 bg-gray-50 text-sm font-semibold text-gray-700">
-                      Organizers
-                    </div>
-                    {result.orgs.map((organizer) => (
-                      <div
-                        key={organizer.id}
-                        onClick={() => handleOrganizerClick(organizer)}
-                        className="flex items-center px-4 py-3 hover:bg-gray-50 cursor-pointer group transition-colors"
-                      >
-                        <User className="text-gray-400 mr-3" size={20} />
-                        <div className="flex-1">
-                          <div className="font-medium text-gray-900">
-                            {organizer.firstName} {organizer.lastName}
-                          </div>
-                          <div className="text-sm text-gray-500">{organizer.email}</div>
-                        </div>
-                        <ChevronRight className="text-gray-400 group-hover:text-gray-600" size={16} />
+        {isActive &&
+          (searchTerm ||
+            result.orgs.length > 0 ||
+            result.events.length > 0) && (
+            <div className="absolute w-full mt-2 bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden z-50 max-h-[70vh] overflow-y-auto">
+              {result.orgs.length === 0 && result.events.length === 0 ? (
+                <div className="p-4 text-gray-500 text-center">
+                  No results found for &#34;{searchTerm}&#34;
+                </div>
+              ) : (
+                <>
+                  {result.orgs.length > 0 && (
+                    <div className="border-b border-gray-100 last:border-0">
+                      <div className="px-4 py-2 bg-gray-50 text-sm font-semibold text-gray-700">
+                        Organizers
                       </div>
-                    ))}
-                  </div>
-                )}
-
-                {result.events.length > 0 && (
-                  <div className="border-b border-gray-100 last:border-0">
-                    <div className="px-4 py-2 bg-gray-50 text-sm font-semibold text-gray-700">
-                      Events
-                    </div>
-                    {result.events.map((event) => (
-                      <div
-                        key={event.id}
-                        onClick={() => handleEventClick(event)}
-                        className="flex items-center px-4 py-3 hover:bg-gray-50 cursor-pointer group transition-colors"
-                      >
-                        <Calendar className="text-gray-400 mr-3" size={20} />
-                        <div className="flex-1">
-                          <div className="font-medium text-gray-900">
-                            {event.title || event.id}
-                          </div>
-                          {event.description && (
-                            <div className="text-sm text-gray-500 truncate">
-                              {event.description}
+                      {result.orgs.map((organizer) => (
+                        <div
+                          key={organizer.id}
+                          onClick={() => handleOrganizerClick(organizer)}
+                          className="flex items-center px-4 py-3 hover:bg-gray-50 cursor-pointer group transition-colors"
+                        >
+                          <User className="text-gray-400 mr-3" size={20} />
+                          <div className="flex-1">
+                            <div className="font-medium text-gray-900">
+                              {organizer.firstName} {organizer.lastName}
                             </div>
-                          )}
+                            <div className="text-sm text-gray-500">
+                              {organizer.email}
+                            </div>
+                          </div>
+                          <ChevronRight
+                            className="text-gray-400 group-hover:text-gray-600"
+                            size={16}
+                          />
                         </div>
-                        <ChevronRight className="text-gray-400 group-hover:text-gray-600" size={16} />
+                      ))}
+                    </div>
+                  )}
+
+                  {result.events.length > 0 && (
+                    <div className="border-b border-gray-100 last:border-0">
+                      <div className="px-4 py-2 bg-gray-50 text-sm font-semibold text-gray-700">
+                        Events
                       </div>
-                    ))}
-                  </div>
-                )}
-              </>
-            )}
-          </div>
-        )}
+                      {result.events.map((event) => (
+                        <div
+                          key={event.id}
+                          onClick={() => handleEventClick(event)}
+                          className="flex items-center px-4 py-3 hover:bg-gray-50 cursor-pointer group transition-colors"
+                        >
+                          <Calendar className="text-gray-400 mr-3" size={20} />
+                          <div className="flex-1">
+                            <div className="font-medium text-gray-900">
+                              {event.title || event.id}
+                            </div>
+                            {event.description && (
+                              <div className="text-sm text-gray-500 truncate">
+                                {event.description}
+                              </div>
+                            )}
+                          </div>
+                          <ChevronRight
+                            className="text-gray-400 group-hover:text-gray-600"
+                            size={16}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          )}
       </div>
 
       <OrganizerProfilePopup

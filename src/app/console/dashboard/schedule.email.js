@@ -54,8 +54,9 @@ export default function ScheduleEmail({ eventId }) {
             placeholder="Enter email content..."
             value={emailContent}
             onChange={(e) => setEmailContent(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full h-[300px] p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             rows={10}
+            cols={20}
           />
         </div>
         <div>

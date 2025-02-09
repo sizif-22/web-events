@@ -1,12 +1,10 @@
 "use client";
-import { useRouter } from "next/navigation";
 import TemplateCard from "./template.card";
 import "./theme.card.css";
 import { useSelector } from "react-redux";
 import WarningCard from "../components/warning";
 
 export default function Template() {
-  const router = useRouter();
   const userState = useSelector((state) => state.user.userState);
   const { isLoggedIn, isVerified } = userState;
 

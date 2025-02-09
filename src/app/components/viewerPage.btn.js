@@ -2,13 +2,10 @@
 import { useState } from "react";
 import Form from "@/app/components/form";
 import { ArrowRight } from "lucide-react";
-import { addJoinedEvent } from "../firebase/firestore.events";
 const BTN = ({ form, backgroundColor, color, eventId }) => {
   const [showForm, setShowForm] = useState(false);
   console.log(eventId);
   const handleFormSubmit = async (answers) => {
-    console.log("Form Answers:", answers);
-    // await addJoinedEvent(eventId, answers); // dh zena
     setShowForm(false);
   };
 

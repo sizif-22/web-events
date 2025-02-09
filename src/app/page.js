@@ -31,7 +31,7 @@ const Home = () => {
   const router = useRouter();
 
   const handleThemeSelection = () => {
-    router.push("/theme");
+    router.push("/console");
   };
 
   return (

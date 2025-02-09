@@ -73,7 +73,7 @@ export default function MailHistory({ eventId }) {
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <h2 className="text-xl font-semibold mb-4">Message History</h2>
-      <div className="overflow-y-auto max-h-[600px] space-y-4">
+      <div className="overflow-y-auto h-[400px] space-y-4">
         {messages.map((message) => (
           <div
             key={message.id}

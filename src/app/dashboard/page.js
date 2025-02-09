@@ -57,7 +57,7 @@ const OwnerDashboard = () => {
               { id: "overview", icon: BarChart3, label: "Overview" },
               { id: "organizers", icon: Users, label: "Organizers" },
               { id: "events", icon: Calendar, label: "Events" },
-              { id: "settings", icon: Settings, label: "Settings" },
+              // { id: "settings", icon: Settings, label: "Settings" },
             ].map(({ id, icon: Icon, label }) => (
               <button
                 key={id}
@@ -91,12 +91,12 @@ const OwnerDashboard = () => {
           {activeTab === "events" && (
             <EventsTable events={events} onClick={fetchEventsData} />
           )}
-          {activeTab === "settings" && (
+          {/* {activeTab === "settings" && (
             <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
               <h2 className="text-xl font-semibold mb-4">Platform Settings</h2>
               <p>Settings content coming soon...</p>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     );

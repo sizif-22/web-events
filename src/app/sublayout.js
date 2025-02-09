@@ -10,7 +10,6 @@ import { handleUserState } from "@/lib/user.data";
 import * as firestore from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 const SubLayout = ({ child }) => {
-
   return (
     <Provider store={store}>
       <SubLayout2 child={child} />
@@ -31,21 +30,29 @@ const SubLayout2 = ({ child }) => {
           firestore.where("email", "==", auth.currentUser.email)
         );
 
-        // Firestore listener for user data updates
         const unsubscribeFirestore = firestore.onSnapshot(
           userRef,
           async (querySnapshot) => {
             if (!querySnapshot.empty) {
               const user = querySnapshot.docs[0].data();
+              const plan = {
+                ...user.plan,
+                startDate: user.plan?.startDate.toDate().toISOString(),
+                endDate: user.plan?.endDate
+                  ? user.plan.endDate.toDate().toISOString()
+                  : null,
+              };
+              console.log(user)
               const userObject = {
                 isLoggedIn,
-                isVerified: auth.currentUser.emailVerified, // Directly check auth state
+                isVerified: auth.currentUser.emailVerified,
                 email: user.email,
                 username: user.username,
                 events: user.events,
                 firstName: user.firstName,
                 lastName: user.lastName,
                 photoUrl: user.photoUrl,
+                plan,
                 companyName: user.companyName,
                 accountType: user.accountType,
               };
@@ -63,7 +70,7 @@ const SubLayout2 = ({ child }) => {
             dispatch(
               handleUserState({
                 isLoggedIn: true,
-                isVerified: user.emailVerified, // Store only serializable data
+                isVerified: user.emailVerified,
               })
             );
           }

@@ -1,4 +1,4 @@
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { db } from "../firebase/firebase.user";
@@ -13,9 +13,13 @@ const EventParticipants = ({ Events }) => {
           const { docs } = await getDocs(
             collection(db, "events", eventId, "participants")
           );
+          const { maxCapacity } = (
+            await getDoc(doc(db, "events", eventId))
+          ).data();
           return {
             eventId,
             count: docs.length,
+            maxCapacity,
           };
         })
       );
@@ -27,7 +31,7 @@ const EventParticipants = ({ Events }) => {
 
   return (
     <div className="bg-white shadow-md rounded-lg text-center mt-6 p-6">
-      {participantsData.map(({ eventId, count }) => (
+      {participantsData.map(({ eventId, count, maxCapacity }) => (
         <div className="flex items-center gap-2 p-2" key={eventId}>
           <div className="grid grid-cols-5 gap-2">
             <p className="col-span-2 text-left">{eventId}:</p>
@@ -37,11 +41,11 @@ const EventParticipants = ({ Events }) => {
                 <div
                   className="loader block w-[130px] h-1 rounded-[30px] bg-[rgba(0,0,0,0.2)] relative before:content-[''] before:absolute before:bg-[#0071e2] before:top-0 before:left-0 before:h-full before:rounded-[30px]"
                   style={{
-                    "--tw-loader-width": `${(count * 100) / 100}%`,
+                    "--tw-loader-width": `${(count * 100) / maxCapacity}%`,
                   }}
                 />
               </StyledWrapper>
-              <p>100</p>
+              <p>{maxCapacity}</p>
             </div>
           </div>
         </div>

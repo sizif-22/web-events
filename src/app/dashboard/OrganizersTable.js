@@ -1,4 +1,4 @@
-import { Ban, Edit, Eye, Download, RefreshCcw } from "lucide-react";
+import { Ban, Eye, Download, RefreshCcw } from "lucide-react";
 import { useState } from "react";
 import OrganizerProfilePopup from "./OrganizerProfilePopup";
 
@@ -28,9 +28,9 @@ const OrganizersTable = ({ organizers, onClick }) => {
         <div className="p-6 flex justify-between items-center border-b border-gray-200">
           <h2 className="text-xl font-semibold">Organizers</h2>
           <div className="flex gap-3 items-center">
-            <RefreshCcw 
-              onClick={() => onClick()} 
-              className="active:-rotate-90 delay-75 duration-150 cursor-pointer hover:text-blue-600"
+            <RefreshCcw
+              onClick={() => onClick()}
+              className="active:-rotate-90 delay-75 duration-150 cursor-pointer "
             />
             <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
               <Download size={16} />
@@ -51,18 +51,22 @@ const OrganizersTable = ({ organizers, onClick }) => {
               </thead>
               <tbody>
                 {organizers.map((organizer) => (
-                  <tr 
-                    key={organizer.id} 
+                  <tr
+                    key={organizer.id}
                     className="border-b hover:bg-gray-50"
-                    // onClick={() => handleViewOrganizer(organizer)}
                   >
                     <td className="p-4 cursor-pointer">
                       {organizer.firstName + " " + organizer.lastName}
                     </td>
                     <td className="p-4 cursor-pointer">{organizer.email}</td>
-                    <td className="p-4 cursor-pointer">{organizer.companyName || "-"}</td>
+                    <td className="p-4 cursor-pointer">
+                      {organizer.companyName || "-"}
+                    </td>
                     <td className="p-4">
-                      <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
+                      <div
+                        className="flex gap-2"
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         <button
                           className="p-2 text-blue-600 hover:bg-blue-50 rounded"
                           title="View Details"
@@ -70,20 +74,21 @@ const OrganizersTable = ({ organizers, onClick }) => {
                         >
                           <Eye size={16} />
                         </button>
-                        {/* <button
-                          className="p-2 text-yellow-600 hover:bg-yellow-50 rounded"
-                          title="Edit"
-                          onClick={() => handleEditOrganizer(organizer)}
-                        >
-                          <Edit size={16} />
-                        </button> */}
-                        <button
-                          className="p-2 text-red-600 hover:bg-red-50 rounded"
-                          title="Ban"
-                        >
-                          
-                          <Ban size={16}/>
-                        </button>
+                        {organizer.accountType != "owner" ? (
+                          <button
+                            className="p-2 text-red-600  hover:bg-red-50 rounded"
+                            title="Ban"
+                          >
+                            <Ban size={16} />
+                          </button>
+                        ) : (
+                          <div
+                            className="p-2 hover:bg-yellow-100 rounded cursor-default"
+                            title="owner"
+                          >
+                            👑
+                          </div>
+                        )}
                       </div>
                     </td>
                   </tr>

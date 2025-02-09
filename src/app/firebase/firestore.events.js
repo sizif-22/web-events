@@ -3,7 +3,6 @@ import { app } from "./firebase.config";
 import { getUser, updateUser } from "./firebase.user";
 
 const db = firestore.getFirestore(app);
-//fetch all events
 async function fetchData() {
   try {
     const todocsCol = firestore.collection(db, "events");
@@ -26,12 +25,23 @@ const addEvent = async (id, data) => {
     dateTime,
     date,
     time,
+    maxCapacity: user.plan.maxCapacity,
   };
 
   try {
     const docRef = firestore.doc(collectionRef, id);
     await firestore.setDoc(docRef, updatedData);
-    await updateUser({ events: [...user.events, id] });
+    const credit = user.plan.credit - 1;
+    if (user.accountType == "Organizer") {
+      await updateUser({
+        events: [...user.events, id],
+        plan: { ...user.plan, credit },
+      });
+    } else {
+      await updateUser({
+        events: [...user.events, id],
+      });
+    }
     console.log("Event added successfully!");
   } catch (e) {
     console.error(`There was an error: ${e}`);
@@ -64,29 +74,6 @@ const fetchEvent = async (id) => {
   }
 };
 
-const addJoinedEvent = async (eventId, joinedData) => {
-  try {
-    //first one
-    const eventDocRef = firestore.doc(db, "events", eventId);
-    const joinedCollectionRef = firestore.collection(
-      eventDocRef,
-      "participants"
-    );
-    const newJoinedDocRef = firestore.doc(joinedCollectionRef);
-    //second one
-    // const newJoinedDocRef2 = firestore.doc(db , "events" , eventId , "participants");
-    const dataWithTimestamp = {
-      ...joinedData,
-      joinedAt: firestore.serverTimestamp(),
-    };
-    await firestore.setDoc(newJoinedDocRef, dataWithTimestamp);
-    console.log("Joined event added successfully!");
-    return newJoinedDocRef.id;
-  } catch (error) {
-    console.error("Error adding joined event: ", error);
-    throw error;
-  }
-};
 const fetchAllEvents = async () => {
   try {
     const eventsCollectionRef = firestore.collection(db, "events");
@@ -114,6 +101,5 @@ export {
   addEvent,
   checkIfEventExist,
   fetchEvent,
-  addJoinedEvent,
   fetchAllEvents,
 };

@@ -1,11 +1,11 @@
 "use client";
 import Image from "next/image";
-import EventCard from "./event.card";
+// import EventCard from "./event.card";
 import { logout } from "../firebase/firebase.auth";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import WarningCard from "../components/warning";
-import { handleChangeRoute } from "@/lib/editor.data.consts";
+// import { handleChangeRoute } from "@/lib/editor.data.consts";
 import { useEffect, useState } from "react";
 import Loading from "../components/loading/loading";
 import { getUser } from "../firebase/firebase.user";
@@ -37,9 +37,16 @@ const Account = () => {
       </div>
     );
   }
-  const { firstName, lastName, email, photoUrl, companyName, accountType } =
-    userState;
-  // console.log("url : ", photoUrl);
+  const {
+    firstName,
+    lastName,
+    email,
+    photoUrl,
+    companyName,
+    accountType,
+    plan,
+  } = userState;
+  console.log("plan : ", plan);
   const handleLogOut = () => {
     logout();
     router.push("/");
@@ -82,7 +89,7 @@ const Account = () => {
                 <div className="border p-2 rounded w-full">{companyName}</div>
               </form>
             </div>
-            <EventParticipants Events={events}/>
+            <EventParticipants Events={events} />
           </div>
 
           {/* Account Details Section */}
@@ -100,7 +107,7 @@ const Account = () => {
             </div>
 
             {/* Event Cards Section */}
-            <div className="bg-white shadow-md rounded-lg p-6 mt-6">
+            {/* <div className="bg-white shadow-md rounded-lg p-6 mt-6">
               <h3 className="text-2xl font-semibold mb-4">Your Events</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {events.length > 0 ? (
@@ -111,7 +118,7 @@ const Account = () => {
                   <p className="text-gray-500">You have no events yet.</p>
                 )}
               </div>
-            </div>
+            </div> */}
 
             <div className="bg-white shadow-md rounded-lg p-6 mt-6">
               <h3 className="text-2xl font-semibold mb-4">Settings</h3>

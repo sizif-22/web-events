@@ -36,9 +36,10 @@ const SideBar = ({ theme }) => {
     "Route field can't be empty"
   );
 
-  const { email, firstName, lastName } = useSelector(
+  const { email, firstName, lastName, plan, accountType } = useSelector(
     (state) => state.user.userState
   );
+  console.log(email,plan);
   const { valid, showFormEditor } = useSelector((state) => state.editorConsts);
   const {
     title,
@@ -70,6 +71,7 @@ const SideBar = ({ theme }) => {
   }, [routeName, dispatch]);
 
   const handleEventCreation = async () => {
+    if (plan?.credit === 0 && accountType === "Organizer") return;
     dispatch(handleLoading(true));
     setError(false);
 
@@ -110,7 +112,7 @@ const SideBar = ({ theme }) => {
         featuresTitle,
         date,
         time,
-        location:where,
+        location: where,
         form,
         theme,
         colors,
@@ -118,7 +120,7 @@ const SideBar = ({ theme }) => {
       };
 
       await addEvent(id, eventObject);
-      router.push("/account");
+      router.push("/console");
     } catch (error) {
       console.error("Error creating event:", error);
       setError(true);
@@ -206,10 +208,16 @@ const SideBar = ({ theme }) => {
 
       {routeName !== "" && valid && (
         <button
-          className="fixed z-40 bottom-6 right-6 bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 transition-colors shadow-lg"
+          className={`fixed z-40 bottom-6 right-6  text-white px-6 py-3 rounded-md transition-colors shadow-lg ${
+            plan?.credit === 0 && accountType === "Organizer"
+              ? "bg-gray-700 cursor-not-allowed"
+              : "bg-blue-500 hover:bg-blue-600"
+          }`}
           onClick={handleEventCreation}
         >
-          Create Event
+          {plan?.credit === 0 && accountType === "Organizer"
+            ? "Quota exceeded 🔒"
+            : "Create Event"}
         </button>
       )}
     </div>
