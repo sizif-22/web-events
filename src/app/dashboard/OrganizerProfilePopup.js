@@ -284,7 +284,7 @@ const OrganizerProfilePopup = ({ organizer, isOpen, onClose }) => {
                   <p className="text-sm text-gray-500">@{organizer.username}</p>
                 </div>
               </div>
-              {organizer.accountType != "owner" && (
+              {organizer.accountType != "Owner" && (
                 <Button
                   variant="outline"
                   size="sm"
@@ -321,7 +321,7 @@ const OrganizerProfilePopup = ({ organizer, isOpen, onClose }) => {
                 <div className="bg-gray-50 rounded-lg p-4">
                   <div className="flex justify-between items-center mb-4">
                     <h3 className="font-semibold">Current Plan Details</h3>
-                    {organizer.accountType != "owner" && (
+                    {organizer.accountType != "Owner" && (
                       <Button onClick={() => setShowAddPlanDialog(true)}>
                         <Plus className="h-4 w-4 mr-2" />
                         Add New Plan
@@ -393,7 +393,7 @@ const OrganizerProfilePopup = ({ organizer, isOpen, onClose }) => {
             </Tabs>
 
             <div className="flex justify-between mt-6 pt-4 border-t">
-              {organizer.accountType != "owner" && (
+              {organizer.accountType != "Owner" && (
                 <Button
                   variant="outline"
                   className="text-red-600 hover:text-red-700"

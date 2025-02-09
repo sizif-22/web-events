@@ -41,7 +41,7 @@ const OwnerDashboard = () => {
   if (
     isLoggedIn &&
     isVerified &&
-    (accountType === "owner" || accountType === "admin")
+    (accountType === "Owner" || accountType === "admin")
   ) {
     return (
       <div className="p-6 bg-gray-50 min-h-screen">

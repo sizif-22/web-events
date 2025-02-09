@@ -74,7 +74,7 @@ const OrganizersTable = ({ organizers, onClick }) => {
                         >
                           <Eye size={16} />
                         </button>
-                        {organizer.accountType != "owner" ? (
+                        {organizer.accountType != "Owner" ? (
                           <button
                             className="p-2 text-red-600  hover:bg-red-50 rounded"
                             title="Ban"
@@ -84,7 +84,7 @@ const OrganizersTable = ({ organizers, onClick }) => {
                         ) : (
                           <div
                             className="p-2 hover:bg-yellow-100 rounded cursor-default"
-                            title="owner"
+                            title="Owner"
                           >
                             👑
                           </div>
