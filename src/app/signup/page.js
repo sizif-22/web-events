@@ -151,7 +151,8 @@ const SignUp = () => {
         setAlert(true);
         return;
       }
-      const joinedAt = firestore.serverTimestamp();
+      const joinedAt = new Date().toISOString().split("T")[0];
+
       await firestore.addDoc(firestore.collection(db, "user"), {
         firstName: formData.firstName,
         lastName: formData.lastName,

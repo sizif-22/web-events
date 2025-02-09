@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Trash2, Edit, Eye, Download, RefreshCcw } from "lucide-react";
 import EventProfilePopup from "./EventProfilePopup";
-
+import { cancelEvent } from "./funcs";
+import { CancelEventDialog } from "./CancelEventDialog";
 const formatTimestamp = ({ seconds }) => {
   const date = new Date(seconds * 1000);
 
@@ -17,6 +18,8 @@ const formatTimestamp = ({ seconds }) => {
 };
 
 const EventsTable = ({ events, onClick, onEdit, onDelete }) => {
+  const [showCancelDialog, setShowCancelDialog] = useState(false);
+  const [eventToCancel, setEventToCancel] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -80,7 +83,7 @@ const EventsTable = ({ events, onClick, onEdit, onDelete }) => {
                     <td className="p-4">{event.title}</td>
                     <td className="p-4">{formatTimestamp(event.dateTime)}</td>
                     <td className="p-4">{event.organizer.email}</td>
-                    
+
                     <td className="p-4">
                       <div className="flex gap-2">
                         <button
@@ -100,10 +103,36 @@ const EventsTable = ({ events, onClick, onEdit, onDelete }) => {
                         <button
                           className="p-2 text-red-600 hover:bg-red-50 rounded"
                           title="Delete"
-                          onClick={() => handleDeleteEvent(event)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setEventToCancel(event);
+                            setShowCancelDialog(true);
+                          }}
                         >
                           <Trash2 size={16} />
                         </button>
+
+                        {eventToCancel && (
+                          <CancelEventDialog
+                            isOpen={showCancelDialog}
+                            onClose={() => {
+                              setShowCancelDialog(false);
+                              setEventToCancel(null);
+                            }}
+                            eventTitle={eventToCancel.title}
+                            onConfirm={async () => {
+                              const success = await cancelEvent(
+                                eventToCancel.id,
+                                eventToCancel.organizer.userId
+                              );
+                              if (success) {
+                                setShowCancelDialog(false);
+                                setEventToCancel(null);
+                                onClick(); // Refresh the table
+                              }
+                            }}
+                          />
+                        )}
                       </div>
                     </td>
                   </tr>

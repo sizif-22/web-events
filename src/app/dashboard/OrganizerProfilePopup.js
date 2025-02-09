@@ -29,7 +29,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-
+import { updateDoc, doc } from "firebase/firestore";
+import { db } from "../firebase/firebase.user";
 const BanConfirmationDialog = ({ isOpen, onClose, onConfirm }) => {
   const [banDuration, setBanDuration] = useState("7");
 
@@ -79,7 +80,7 @@ const BanConfirmationDialog = ({ isOpen, onClose, onConfirm }) => {
   );
 };
 
-const AddPlanForm = ({ onSubmit, onClose }) => {
+const AddPlanForm = ({ onSubmit, onClose, user }) => {
   const [formData, setFormData] = useState({
     startDate: new Date().toISOString().split("T")[0],
     endDate: "",
@@ -96,9 +97,14 @@ const AddPlanForm = ({ onSubmit, onClose }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(formData);
+    try {
+      await updateDoc(doc(db, "user", user.id), { plan: formData });
+    } catch (e) {
+      console.error("wtf");
+    }
+
     onClose();
   };
 
@@ -168,7 +174,7 @@ const AddPlanForm = ({ onSubmit, onClose }) => {
   );
 };
 
-const AddPlanDialog = ({ isOpen, onClose, onAddPlan }) => (
+const AddPlanDialog = ({ isOpen, onClose, onAddPlan, user }) => (
   <Dialog open={isOpen} onOpenChange={onClose}>
     <DialogContent className="sm:max-w-md">
       <DialogHeader>
@@ -177,7 +183,7 @@ const AddPlanDialog = ({ isOpen, onClose, onAddPlan }) => (
           Set up a new plan for this organizer
         </DialogDescription>
       </DialogHeader>
-      <AddPlanForm onSubmit={onAddPlan} onClose={onClose} />
+      <AddPlanForm onSubmit={onAddPlan} user={user} onClose={onClose} />
     </DialogContent>
   </Dialog>
 );
@@ -231,8 +237,11 @@ const OrganizerProfilePopup = ({ organizer, isOpen, onClose }) => {
   const onAddPlan = () => {
     console.log("onAddPlan");
   };
-  const onRoleChange = () => {
-    console.log("onRoleChange");
+  const onRoleChange = async () => {
+    const userDoc = doc(db, "user", organizer.id);
+    organizer.accountType === "Organizer"
+      ? await updateDoc(userDoc, { accountType: "Admin" })
+      : await updateDoc(userDoc, { accountType: "Organizer" });
   };
   const onBlock = () => {
     console.log("onBlock");
@@ -246,8 +255,8 @@ const OrganizerProfilePopup = ({ organizer, isOpen, onClose }) => {
       .toUpperCase();
   };
 
-  const handleRoleChange = (newRole) => {
-    onRoleChange(newRole);
+  const handleRoleChange = () => {
+    onRoleChange();
     setShowRoleDialog(false);
   };
 
@@ -314,7 +323,6 @@ const OrganizerProfilePopup = ({ organizer, isOpen, onClose }) => {
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="plans">Current Plan</TabsTrigger>
                 <TabsTrigger value="events">Events</TabsTrigger>
-                {/* <TabsTrigger value="history">Plan History</TabsTrigger> */}
               </TabsList>
 
               <TabsContent value="plans" className="mt-4">
@@ -332,11 +340,13 @@ const OrganizerProfilePopup = ({ organizer, isOpen, onClose }) => {
                     <div className="space-y-2">
                       <p>Max Capacity: {organizer.plan.maxCapacity}</p>
                       <p>Credits: {organizer.plan.credit}</p>
-                      <p>Start Date: {formatDate(organizer.plan.startDate)}</p>
+                      {/* <p>Start Date: {formatDate(organizer.plan.startDate)}</p> */}
+                      <p>Start Date: {organizer.plan.startDate}</p>
                       <p>
                         End Date:{" "}
                         {organizer.plan.endDate
-                          ? formatDate(organizer.plan.endDate)
+                          ? // ? formatDate(organizer.plan.endDate)
+                            organizer.plan.endDate
                           : "No end date"}
                       </p>
                     </div>
@@ -365,31 +375,6 @@ const OrganizerProfilePopup = ({ organizer, isOpen, onClose }) => {
                   </ul>
                 </div>
               </TabsContent>
-
-              {/* <TabsContent value="history" className="mt-4">
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <ul className="space-y-3">
-                    {organizer.planHistory?.map((plan, index) => (
-                      <li
-                        key={index}
-                        className="flex items-center gap-2 text-sm"
-                      >
-                        <History className="h-4 w-4 text-gray-400" />
-                        <span>Plan with {plan.maxCapacity} capacity</span>
-                        <span className="text-gray-500">
-                          {formatDate(plan.startDate)}
-                        </span>
-                      </li>
-                    ))}
-                    {(!organizer.planHistory ||
-                      organizer.planHistory.length === 0) && (
-                      <p className="text-gray-500 text-center">
-                        No history available
-                      </p>
-                    )}
-                  </ul>
-                </div>
-              </TabsContent> */}
             </Tabs>
 
             <div className="flex justify-between mt-6 pt-4 border-t">
@@ -416,6 +401,7 @@ const OrganizerProfilePopup = ({ organizer, isOpen, onClose }) => {
 
       <AddPlanDialog
         isOpen={showAddPlanDialog}
+        user={organizer}
         onClose={() => setShowAddPlanDialog(false)}
         onAddPlan={onAddPlan}
       />

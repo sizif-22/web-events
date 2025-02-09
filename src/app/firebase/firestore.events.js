@@ -25,14 +25,15 @@ const addEvent = async (id, data) => {
     dateTime,
     date,
     time,
-    maxCapacity: user.plan.maxCapacity,
+    maxCapacity: user.accountType == "Organizer" ? user.plan.maxCapacity : 5000,
   };
 
   try {
     const docRef = firestore.doc(collectionRef, id);
+
     await firestore.setDoc(docRef, updatedData);
-    const credit = user.plan.credit - 1;
     if (user.accountType == "Organizer") {
+      const credit = user.plan.credit - 1;
       await updateUser({
         events: [...user.events, id],
         plan: { ...user.plan, credit },

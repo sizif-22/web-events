@@ -34,7 +34,8 @@ const SubLayout2 = ({ child }) => {
           userRef,
           async (querySnapshot) => {
             if (!querySnapshot.empty) {
-              const user = querySnapshot.docs[0].data();
+              const userDoc = querySnapshot.docs[0];
+              const user = userDoc.data();
               const plan = {
                 ...user.plan,
                 startDate: user.plan?.startDate.toDate().toISOString(),
@@ -42,11 +43,12 @@ const SubLayout2 = ({ child }) => {
                   ? user.plan.endDate.toDate().toISOString()
                   : null,
               };
-              console.log(user)
+              console.log(user, userDoc.id);
               const userObject = {
                 isLoggedIn,
                 isVerified: auth.currentUser.emailVerified,
                 email: user.email,
+                userId: userDoc.id,
                 username: user.username,
                 events: user.events,
                 firstName: user.firstName,

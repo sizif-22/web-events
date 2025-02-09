@@ -17,7 +17,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { CancelEventDialog } from "./CancelEventDialog";
 import { cancelEvent } from "./funcs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -26,11 +25,8 @@ import { Progress } from "@/components/ui/progress";
 import { db } from "../firebase/firebase.user";
 import { collection, getDocs } from "firebase/firestore";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-const EventProfilePopup = ({ event, isOpen, onClose, onEdit }) => {
-  const router = useRouter();
+const EventProfilePopup = ({ event, isOpen, onClose, onEdit, onDelete }) => {
   const [attendees, setAttendees] = useState(0);
-  const [showCancelDialog, setShowCancelDialog] = useState(false);
   const capacity = 100;
   useEffect(() => {
     const getTotalParticipants = async () => {
@@ -219,28 +215,12 @@ const EventProfilePopup = ({ event, isOpen, onClose, onEdit }) => {
               <Button
                 variant="outline"
                 className="text-red-600 hover:text-red-700"
-                onClick={() => setShowCancelDialog(true)}
+                // onClick={onDelete}
+                onClick={() => cancelEvent(event.id, event.organizer.userId)}
               >
                 <Trash2 className="h-4 w-4 mr-2" />
                 Cancel Event
               </Button>
-
-              <CancelEventDialog
-                isOpen={showCancelDialog}
-                onClose={() => setShowCancelDialog(false)}
-                eventTitle={event.title}
-                onConfirm={async () => {
-                  const success = await cancelEvent(
-                    event.id,
-                    event.organizer.userId
-                  );
-                  if (success) {
-                    setShowCancelDialog(false);
-                    onClose();
-                    router.refresh();
-                  }
-                }}
-              />
             </div>
             <div className="flex gap-2">
               {/* <Button variant="outline">

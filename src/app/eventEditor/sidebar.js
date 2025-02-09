@@ -36,10 +36,10 @@ const SideBar = ({ theme }) => {
     "Route field can't be empty"
   );
 
-  const { email, firstName, lastName, plan, accountType } = useSelector(
+  const { userId, email, firstName, lastName, plan, accountType } = useSelector(
     (state) => state.user.userState
   );
-  console.log(email,plan);
+  // console.log(email,plan);
   const { valid, showFormEditor } = useSelector((state) => state.editorConsts);
   const {
     title,
@@ -101,6 +101,7 @@ const SideBar = ({ theme }) => {
         organizer: {
           name: `${firstName} ${lastName}`,
           email,
+          userId,
         },
         organization,
         head1,
@@ -120,7 +121,7 @@ const SideBar = ({ theme }) => {
       };
 
       await addEvent(id, eventObject);
-      router.push("/console");
+      router.replace("/console");
     } catch (error) {
       console.error("Error creating event:", error);
       setError(true);

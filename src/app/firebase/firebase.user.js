@@ -24,7 +24,6 @@ const addUser = async ({
       email,
       photoUrl,
       username,
-      coins: 2,
       accountType: "Organizer",
     });
     console.log("User added");
@@ -47,7 +46,7 @@ const updateUser = async (updates) => {
     const userDoc = querySnapshot.docs[0];
     const userDocRef = firestore.doc(db, "user", userDoc.id);
     await firestore.updateDoc(userDocRef, updates);
-    console.log("User updated");
+    // console.log("User updated");
   } catch (e) {
     console.error(`The error is: ${e}`);
   }
