@@ -19,13 +19,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '22.x'
-
-      - name: npm install, build, and test
-        run: |
-          npm install
-          npm run build --if-present
-          npm run test --if-present
-          
       - name: Set environment variables
         run: |
           echo "NEXT_PUBLIC_FIREBASE_API_KEY=${{ vars.NEXT_PUBLIC_FIREBASE_API_KEY }}" >> $GITHUB_ENV
@@ -36,6 +29,14 @@ jobs:
           echo "NEXT_PUBLIC_FIREBASE_PROJECT_ID=${{ vars.NEXT_PUBLIC_FIREBASE_PROJECT_ID }}" >> $GITHUB_ENV
           echo "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=${{ vars.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET }}" >> $GITHUB_ENV
 
+
+      - name: npm install, build, and test
+        run: |
+          npm install
+          npm run build --if-present
+          npm run test --if-present
+          
+      
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
 
