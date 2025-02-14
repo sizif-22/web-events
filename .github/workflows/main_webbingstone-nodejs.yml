@@ -65,6 +65,5 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'webbingstone-nodejs'
-          # slot-name: 'Production'
           package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6180D0E955124E7595FA8BFB7D2D6F38 }}
