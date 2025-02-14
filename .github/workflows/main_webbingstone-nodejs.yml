@@ -64,6 +64,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'webbingstone-nodejs'
+          app-name: webbingstone-nodejs
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6180D0E955124E7595FA8BFB7D2D6F38 }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          overwrite: true  # Add this line to force deployment
