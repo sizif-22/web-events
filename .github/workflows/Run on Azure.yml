@@ -32,7 +32,7 @@ jobs:
         npm run test --if-present
       working-directory: ./
     - name: Check build output
-      run: ls -la .next
+      run: ls -la
     - name: Deploy to Azure WebApp
       uses: azure/webapps-deploy@v3
       with: 
