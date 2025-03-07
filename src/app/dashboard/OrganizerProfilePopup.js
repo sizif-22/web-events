@@ -228,7 +228,7 @@ const RoleChangeDialog = ({ isOpen, onClose, onConfirm, currentRole }) => {
   );
 };
 
-const OrganizerProfilePopup = ({ organizer, isOpen, onClose }) => {
+const OrganizerProfilePopup = ({ organizer, isOpen, onClose ,  }) => {
   const [showBanDialog, setShowBanDialog] = useState(false);
   const [showAddPlanDialog, setShowAddPlanDialog] = useState(false);
   const [showRoleDialog, setShowRoleDialog] = useState(false);

@@ -156,7 +156,7 @@ const Form = ({ form, onSubmit, onClose, eventId }) => {
 
       // Send verification code
       const response = await fetch(
-        "https://eventy-back-production.up.railway.app/api/verify-email",
+        `${process.env.NEXT_PUBLIC_BACKEND}/api/verify-email`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -189,7 +189,7 @@ const Form = ({ form, onSubmit, onClose, eventId }) => {
       }
 
       const response = await fetch(
-        "https://eventy-back-production.up.railway.app/api/confirm-verification",
+        `${process.env.NEXT_PUBLIC_BACKEND}/api/confirm-verification`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

@@ -15,7 +15,7 @@ export default function ScheduleEmail({ eventId }) {
 
     try {
       const response = await fetch(
-        "https://eventy-back-production.up.railway.app/api/event",
+        `${process.env.NEXT_PUBLIC_BACKEND}/api/event`,
         {
           method: "POST",
           headers: {

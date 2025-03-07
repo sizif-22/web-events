@@ -104,8 +104,8 @@ const EventProfilePopup = ({ event, isOpen, onClose, onEdit }) => {
           <Tabs defaultValue="details" className="w-full">
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="details">Details</TabsTrigger>
-              <TabsTrigger value="attendees">Attendees</TabsTrigger>
-              <TabsTrigger value="activity">Activity</TabsTrigger>
+              {/* <TabsTrigger value="attendees">Attendees</TabsTrigger> */}
+              {/* <TabsTrigger value="activity">Activity</TabsTrigger> */}
             </TabsList>
 
             <TabsContent value="details" className="mt-4">
@@ -144,7 +144,7 @@ const EventProfilePopup = ({ event, isOpen, onClose, onEdit }) => {
               </div>
             </TabsContent>
 
-            <TabsContent value="attendees" className="mt-4">
+            {/* <TabsContent value="attendees" className="mt-4">
               <div className="bg-gray-50 rounded-lg p-4">
                 {event.attendeeList?.length > 0 ? (
                   <div className="space-y-3">
@@ -178,9 +178,9 @@ const EventProfilePopup = ({ event, isOpen, onClose, onEdit }) => {
                   <p className="text-gray-500 text-center">No attendees yet</p>
                 )}
               </div>
-            </TabsContent>
+            </TabsContent> */}
 
-            <TabsContent value="activity" className="mt-4">
+            {/* <TabsContent value="activity" className="mt-4">
               <div className="bg-gray-50 rounded-lg p-4">
                 {event.activity?.length > 0 ? (
                   <div className="space-y-3">
@@ -207,7 +207,7 @@ const EventProfilePopup = ({ event, isOpen, onClose, onEdit }) => {
                   </p>
                 )}
               </div>
-            </TabsContent>
+            </TabsContent> */}
           </Tabs>
 
           <div className="flex justify-between mt-6 pt-4 border-t">

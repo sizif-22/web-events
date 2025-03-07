@@ -38,10 +38,8 @@ const SubLayout2 = ({ child }) => {
               const user = userDoc.data();
               const plan = {
                 ...user.plan,
-                startDate: user.plan?.startDate.toDate().toISOString(),
-                endDate: user.plan?.endDate
-                  ? user.plan.endDate.toDate().toISOString()
-                  : null,
+                startDate: user.plan?.startDate,
+                endDate: user.plan?.endDate,
               };
               console.log(user, userDoc.id);
               const userObject = {
