@@ -3,7 +3,14 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
-const EventCard = ({ id, title, dateTime, location }) => {
+const EventCard = ({
+  id,
+  title,
+  dateTime,
+  location,
+  nofparticipants,
+  maxCapacity,
+}) => {
   const router = useRouter();
   return (
     <Card className="md:w-72 md:h-72 w-full h-56 transition-all duration-200 hover:shadow-lg hover:border-[#00000050] relative">
@@ -30,12 +37,14 @@ const EventCard = ({ id, title, dateTime, location }) => {
         <div className="w-full bg-gray-200 rounded-full h-2.5">
           <div
             className="bg-[#272e3f] h-2.5 rounded-full"
-            style={{ width: `${10}%` }}
+            style={{ width: `${(nofparticipants * 100) / maxCapacity}%` }}
           ></div>
         </div>
         <div className="flex items-center space-x-2 text-gray-600">
           <UsersRound className="w-4 h-4" />
-          <span className="text-sm truncate">10 / 100 Participants</span>
+          <span className="text-sm truncate">
+            {nofparticipants} / {maxCapacity} Participants
+          </span>
         </div>
       </CardContent>
 
