@@ -104,6 +104,7 @@ const SideBar = ({ theme }) => {
           userId,
         },
         organization,
+        nofparticipants: 0,
         head1,
         body1,
         logo: logoUrl,

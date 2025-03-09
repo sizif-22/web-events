@@ -1,7 +1,8 @@
-import { Calendar, MapPin, Clock } from "lucide-react";
+import { Calendar, MapPin, Clock, UsersRound } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+
 const EventCard = ({ id, title, dateTime, location }) => {
   const router = useRouter();
   return (
@@ -26,6 +27,16 @@ const EventCard = ({ id, title, dateTime, location }) => {
           <MapPin className="w-4 h-4" />
           <span className="text-sm truncate">{location}</span>
         </div>
+        <div className="w-full bg-gray-200 rounded-full h-2.5">
+          <div
+            className="bg-[#272e3f] h-2.5 rounded-full"
+            style={{ width: `${10}%` }}
+          ></div>
+        </div>
+        <div className="flex items-center space-x-2 text-gray-600">
+          <UsersRound className="w-4 h-4" />
+          <span className="text-sm truncate">10 / 100 Participants</span>
+        </div>
       </CardContent>
 
       <Button
@@ -39,4 +50,5 @@ const EventCard = ({ id, title, dateTime, location }) => {
     </Card>
   );
 };
+
 export default EventCard;
