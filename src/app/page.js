@@ -41,7 +41,7 @@ const Home = () => {
 
   return (
     <div className="flex flex-col bg-[#0a0a0a]">
-      <NavBar className="bg-blue-600 text-white sticky" />
+      <NavBar  />
       <div className="h-[88vh] md:grid flex  grid-cols-2 place-items-center px-[20px] md:px-[120px]">
         <div className=" flex flex-col items-start md:pr-14">
           <h className="text-5xl text-white">

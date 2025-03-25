@@ -35,7 +35,10 @@ export default function NavBar() {
 
   return (
     <nav className="bg-black shadow-[#888] shadow-sm h-[12vh] flex items-center justify-between px-[10px] md:px-[60px] text-white">
-      <p className="text-2xl md:text-4xl select-none font-[Italiana]">
+      <p
+        className="text-2xl md:text-4xl select-none font-[Italiana]"
+        onClick={() => router.push("/")}
+      >
         Webbing Events
       </p>
       <div className="flex gap-1 items-center relative h-full min-w-32 flex-row-reverse">
