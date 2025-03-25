@@ -2,7 +2,7 @@
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import NavBar from "./components/nav";
-import weImg from "/webbingEvents.png";
+import weImg from "@/assets/imgs/webbingEvents.png";
 import Image from "next/image";
 const Card = ({ title, children }) => (
   <div className="bg-white shadow-md rounded-lg overflow-hidden w-2/3">
@@ -41,11 +41,14 @@ const Home = () => {
 
   return (
     <div className="flex flex-col bg-[#0a0a0a]">
-      <NavBar  />
+      <NavBar />
       <div className="h-[88vh] md:grid flex  grid-cols-2 place-items-center px-[20px] md:px-[120px]">
         <div className=" flex flex-col items-start md:pr-14">
           <h className="text-5xl text-white">
-            Create & Share Your Event Website <span className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 bg-clip-text text-transparent">Effortlessly</span>
+            Create & Share Your Event Website{" "}
+            <span className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 bg-clip-text text-transparent">
+              Effortlessly
+            </span>
           </h>
           <p className="text-[#999] text-xl mt-5">
             Easily build a custom event website, share it with friends, clients,
