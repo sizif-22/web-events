@@ -9,7 +9,7 @@ const DropDownBtns = () => {
 
   return (
     <ul className="py-2">
-      <li className="dropdownbtns">Dark Mode</li>
+      {/* <li className="dropdownbtns">Dark Mode</li>  */}
       {isLoggedIn ? (
         <li
           className="dropdownbtns text-red-900"

@@ -1,9 +1,8 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import UsEr from "./user";
-import logo from "@/assets/imgs/eventy.png";
-import Image from "next/image";
 import DropDownBtns from "./dropdown btns/dropDownBtns";
+import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 
 export default function NavBar() {
@@ -11,6 +10,7 @@ export default function NavBar() {
   const { isLoggedIn, isVerified } = userState;
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
+  const router = useRouter();
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -34,24 +34,11 @@ export default function NavBar() {
   }, [showDropdown]);
 
   return (
-    <nav className="bg-blue-500 h-16 flex items-center justify-between px-4 shadow-md text-white">
-      <Image src={logo} className="w-auto h-full" alt="Logo" />
+    <nav className="bg-black shadow-[#888] shadow-sm h-[12vh] flex items-center justify-between px-[10px] md:px-[60px] text-white">
+      <p className="text-2xl md:text-4xl select-none font-[Italiana]">
+        Webbing Events
+      </p>
       <div className="flex gap-1 items-center relative h-full min-w-32 flex-row-reverse">
-        <span
-          className="material-symbols-outlined cursor-pointer p-1 rounded-full hover:bg-gray-200 transition-colors hover:text-black text-xl"
-          onClick={toggleDropdown}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="24px"
-            viewBox="0 -960 960 960"
-            width="24px"
-            fill="#e8eaed"
-          >
-            <path d="M240-400q-33 0-56.5-23.5T160-480q0-33 23.5-56.5T240-560q33 0 56.5 23.5T320-480q0 33-23.5 56.5T240-400Zm240 0q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm240 0q-33 0-56.5-23.5T640-480q0-33 23.5-56.5T720-560q33 0 56.5 23.5T800-480q0 33-23.5 56.5T720-400Z" />
-          </svg>
-        </span>
-
         <div
           ref={dropdownRef}
           className={`absolute right-0 top-12 bg-white text-black shadow-lg rounded-md overflow-hidden transition-all duration-300 ease-out ${
@@ -62,7 +49,41 @@ export default function NavBar() {
           <DropDownBtns />
         </div>
 
-        {isLoggedIn && <UsEr />}
+        {isLoggedIn ? (
+          <div className="flex gap-2 items-center">
+            <UsEr />
+            <span
+              className="material-symbols-outlined cursor-pointer p-1 rounded-full hover:bg-gray-200 transition-colors  hover:text-black text-xl"
+              onClick={toggleDropdown}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="#e8eaed"
+                className="hover:fill-black"
+              >
+                <path d="M240-400q-33 0-56.5-23.5T160-480q0-33 23.5-56.5T240-560q33 0 56.5 23.5T320-480q0 33-23.5 56.5T240-400Zm240 0q-33 0-56.5-23.5T400-480q0-33 23.5-56.5T480-560q33 0 56.5 23.5T560-480q0 33-23.5 56.5T480-400Zm240 0q-33 0-56.5-23.5T640-480q0-33 23.5-56.5T720-560q33 0 56.5 23.5T800-480q0 33-23.5 56.5T720-400Z" />
+              </svg>
+            </span>
+          </div>
+        ) : (
+          <div className="flex gap-2">
+            <button
+              className="font-bold md:w-24 md:text-lg w-20 py-1 hover:bg-[#463fcc] border-[#3A31D8] hover:border-[#463fcc] transition-all duration-300  border-2 rounded-[11px] text-white"
+              onClick={() => router.push("/signup")}
+            >
+              SingUp
+            </button>
+            <button
+              className="font-bold md:w-24 md:text-lg w-20 py-1  hover:bg-[#463fcc] bg-[#3A31D8] transition-all duration-300  rounded-[11px] text-white"
+              onClick={() => router.push("/login")}
+            >
+              LogIn
+            </button>
+          </div>
+        )}
         {!isVerified && isLoggedIn && (
           <span className="material-symbols-outlined hover:text-white text-red-400 transition-all error__icon">
             <svg

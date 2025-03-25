@@ -103,6 +103,7 @@ const SideBar = ({ theme }) => {
           email,
           userId,
         },
+        avlbl: true,
         organization,
         nofparticipants: 0,
         head1,

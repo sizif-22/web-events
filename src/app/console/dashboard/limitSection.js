@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import { X, Users, Plus, Minus } from 'lucide-react';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import React, { useState } from "react";
+import { X, Users, Plus, Minus } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { updateDoc, doc } from "firebase/firestore";
 
-const LimitSection = () => {
-  const [isParticipating, setIsParticipating] = useState(true);
-  const [customLimit, setCustomLimit] = useState('');
+const LimitSection = ({ avlbl, eventId }) => {
+  const [isParticipating, setIsParticipating] = useState(avlbl);
+  const [customLimit, setCustomLimit] = useState("");
   const [selectedLimit, setSelectedLimit] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
 
@@ -14,7 +15,7 @@ const LimitSection = () => {
 
   const handleLimitSelect = (limit) => {
     setSelectedLimit(limit);
-    setCustomLimit('');
+    setCustomLimit("");
   };
 
   const handleCustomLimitChange = (e) => {
@@ -27,7 +28,10 @@ const LimitSection = () => {
 
   const handleParticipationToggle = () => {
     setShowAlert(true);
-    setTimeout(() => setShowAlert(false), 3000);
+    setTimeout(async () => {
+      setShowAlert(false);
+      await updateDoc(doc(db, "events", eventId), { avlbl: !isParticipating });
+    }, 3000);
     setIsParticipating(!isParticipating);
   };
 
@@ -44,7 +48,11 @@ const LimitSection = () => {
           onClick={handleParticipationToggle}
           className="flex items-center gap-2"
         >
-          {isParticipating ? <X className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+          {isParticipating ? (
+            <X className="h-4 w-4" />
+          ) : (
+            <Plus className="h-4 w-4" />
+          )}
           {isParticipating ? "Close" : "Open"} Participating
         </Button>
       </div>
@@ -52,7 +60,7 @@ const LimitSection = () => {
       {showAlert && (
         <Alert variant={isParticipating ? "destructive" : "default"}>
           <AlertDescription>
-            {isParticipating 
+            {isParticipating
               ? "Participation has been closed. No new participants can join."
               : "Participation is now open for new participants."}
           </AlertDescription>
@@ -60,7 +68,9 @@ const LimitSection = () => {
       )}
 
       <div className="space-y-2">
-        <label className="text-sm font-medium text-gray-700">Select Participant Limit</label>
+        <label className="text-sm font-medium text-gray-700">
+          Select Participant Limit
+        </label>
         <div className="flex flex-wrap gap-2">
           {presetLimits.map((limit) => (
             <Button
@@ -77,7 +87,9 @@ const LimitSection = () => {
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium text-gray-700">Custom Limit</label>
+        <label className="text-sm font-medium text-gray-700">
+          Custom Limit
+        </label>
         <div className="flex items-center gap-2">
           <Input
             type="text"
@@ -90,7 +102,7 @@ const LimitSection = () => {
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => setCustomLimit('')}
+              onClick={() => setCustomLimit("")}
               className="p-2"
             >
               <X className="h-4 w-4" />

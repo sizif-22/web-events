@@ -2,7 +2,8 @@
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import NavBar from "./components/nav";
-
+import weImg from "/webbingEvents.png";
+import Image from "next/image";
 const Card = ({ title, children }) => (
   <div className="bg-white shadow-md rounded-lg overflow-hidden w-2/3">
     <div className="px-6 py-4">
@@ -30,75 +31,38 @@ const Home = () => {
   const { isLoggedIn } = userState;
   const router = useRouter();
 
-  const handleThemeSelection = () => {
-    router.push("/console");
+  const handlegetstartedbtn = () => {
+    if (isLoggedIn) {
+      router.push("/console");
+    } else {
+      router.push("/login");
+    }
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
-      <NavBar className="bg-blue-600 text-white" />
-
-      <main className="flex-1 container mx-auto px-4 py-8">
-        <section className="mb-12 text-center">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">
-            Welcome to Your Website Builder
-          </h1>
-          <p className="text-xl text-gray-600 mb-8">
-            Our website builder project aims to empower users to create
-            professional-looking websites without any coding knowledge. With a
-            wide range of customizable themes and an intuitive interface, you
-            can bring your vision to life quickly and easily.
+    <div className="flex flex-col bg-[#0a0a0a]">
+      <NavBar className="bg-blue-600 text-white sticky" />
+      <div className="h-[88vh] md:grid flex  grid-cols-2 place-items-center px-[20px] md:px-[120px]">
+        <div className=" flex flex-col items-start md:pr-14">
+          <h className="text-5xl text-white">
+            Create & Share Your Event Website <span className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 bg-clip-text text-transparent">Effortlessly</span>
+          </h>
+          <p className="text-[#999] text-xl mt-5">
+            Easily build a custom event website, share it with friends, clients,
+            or anyone, and manage everything in one place. Track bookings and
+            stay organized with a seamless event management experience.
           </p>
-          <div className="space-x-4">
-            {!isLoggedIn && (
-              <>
-                <Button
-                  onClick={() => {
-                    router.push("/login");
-                  }}
-                >
-                  Log In
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    router.push("/signup");
-                  }}
-                >
-                  Sign Up
-                </Button>
-              </>
-            )}
-          </div>
-        </section>
-        <div className="w-full flex items-center justify-center">
-          <Card title="How to Create Your Website">
-            <ol className="list-decimal list-inside space-y-4 text-gray-700">
-              <li>
-                Choose the right theme that fits your website{"'"}s purpose
-              </li>
-              <li>Customize colors to match your brand</li>
-              <li>Add high-quality images that represent your content</li>
-              <li>
-                Fill in all text fields with engaging and relevant content
-              </li>
-              <li>
-                Press the {'"'}Save{'"'} button to generate your custom website
-              </li>
-            </ol>
-            <br />
-            <div className="flex items-center justify-center">
-              <Button onClick={handleThemeSelection}>get Start</Button>
-            </div>
-          </Card>
+          <button
+            className="font-bold w-36 py-2 text-lg bg-[#3A31D8] hover:bg-[#463fcc] border-2 border-[#3A31D8] transition-all duration-300  rounded-[11px] text-white mt-10"
+            onClick={handlegetstartedbtn}
+          >
+            Get Started
+          </button>
         </div>
-      </main>
-
-      <footer className="bg-gray-800 text-white py-6 mt-12">
-        <div className="container mx-auto px-4 text-center">
-          <p>&copy; 2024 Your Website Builder. All rights reserved.</p>
+        <div className="justify-end w-full hidden md:flex">
+          <Image src={weImg} alt="Webbing Events" width={350} height={350} />
         </div>
-      </footer>
+      </div>
     </div>
   );
 };

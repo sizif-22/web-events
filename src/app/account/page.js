@@ -9,7 +9,6 @@ import WarningCard from "../components/warning";
 import { useEffect, useState } from "react";
 import Loading from "../components/loading/loading";
 import { getUser } from "../firebase/firebase.user";
-import EventParticipants from "./eventParticipants";
 const Account = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -89,7 +88,6 @@ const Account = () => {
                 <div className="border p-2 rounded w-full">{companyName}</div>
               </form>
             </div>
-            <EventParticipants Events={events} />
           </div>
 
           {/* Account Details Section */}

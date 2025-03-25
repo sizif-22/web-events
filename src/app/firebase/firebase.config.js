@@ -1,8 +1,8 @@
 //firebase/firebase.config.js
 
 import { initializeApp } from "firebase/app";
-import dotenv from "dotenv";
-dotenv.config();
+// import dotenv from "dotenv";
+// dotenv.config();
 
 const app = initializeApp({
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
