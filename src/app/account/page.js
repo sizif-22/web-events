@@ -53,7 +53,7 @@ const Account = () => {
   return loading ? (
     <Loading />
   ) : (
-    <div className="min-h-screen bg-[#0a0a0a] p-6">
+    <div className="min-h-screen bg-[#9a9a9a] p-6">
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Profile Section */}
