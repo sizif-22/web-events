@@ -13,24 +13,24 @@ const EventCard = ({
 }) => {
   const router = useRouter();
   return (
-    <Card className="md:w-72 md:h-72 w-full h-56 transition-all duration-200 hover:shadow-lg hover:border-[#00000050] relative">
+    <Card className="md:w-72 md:h-72 w-full h-56 bg-[#9a9a9a50] transition-all duration-200 hover:shadow-lg hover:border-[#00000050] relative">
       <CardHeader className="space-y-1">
         <CardTitle className="text-xl font-bold truncate">{title}</CardTitle>
         <div className="flex items-center text-gray-500 space-x-2">
-          <Calendar className="w-4 h-4" />
-          <span className="text-sm">
+          <Calendar className="w-4 h-4 text-black" />
+          <span className="text-sm text-black">
             {dateTime.toDate().toLocaleDateString()}
           </span>
         </div>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="flex items-center space-x-2 text-gray-600">
+      <CardContent className="space-y-4 text-black">
+        <div className="flex items-center space-x-2 ">
           <Clock className="w-4 h-4" />
           <span className="text-sm">
             {dateTime.toDate().toLocaleTimeString()}
           </span>
         </div>
-        <div className="flex items-center space-x-2 text-gray-600">
+        <div className="flex items-center space-x-2 ">
           <MapPin className="w-4 h-4" />
           <span className="text-sm truncate">{location}</span>
         </div>
@@ -40,7 +40,7 @@ const EventCard = ({
             style={{ width: `${(nofparticipants * 100) / maxCapacity}%` }}
           ></div>
         </div>
-        <div className="flex items-center space-x-2 text-gray-600">
+        <div className="flex items-center space-x-2 ">
           <UsersRound className="w-4 h-4" />
           <span className="text-sm truncate">
             {nofparticipants} / {maxCapacity} Participants

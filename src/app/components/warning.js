@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 const WarningCard = ({ title, description }) => {
   const router = useRouter();
   const handleWarningOnClick = () => {
-    router.push("/");
+    router.replace("/");
   };
   return (
     <div className="inset-0 z-10 w-screen overflow-y-auto">

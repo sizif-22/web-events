@@ -18,12 +18,12 @@ const CreateEventCard = () => {
       onClick={handleClick}
       className={`group relative md:w-72 md:h-72 w-full h-56  ${
         credit > 0 || accountType !== "Organizer"
-          ? "border-2 border-dashed hover:border-solid border-gray-300 bg-white hover:border-gray-400 hover:bg-gray-50"
+          ? "border-2 border-dashed hover:border-solid border-gray-300 bg-[#9a9a9a50] hover:border-gray-400 hover:bg-[#9a9a9a70]"
           : "border-0 cursor-not-allowed bg-gray-800 "
       }  flex flex-col items-center justify-center space-y-2 transition-all duration-200 overflow-hidden`}
     >
-      <Plus className="w-8 h-8 text-gray-400 group-hover:text-gray-600 transition-colors" />
-      <span className="text-gray-600 font-medium group-hover:text-gray-800 transition-colors">
+      <Plus className="w-8 h-8  group-hover:text-gray-600 transition-colors" />
+      <span className=" font-medium group-hover:text-gray-800 transition-colors">
         Create new event
       </span>
 
