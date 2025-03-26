@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { checkIfEventExist, fetchEvent } from "@/app/firebase/firestore.events";
 import Loading from "@/app/components/loading/loading";
 import Theme1 from "@/app/theme/theme1/theme1";
-import Theme2 from "@/app/theme/theme2/theme2";
+// import Theme2 from "@/app/theme/theme2/theme2";
 
 // import Viewer from "@/app/template/template1/viewer";
 
@@ -34,9 +34,8 @@ const EventPage = ({ params }) => {
     <div>
       {theme == "Theme1" ? (
         <Theme1 data={event} eventId={params.eventId} editor={false} />
-      ) : (
-        <Theme2 data={event} eventId={params.eventId} editor={false} />
-      )}
+      ) : // <Theme2 data={event} eventId={params.eventId} editor={false} />
+      null}
     </div>
   );
 };

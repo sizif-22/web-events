@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import Theme1 from "../theme/theme1/theme1";
-import Theme2 from "../theme/theme2/theme2";
+// import Theme2 from "../theme/theme2/theme2";
 import Loading from "../components/loading/loading";
 import WarningCard from "../components/warning";
 import SideBar from "./sidebar";
@@ -66,7 +66,7 @@ export default function EventCreation() {
           {theme === "Theme1" ? (
             <Theme1 editor={true} />
           ) : (
-            <Theme2 editor={true} />
+            null
           )}
         </div>
       </div>
