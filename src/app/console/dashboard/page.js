@@ -48,7 +48,7 @@ export default function Dashboard() {
         </div>
         <div className=" flex flex-col gap-6">
           <MailHistory eventId={id} />
-          <LimitSection avlbl={event.avlbl} eventId={id} />
+          <LimitSection event={{ id, ...event }} />
         </div>
         <div className=" flex flex-col gap-6">
           <ScheduleEmail eventId={id} />

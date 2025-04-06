@@ -10,6 +10,7 @@ const EventCard = ({
   location,
   nofparticipants,
   maxCapacity,
+  limit,
 }) => {
   const router = useRouter();
   return (
@@ -37,13 +38,13 @@ const EventCard = ({
         <div className="w-full bg-gray-200 rounded-full h-2.5">
           <div
             className="bg-[#272e3f] h-2.5 rounded-full"
-            style={{ width: `${(nofparticipants * 100) / maxCapacity}%` }}
+            style={{ width: `${(nofparticipants * 100) / (limit || maxCapacity)}%` }}
           ></div>
         </div>
         <div className="flex items-center space-x-2 ">
           <UsersRound className="w-4 h-4" />
           <span className="text-sm truncate">
-            {nofparticipants} / {maxCapacity} Participants
+            {nofparticipants} / {limit || maxCapacity} Participants
           </span>
         </div>
       </CardContent>

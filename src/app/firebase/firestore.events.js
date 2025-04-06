@@ -26,6 +26,7 @@ const addEvent = async (id, data) => {
     date,
     time,
     maxCapacity: user.accountType == "Organizer" ? user.plan.maxCapacity : 5000,
+    limit: user.accountType == "Organizer" ? user.plan.maxCapacity : 5000,
   };
 
   try {

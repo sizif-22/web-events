@@ -2,6 +2,7 @@
 import TemplateCard from "./template.card";
 import { useSelector } from "react-redux";
 import WarningCard from "../components/warning";
+import theme1 from "@/assets/imgs/theme1.png";
 import NavBar from "../components/nav";
 
 export default function Template() {
@@ -9,8 +10,7 @@ export default function Template() {
   const { isLoggedIn, isVerified } = userState;
 
   const templates = [
-    { title: "Theme1", imgSrc: "@/assets/imgs/theme1.png" },
-    // { title: "Theme2", imgSrc: "/images/theme2.png" },
+    { title: "Theme1", imgSrc: theme1 },
   ];
 
   if (isLoggedIn && isVerified) {
