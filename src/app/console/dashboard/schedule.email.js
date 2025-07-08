@@ -15,7 +15,7 @@ export default function ScheduleEmail({ eventId }) {
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND}/api/event`,
+        `/api/event`,
         {
           method: "POST",
           headers: {
