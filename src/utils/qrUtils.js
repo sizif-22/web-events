@@ -1,5 +1,5 @@
-const QRCode = require("qrcode");
-const { transporter } = require("../config/email.cjs");
+import QRCode from "qrcode";
+import { transporter } from "../config/email.js";
 
 const sendQR = async (email, eventId, docId) => {
   const text = `${eventId}&&${docId}`;
@@ -90,4 +90,4 @@ const sendQR = async (email, eventId, docId) => {
   }
 };
 
-module.exports = sendQR;
+export default sendQR;

@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { getCairoNow, parseDate } from "@/utils/dateUtils.cjs";
+import { getCairoNow, parseDate } from "@/utils/dateUtils.js";
 import {
   sendMessage,
   storeMessage,
   scheduleMessage,
-} from "@/services/messageService.cjs";
-import { updateEvent } from "@/services/eventService.cjs";
+} from "@/services/messageService.js";
+import { updateEvent } from "@/services/eventService.js";
 // Define constants
 const TIMEZONE = process.env.TIMEZONE || "Africa/Cairo";
 const MAX_MESSAGE_LENGTH = 1000; // Example limit

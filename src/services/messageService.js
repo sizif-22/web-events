@@ -1,4 +1,4 @@
-const {
+import {
   collection,
   doc,
   getDoc,
@@ -8,20 +8,18 @@ const {
   query,
   where,
   Timestamp,
-} = require("firebase/firestore");
-const moment = require("moment-timezone");
-// const cron = require("node-cron");
-const { db } = require("../app/firebase/firebase.user");
-const { transporter } = require("../config/email.cjs");
-const { parseDate, getCairoNow, TIMEZONE } = require("../utils/dateUtils.cjs");
-
+  getFirestore,
+} from "firebase/firestore";
+import moment from "moment-timezone";
+// import { db } from "../app/firebase/firestore.events.js";
+import { app } from "../app/firebase/firebase.config.js";
+import { transporter } from "../config/email.js";
+import { parseDate, getCairoNow, TIMEZONE } from "../utils/dateUtils.js";
+const db = getFirestore(app);
 // Constants
 const MAX_RETRY_ATTEMPTS = 3;
 const RETRY_DELAY_MINUTES = 5;
 const MAX_EMAIL_LENGTH = 10000;
-
-// Store active jobs in memory
-const activeJobs = new Map();
 
 // Helper function to convert date to cron expression
 function convertToCronExpression(date) {
@@ -103,12 +101,6 @@ async function sendMessage(messageId, eventId, content, retryCount = 0) {
       status: "completed",
     });
 
-    // Cleanup job if exists
-    if (activeJobs.has(messageId)) {
-      activeJobs.get(messageId).stop();
-      activeJobs.delete(messageId);
-    }
-
     return true;
   } catch (error) {
     console.error(`Error sending message ${messageId}:`, error);
@@ -153,34 +145,6 @@ async function scheduleMessage(messageId, eventId, content, date) {
       `Scheduling message ${messageId} for ${parsedDate.format()} (${cronExpression})`
     );
 
-    // Cleanup existing job if any
-    if (activeJobs.has(messageId)) {
-      activeJobs.get(messageId).stop();
-      activeJobs.delete(messageId);
-    }
-
-    // const job = cron.schedule(
-    //   cronExpression,
-    //   async () => {
-    //     try {
-    //       await sendMessage(messageId, eventId, content);
-    //     } catch (error) {
-    //       console.error(
-    //         `Failed to send scheduled message ${messageId}:`,
-    //         error
-    //       );
-    //     } finally {
-    //       // Cleanup job after execution
-    //       if (activeJobs.has(messageId)) {
-    //         activeJobs.delete(messageId);
-    //       }
-    //     }
-    //   },
-    //   {
-    //     scheduled: true,
-    //     timezone: TIMEZONE,
-    //   }
-    // );
     const res = await fetch(
       "https://nlfevk1ig6.execute-api.eu-north-1.amazonaws.com/prod/schedule",
       {
@@ -192,8 +156,6 @@ async function scheduleMessage(messageId, eventId, content, date) {
     if (!res.ok) {
       console.log("message didn't get scheduled");
     }
-
-    activeJobs.set(messageId, job);
   } catch (error) {
     console.error(`Error scheduling message ${messageId}:`, error);
     throw error;
@@ -319,27 +281,14 @@ async function storeMessage(message, eventId, date) {
   }
 }
 
-// Cleanup function for active jobs
-function cleanup() {
-  for (const [messageId, job] of activeJobs.entries()) {
-    try {
-      job.stop();
-    } catch (error) {
-      console.error(`Error stopping job for message ${messageId}:`, error);
-    }
-  }
-  activeJobs.clear();
-}
-
 // Setup cleanup on process termination
 process.on("SIGTERM", cleanup);
 process.on("SIGINT", cleanup);
 
-module.exports = {
+export {
   sendMessage,
   scheduleMessage,
   handleMissedMessages,
   loadUnsentMessages,
   storeMessage,
-  cleanup,
 };

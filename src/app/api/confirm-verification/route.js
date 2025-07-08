@@ -9,8 +9,8 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "@/app/firebase/firebase.user";
-import sendQR from "@/utils/qrUtils.cjs";
-import { isWithinMinutes } from "@/utils/dateUtils.cjs";
+import sendQR from "@/utils/qrUtils.js";
+import { isWithinMinutes } from "@/utils/dateUtils.js";
 
 export async function POST(request) {
   try {

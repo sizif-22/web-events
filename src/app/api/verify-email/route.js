@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/app/firebase/firestore.events";
-import { doc,getDoc } from "firebase/firestore";
-import { transporter } from "@/config/email.cjs";
+import { doc, getDoc } from "firebase/firestore";
+import { transporter } from "@/config/email.js";
 export async function POST(request) {
   try {
     const { documentId, eventId } = await request.json();

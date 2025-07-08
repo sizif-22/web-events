@@ -1,5 +1,5 @@
-const { doc, getDoc, updateDoc, Timestamp } = require("firebase/firestore");
-const { db } = require("../app/firebase/firebase.user");
+import { doc, getDoc, updateDoc, Timestamp } from "firebase/firestore";
+import { db } from "../app/firebase/firebase.user";
 
 async function updateEvent(eventId, messageId) {
   if (!eventId || !messageId) {
@@ -9,36 +9,36 @@ async function updateEvent(eventId, messageId) {
   try {
     const eventRef = doc(db, "events", eventId);
     const eventDoc = await getDoc(eventRef);
-    
+
     if (!eventDoc.exists()) {
       throw new Error(`Event with ID ${eventId} not found`);
     }
 
     const eventData = eventDoc.data();
     const currentMessages = eventData.messages || [];
-    
+
     if (!currentMessages.includes(messageId)) {
       const updatedMessages = [...currentMessages, messageId];
-      
-      await updateDoc(eventRef, { 
+
+      await updateDoc(eventRef, {
         messages: updatedMessages,
-        lastUpdated: Timestamp.now()
+        lastUpdated: Timestamp.now(),
       });
-      
+
       return {
         success: true,
         eventId,
         messageId,
-        messageCount: updatedMessages.length
+        messageCount: updatedMessages.length,
       };
     }
-    
+
     return {
       success: true,
       eventId,
       messageId,
       messageCount: currentMessages.length,
-      note: 'Message ID already existed in event'
+      note: "Message ID already existed in event",
     };
   } catch (error) {
     console.error(`Error updating event ${eventId}:`, error);
@@ -46,4 +46,4 @@ async function updateEvent(eventId, messageId) {
   }
 }
 
-module.exports = { updateEvent };
+export { updateEvent };

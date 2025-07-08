@@ -8,7 +8,7 @@ import {
   getDocs,
   where,
 } from "firebase/firestore";
-import { isWithinMinutes } from "@/utils/dateUtils.cjs";
+import { isWithinMinutes } from "@/utils/dateUtils.js";
 export async function POST(request) {
   try {
     const { email, eventId } = await request.json();

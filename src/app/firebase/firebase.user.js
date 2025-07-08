@@ -3,6 +3,7 @@ import { app } from "./firebase.config";
 import * as firestore from "firebase/firestore";
 
 const db = firestore.getFirestore(app);
+
 const users = firestore.collection(db, "user");
 
 // User Collection ...

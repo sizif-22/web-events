@@ -1,4 +1,4 @@
-import { sendMessage } from "@/services/messageService.cjs";
+import { sendMessage } from "@/services/messageService.js";
 import { NextResponse } from "next/server";
 export async function POST(request) {
   try {

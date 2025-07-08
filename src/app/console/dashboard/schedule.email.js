@@ -13,21 +13,26 @@ export default function ScheduleEmail({ eventId }) {
       return;
     }
 
+    // Check if scheduled time is at least 2 minutes ahead
+    const scheduledDate = new Date(scheduledTime);
+    const now = new Date();
+    if (scheduledDate - now < 2 * 60 * 1000) {
+      alert("Scheduled time must be at least 2 minutes in the future.");
+      return;
+    }
+
     try {
-      const response = await fetch(
-        `/api/event`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            message: emailContent,
-            id: eventId,
-            date: new Date(scheduledTime).toISOString(),
-          }),
-        }
-      );
+      const response = await fetch(`/api/event`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: emailContent,
+          id: eventId,
+          date: new Date(scheduledTime).toISOString(),
+        }),
+      });
 
       if (response.ok) {
         alert("Email scheduled successfully!");
@@ -72,8 +77,7 @@ export default function ScheduleEmail({ eventId }) {
         </div>
         <button
           onClick={handleScheduleEmail}
-          className="w-full bg-blue-600 text-white px-4 py-3 rounded hover:bg-blue-700"
-        >
+          className="w-full bg-blue-600 text-white px-4 py-3 rounded hover:bg-blue-700">
           Schedule Email
         </button>
       </div>

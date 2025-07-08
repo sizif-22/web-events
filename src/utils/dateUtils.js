@@ -1,4 +1,4 @@
-const moment = require("moment-timezone");
+import moment from "moment-timezone";
 
 const TIMEZONE = "Africa/Cairo";
 moment.tz.setDefault(TIMEZONE);
@@ -43,15 +43,15 @@ function convertToCronExpression(dateString) {
 function isWithinMinutes(date, minutes) {
   const now = getCairoNow();
   const givenDate = moment(date).tz(TIMEZONE);
-  
+
   // Calculate the difference in minutes
-  const diffInMinutes = now.diff(givenDate, 'minutes');
-  
+  const diffInMinutes = now.diff(givenDate, "minutes");
+
   // Check if the absolute difference is less than the specified minutes
   return Math.abs(diffInMinutes) < minutes;
 }
 
-module.exports = {
+export {
   TIMEZONE,
   parseDate,
   getCairoNow,
