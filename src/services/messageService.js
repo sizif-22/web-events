@@ -44,6 +44,8 @@ async function sendMessage(messageId, eventId, content, retryCount = 0) {
     // Validate content before proceeding
     const validatedContent = validateEmailContent(content);
 
+    console.log(messageId, eventId, content);
+
     // Get event details
     const eventDoc = await getDoc(doc(db, "events", eventId));
     if (!eventDoc.exists()) {
@@ -51,12 +53,9 @@ async function sendMessage(messageId, eventId, content, retryCount = 0) {
     }
 
     // Get participants
-    const joinedCollectionRef = collection(
-      doc(db, "events", eventId),
-      "participants"
-    );
+    const eventDocRef = doc(db, "events", id);
+    const joinedCollectionRef = collection(eventDocRef, "participants");
     const joinedSnapshot = await getDocs(joinedCollectionRef);
-
     const emails = [];
     joinedSnapshot.forEach((joinedDoc) => {
       const participantData = joinedDoc.data();
@@ -71,7 +70,7 @@ async function sendMessage(messageId, eventId, content, retryCount = 0) {
     if (emails.length === 0) {
       throw new Error(`No valid participants found for event ${eventId}`);
     }
-    console.log(emails);
+    console.log("emails:", emails);
 
     // Send emails
     const emailPromises = emails.map((email) =>
