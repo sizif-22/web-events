@@ -281,10 +281,6 @@ async function storeMessage(message, eventId, date) {
   }
 }
 
-// Setup cleanup on process termination
-process.on("SIGTERM", cleanup);
-process.on("SIGINT", cleanup);
-
 export {
   sendMessage,
   scheduleMessage,
