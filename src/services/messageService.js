@@ -53,7 +53,7 @@ async function sendMessage(messageId, eventId, content, retryCount = 0) {
     }
 
     // Get participants
-    const eventDocRef = doc(db, "events", id);
+    const eventDocRef = doc(db, "events", eventId);
     const joinedCollectionRef = collection(eventDocRef, "participants");
     const joinedSnapshot = await getDocs(joinedCollectionRef);
     const emails = [];
