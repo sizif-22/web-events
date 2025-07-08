@@ -8,14 +8,11 @@ import {
   query,
   where,
   Timestamp,
-  getFirestore,
 } from "firebase/firestore";
 import moment from "moment-timezone";
-// import { db } from "../app/firebase/firestore.events.js";
-import { app } from "../app/firebase/firebase.config.js";
+import { db } from "@/app/firebase/firebase.user.js";
 import { transporter } from "../config/email.js";
 import { parseDate, getCairoNow, TIMEZONE } from "../utils/dateUtils.js";
-const db = getFirestore(app);
 // Constants
 const MAX_RETRY_ATTEMPTS = 3;
 const RETRY_DELAY_MINUTES = 5;
@@ -74,16 +71,17 @@ async function sendMessage(messageId, eventId, content, retryCount = 0) {
     if (emails.length === 0) {
       throw new Error(`No valid participants found for event ${eventId}`);
     }
+    console.log(emails);
 
     // Send emails
     const emailPromises = emails.map((email) =>
       transporter.sendMail({
-        from: process.env.EMAIL_FROM || "hello@web-events-two.vercel.app",
+        from: process.env.EMAIL_FROM,
         to: email,
         subject: "Event Notification",
         text: validatedContent,
         html: `<div style="font-family: Arial, sans-serif;">
-                <p>${validatedContent}</p>
+              <pre>${validatedContent}</pre>
                </div>`,
       })
     );
@@ -128,7 +126,6 @@ async function sendMessage(messageId, eventId, content, retryCount = 0) {
         );
       }, RETRY_DELAY_MINUTES * 60 * 1000);
     }
-
     throw error;
   }
 }
