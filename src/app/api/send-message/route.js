@@ -9,7 +9,7 @@ export async function POST(request) {
         { status: 400 }
       );
     }
-    sendMessage(messageId, eventId, content);
+    await sendMessage(messageId, eventId, content);
     return NextResponse.json({ message: "Message sent successfully ✅" });
   } catch (error) {
     console.log(error);
